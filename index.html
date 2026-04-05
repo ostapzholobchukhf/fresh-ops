@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Freshness Filter</title>
+  <style>
+    :root {
+      --green: #0b8f47;
+      --green-dark: #08743a;
+      --green-soft: #eefaf3;
+      --green-soft-2: #dff4e7;
+      --bg: #f3f5f7;
+      --panel: #ffffff;
+      --line: #e5e7eb;
+      --text: #182230;
+      --muted: #667085;
+      --danger-bg: #feeceb;
+      --danger-text: #c43226;
+      --shadow: 0 10px 30px rgba(16,24,40,0.08);
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(11,143,71,0.08), transparent 22%),
+        linear-gradient(180deg, #f8faf9 0%, var(--bg) 28%);
+      color: var(--text);
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      background: linear-gradient(180deg, #0c9349 0%, #08743a 100%);
+      color: #fff;
+      padding: 24px 0;
+      box-shadow: inset -1px 0 0 rgba(255,255,255,0.08);
+    }
+
+    .brand {
+      padding: 0 24px 26px;
+      border-bottom: 1px solid rgba(255,255,255,0.16);
+    }
+
+    .brand-title {
+      font-size: 40px;
+      line-height: 0.95;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-sub {
+      margin-top: 8px;
+      font-size: 13px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      opacity: 0.92;
+    }
+
+    .nav {
+      padding-top: 18px;
+    }
+
+    .nav-item {
+      margin: 8px 12px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      font-size: 16px;
+      color: rgba(255,255,255,0.92);
+    }
+
+    .nav-item.active {
+      background: rgba(255,255,255,0.12);
+      font-weight: 700;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
+    }
+
+    .main {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(229,231,235,0.8);
+      padding: 22px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .title {
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin: 0;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 6px;
+    }
+
+    .current-date {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(180deg, #ffffff 0%, #f7faf8 100%);
+      border: 1px solid #d8e6dc;
+      padding: 12px 16px;
+      border-radius: 14px;
+      box-shadow: 0 6px 18px rgba(11,143,71,0.08);
+      color: var(--green-dark);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .date-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: var(--green-soft);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 28px;
+      padding: 0 28px;
+      border-bottom: 1px solid var(--line);
+      background: transparent;
+      overflow-x: auto;
+    }
+
+    .tab {
+      padding: 18px 2px 15px;
+      border-bottom: 3px solid transparent;
+      color: #344054;
+      font-size: 16px;
+      white-space: nowrap;
+    }
+
+    .tab.active {
+      color: var(--green-dark);
+      border-bottom-color: var(--green);
+      font-weight: 700;
+    }
+
+    .content {
+      padding: 28px;
+    }
+
+    .panel {
+      background: rgba(255,255,255,0.94);
+      border: 1px solid rgba(229,231,235,0.85);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .panel-head {
+      padding: 24px 24px 18px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      background: linear-gradient(180deg, #ffffff 0%, #fbfdfc 100%);
+    }
+
+    .panel-title {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .panel-note {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 6px;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(220px, 1fr));
+      gap: 16px;
+      padding: 22px 24px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, #fcfefd 0%, #f9fbfa 100%);
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field label {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    input[type="file"],
+    input[type="date"],
+    select {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1px solid #d6dde3;
+      border-radius: 12px;
+      background: #fff;
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+    }
+
+    input[type="file"]:focus,
+    input[type="date"]:focus,
+    select:focus {
+      border-color: #96d5af;
+      box-shadow: 0 0 0 4px rgba(11,143,71,0.1);
+      transform: translateY(-1px);
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--line);
+      flex-wrap: wrap;
+      background: white;
+    }
+
+    .toolbar-left,
+    .toolbar-right {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      background: linear-gradient(180deg, #f8faf8 0%, #eef3ef 100%);
+      border: 1px solid #e4e7ec;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #344054;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    button:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(16,24,40,0.12);
+    }
+
+    .btn-primary {
+      background: linear-gradient(180deg, #0da650 0%, #0b8f47 100%);
+      color: white;
+    }
+
+    .btn-primary:hover:not(:disabled) { background: linear-gradient(180deg, #0b9a4a 0%, #08743a 100%); }
+
+    .btn-secondary {
+      background: #fff;
+      color: var(--green-dark);
+      border: 1px solid #b7d7c1;
+    }
+
+    .btn-primary:disabled,
+    .btn-secondary:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .status {
+      padding: 16px 24px;
+      font-size: 14px;
+      color: var(--muted);
+      border-bottom: 1px solid var(--line);
+      white-space: pre-line;
+      background: linear-gradient(180deg, #ffffff 0%, #fcfcfd 100%);
+    }
+
+    .section-switcher {
+      display: flex;
+      gap: 10px;
+      padding: 0 24px 18px;
+      background: white;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-btn {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: #f4f6f8;
+      color: #344054;
+      font-weight: 700;
+      border: 1px solid #e5e7eb;
+      cursor: pointer;
+    }
+
+    .section-btn.active {
+      background: var(--green-soft);
+      color: var(--green-dark);
+      border-color: #b8e1c7;
+    }
+
+    .view { display: none; }
+    .view.active { display: block; }
+
+    .table-wrap {
+      overflow: auto;
+      max-height: 620px;
+      background: white;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      background: white;
+    }
+
+    th, td {
+      padding: 12px 14px;
+      border-bottom: 1px solid #eceef2;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      background: #f8fafc;
+      color: #6b7280;
+      font-weight: 800;
+      z-index: 1;
+    }
+
+    tr.remove-row { background: #fffdfd; }
+    tr.history-row:nth-child(even) { background: #fbfcfd; }
+
+    .badge-remove {
+      display: inline-block;
+      min-width: 86px;
+      text-align: center;
+      padding: 6px 10px;
+      border-radius: 10px;
+      background: var(--danger-bg);
+      color: var(--danger-text);
+      font-weight: 800;
+    }
+
+    .empty {
+      padding: 56px 20px;
+      text-align: center;
+      color: var(--muted);
+      background: linear-gradient(180deg, #ffffff 0%, #fbfcfd 100%);
+    }
+
+    .history-card {
+      padding: 20px 24px 0;
+      background: white;
+    }
+
+    .history-note {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    .history-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .footer-note {
+      padding: 16px 24px 24px;
+      color: var(--muted);
+      font-size: 13px;
+      background: white;
+    }
+
+    @media (max-width: 1120px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .controls { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 760px) {
+      .controls { grid-template-columns: 1fr; }
+      .content, .topbar, .tabs { padding-left: 18px; padding-right: 18px; }
+      .title { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-title">GREEN</div>
+        <div class="brand-sub">Operations</div>
+      </div>
+      <div class="nav">
+        <div class="nav-item active">Freshness Filter</div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div>
+          <h1 class="title">Freshness Filter</h1>
+          <div class="subtitle">Storage pallet removal based on weekly mapping and date thresholds</div>
+        </div>
+        <div class="current-date" id="currentDateBox">
+          <span class="date-icon">📅</span>
+          <span id="currentDateLabel">--.--.----</span>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <div class="tab">Overview</div>
+        <div class="tab">Allocations</div>
+        <div class="tab active">Removal List</div>
+        <div class="tab">History</div>
+      </div>
+
+      <div class="content">
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">Stock Removal Check</div>
+              <div class="panel-note">Upload the current snapshot and compare it with weekly mappings and freshness rules.</div>
+            </div>
+          </div>
+
+          <div class="controls">
+            <div class="field">
+              <label>Weekly Area File</label>
+              <input type="file" id="areaFile" accept=".csv" />
+            </div>
+            <div class="field">
+              <label>Weekly Rules File</label>
+              <input type="file" id="rulesFile" accept=".csv" />
+            </div>
+            <div class="field">
+              <label>Snapshot File</label>
+              <input type="file" id="snapshotFile" accept=".csv" />
+            </div>
+            <div class="field">
+              <label>Production Day Change Area</label>
+              <select id="selectedArea">
+                <option value="Hybrid">Hybrid</option>
+                <option value="Kitting">Kitting</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Minimum Allowed ESD Date</label>
+              <input type="date" id="minEsdDate" />
+            </div>
+            <div class="field">
+              <label>Minimum Allowed UBD Date</label>
+              <input type="date" id="minUbdDate" />
+            </div>
+          </div>
+
+          <div class="toolbar">
+            <div class="toolbar-left">
+              <button id="runBtn" class="btn-primary">Run Analysis</button>
+              <button id="downloadTmBtn" class="btn-primary" disabled>Download .csv</button>
+              <button id="saveWeeklyBtn" class="btn-secondary">Save Weekly Files</button>
+              <button id="clearWeeklyBtn" class="btn-secondary">Clear Saved Weekly Files</button>
+            </div>
+            <div class="toolbar-right">
+              <div class="chip">Area: <strong id="sumArea">-</strong></div>
+              <div class="chip">Checked: <strong id="sumChecked">0</strong></div>
+              <div class="chip">Remove: <strong id="sumRemove">0</strong></div>
+              <div class="chip">Missing: <strong id="sumMissing">0</strong></div>
+            </div>
+          </div>
+
+          <div class="status" id="status">Upload the files, choose the area and minimum dates, then run analysis.</div>
+
+          <div class="section-switcher">
+            <button class="section-btn active" data-view="resultsView">Removal List</button>
+            <button class="section-btn" data-view="historyView">History</button>
+          </div>
+
+          <div id="resultsView" class="view active">
+            <div class="table-wrap">
+              <table id="resultsTable">
+                <thead>
+                  <tr>
+                    <th>Tm id</th>
+                    <th>Sku code</th>
+                    <th>Tm location</th>
+                    <th>Area</th>
+                    <th>Date type</th>
+                    <th>Use by date</th>
+                    <th>Minimum date</th>
+                    <th>Qty</th>
+                    <th>Usable qty</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <div class="empty" id="emptyState">No removal list yet.</div>
+          </div>
+
+          <div id="historyView" class="view">
+            <div class="history-card">
+              <div class="history-note">Saved runs on this browser and this device. Each new analysis is added automatically.</div>
+              <div class="history-actions">
+                <button id="clearHistoryBtn" class="btn-secondary">Clear History</button>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table id="historyTable">
+                <thead>
+                  <tr>
+                    <th>Run time</th>
+                    <th>Area</th>
+                    <th>Min ESD</th>
+                    <th>Min UBD</th>
+                    <th>Checked</th>
+                    <th>Remove</th>
+                    <th>Missing</th>
+                    <th>Snapshot file</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <div class="empty" id="historyEmptyState">No history yet.</div>
+          </div>
+
+          <div class="footer-note">
+            Weekly files and run history can be stored in this browser for faster reuse on the same device.
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    var STORAGE_PREFIXES = ["CR", "AR"];
+
+    var AREA_BY_BIN_PREFIX = {
+      HL: "Hybrid",
+      AD: "Hybrid",
+      FK: "Kitting"
+    };
+
+    var DATE_TYPE_BY_PACKAGING_INFO = {
+      "03 Meal Kit": "ESD",
+      "04 Assembly": "ESD",
+      "02 Kühlpflichtig": "UBD"
+    };
+
+    var detailedResults = [];
+    var removeTmIds = [];
+    var savedAreaText = "";
+    var savedRulesText = "";
+
+    function setStatus(message) {
+      document.getElementById("status").textContent = message;
+    }
+
+    function normalizeHeader(str) {
+      return String(str || "").trim();
+    }
+
+    function getPrefix(value) {
+      var v = String(value || "").trim().toUpperCase();
+      return v.slice(0, 2);
+    }
+
+    function isStorageLocation(location) {
+      return STORAGE_PREFIXES.indexOf(getPrefix(location)) !== -1;
+    }
+
+    function getAreaFromBinLocation(binLocationName) {
+      var prefix = getPrefix(binLocationName);
+      return AREA_BY_BIN_PREFIX[prefix] || null;
+    }
+
+    function getDateTypeFromPackagingInfo(packagingInfo) {
+      var key = String(packagingInfo || "").trim();
+      return DATE_TYPE_BY_PACKAGING_INFO[key] || null;
+    }
+
+    function parseDateFlexible(value) {
+      if (!value) return null;
+      var raw = String(value).trim();
+      if (!raw) return null;
+
+      var m = raw.match(/^(\d{1,2})[./-](\d{1,2})[./-](\d{2,4})$/);
+      if (m) {
+        var day = parseInt(m[1], 10);
+        var month = parseInt(m[2], 10) - 1;
+        var year = parseInt(m[3], 10);
+        if (year < 100) year += 2000;
+        var d = new Date(year, month, day);
+        if (!isNaN(d.getTime())) return d;
+      }
+
+      m = raw.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+      if (m) {
+        var d2 = new Date(parseInt(m[1], 10), parseInt(m[2], 10) - 1, parseInt(m[3], 10));
+        if (!isNaN(d2.getTime())) return d2;
+      }
+
+      var fallback = new Date(raw);
+      if (!isNaN(fallback.getTime())) return fallback;
+      return null;
+    }
+
+    function formatDateDisplay(date) {
+      if (!date || isNaN(date.getTime())) return "";
+      var dd = String(date.getDate()).padStart(2, "0");
+      var mm = String(date.getMonth() + 1).padStart(2, "0");
+      var yyyy = date.getFullYear();
+      return dd + "." + mm + "." + yyyy;
+    }
+
+    function formatTimestamp(date) {
+      if (!date || isNaN(date.getTime())) return "";
+      var dd = String(date.getDate()).padStart(2, "0");
+      var mm = String(date.getMonth() + 1).padStart(2, "0");
+      var yyyy = date.getFullYear();
+      var hh = String(date.getHours()).padStart(2, "0");
+      var min = String(date.getMinutes()).padStart(2, "0");
+      return dd + "." + mm + "." + yyyy + " " + hh + ":" + min;
+    }
+
+    function splitCsvLine(line) {
+      var result = [];
+      var current = "";
+      var inQuotes = false;
+
+      for (var i = 0; i < line.length; i++) {
+        var char = line[i];
+        var next = line[i + 1];
+
+        if (char === '"' && inQuotes && next === '"') {
+          current += '"';
+          i++;
+        } else if (char === '"') {
+          inQuotes = !inQuotes;
+        } else if (char === ',' && !inQuotes) {
+          result.push(current);
+          current = "";
+        } else {
+          current += char;
+        }
+      }
+
+      result.push(current);
+
+      for (var j = 0; j < result.length; j++) {
+        result[j] = result[j].trim();
+      }
+
+      return result;
+    }
+
+    function parseCsv(text) {
+      var lines = text
+        .replace(/\r\n/g, "\n")
+        .replace(/\r/g, "\n")
+        .split("\n")
+        .filter(function(line) { return line.trim() !== ""; });
+
+      if (!lines.length) return [];
+
+      var headers = splitCsvLine(lines[0]).map(normalizeHeader);
+      var rows = [];
+
+      for (var i = 1; i < lines.length; i++) {
+        var values = splitCsvLine(lines[i]);
+        var row = {};
+        for (var h = 0; h < headers.length; h++) {
+          row[headers[h]] = values[h] !== undefined ? values[h] : "";
+        }
+        rows.push(row);
+      }
+
+      return rows;
+    }
+
+    function readFileAsText(file) {
+      return new Promise(function(resolve, reject) {
+        var reader = new FileReader();
+        reader.onload = function(e) { resolve(e.target.result); };
+        reader.onerror = reject;
+        reader.readAsText(file, "utf-8");
+      });
+    }
+
+    function downloadCsv(filename, rows) {
+      if (!rows.length) return;
+
+      var headers = Object.keys(rows[0]);
+      var lines = [headers.join(",")];
+
+      for (var i = 0; i < rows.length; i++) {
+        var row = rows[i];
+        var values = [];
+        for (var j = 0; j < headers.length; j++) {
+          var value = row[headers[j]] == null ? "" : String(row[headers[j]]);
+          values.push('"' + value.replace(/"/g, '""') + '"');
+        }
+        lines.push(values.join(","));
+      }
+
+      var csv = lines.join("\n");
+      var blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function renderResults(rows) {
+      var tbody = document.querySelector("#resultsTable tbody");
+      var empty = document.getElementById("emptyState");
+      tbody.innerHTML = "";
+
+      if (!rows.length) {
+        empty.style.display = "block";
+        return;
+      }
+
+      empty.style.display = "none";
+
+      for (var i = 0; i < rows.length; i++) {
+        var row = rows[i];
+        var tr = document.createElement("tr");
+        tr.className = "remove-row";
+
+        var columns = [
+          "Tm id",
+          "Sku code",
+          "Tm location",
+          "Area",
+          "Date type",
+          "Use by date",
+          "Minimum date",
+          "Qty",
+          "Usable qty"
+        ];
+
+        for (var c = 0; c < columns.length; c++) {
+          var td = document.createElement("td");
+          td.textContent = row[columns[c]] || "";
+          tr.appendChild(td);
+        }
+
+        var actionTd = document.createElement("td");
+        var badge = document.createElement("span");
+        badge.className = "badge-remove";
+        badge.textContent = "Remove";
+        actionTd.appendChild(badge);
+        tr.appendChild(actionTd);
+
+        tbody.appendChild(tr);
+      }
+    }
+
+    function getHistoryRuns() {
+      try {
+        var raw = localStorage.getItem("freshnessFilterHistory");
+        return raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveHistoryRun(run) {
+      var runs = getHistoryRuns();
+      runs.unshift(run);
+      if (runs.length > 50) runs = runs.slice(0, 50);
+      localStorage.setItem("freshnessFilterHistory", JSON.stringify(runs));
+    }
+
+    function renderHistory() {
+      var runs = getHistoryRuns();
+      var tbody = document.querySelector("#historyTable tbody");
+      var empty = document.getElementById("historyEmptyState");
+      tbody.innerHTML = "";
+
+      if (!runs.length) {
+        empty.style.display = "block";
+        return;
+      }
+
+      empty.style.display = "none";
+
+      for (var i = 0; i < runs.length; i++) {
+        var run = runs[i];
+        var tr = document.createElement("tr");
+        tr.className = "history-row";
+        var values = [
+          run.runTime,
+          run.area,
+          run.minEsd,
+          run.minUbd,
+          String(run.checked),
+          String(run.remove),
+          String(run.missing),
+          run.snapshotName
+        ];
+        for (var j = 0; j < values.length; j++) {
+          var td = document.createElement("td");
+          td.textContent = values[j];
+          tr.appendChild(td);
+        }
+        tbody.appendChild(tr);
+      }
+    }
+
+    function showView(viewId) {
+      var views = document.querySelectorAll('.view');
+      for (var i = 0; i < views.length; i++) {
+        views[i].classList.remove('active');
+      }
+      document.getElementById(viewId).classList.add('active');
+
+      var buttons = document.querySelectorAll('.section-btn');
+      for (var j = 0; j < buttons.length; j++) {
+        buttons[j].classList.remove('active');
+        if (buttons[j].getAttribute('data-view') === viewId) {
+          buttons[j].classList.add('active');
+        }
+      }
+    }
+
+    function updateCurrentDate() {
+      document.getElementById('currentDateLabel').textContent = formatDateDisplay(new Date());
+    }
+
+    function loadSavedWeeklyFiles() {
+      savedAreaText = localStorage.getItem('freshnessWeeklyArea') || '';
+      savedRulesText = localStorage.getItem('freshnessWeeklyRules') || '';
+      if (savedAreaText && savedRulesText) {
+        setStatus('Saved weekly files found in this browser. You can run analysis with only a snapshot file, or replace the weekly files by uploading new ones.');
+      }
+    }
+
+    async function saveWeeklyFiles() {
+      var areaFile = document.getElementById('areaFile').files[0];
+      var rulesFile = document.getElementById('rulesFile').files[0];
+
+      if (!areaFile || !rulesFile) {
+        alert('Upload both weekly files first.');
+        return;
+      }
+
+      var loaded = await Promise.all([
+        readFileAsText(areaFile),
+        readFileAsText(rulesFile)
+      ]);
+
+      savedAreaText = loaded[0];
+      savedRulesText = loaded[1];
+      localStorage.setItem('freshnessWeeklyArea', savedAreaText);
+      localStorage.setItem('freshnessWeeklyRules', savedRulesText);
+      setStatus('Weekly files saved in this browser. Next time you can upload only the snapshot file.');
+    }
+
+    function clearWeeklyFiles() {
+      localStorage.removeItem('freshnessWeeklyArea');
+      localStorage.removeItem('freshnessWeeklyRules');
+      savedAreaText = '';
+      savedRulesText = '';
+      setStatus('Saved weekly files were cleared from this browser.');
+    }
+
+    function clearHistory() {
+      localStorage.removeItem('freshnessFilterHistory');
+      renderHistory();
+    }
+
+    async function runAnalysis() {
+      try {
+        setStatus('Reading files...');
+
+        var areaFile = document.getElementById('areaFile').files[0];
+        var rulesFile = document.getElementById('rulesFile').files[0];
+        var snapshotFile = document.getElementById('snapshotFile').files[0];
+
+        if (!snapshotFile) {
+          alert('Please upload the snapshot file.');
+          return;
+        }
+
+        var selectedArea = document.getElementById('selectedArea').value;
+        var minEsdDate = parseDateFlexible(document.getElementById('minEsdDate').value);
+        var minUbdDate = parseDateFlexible(document.getElementById('minUbdDate').value);
+
+        if (!minEsdDate || !minUbdDate) {
+          alert('Please enter both minimum dates.');
+          return;
+        }
+
+        var areaText = '';
+        var rulesText = '';
+
+        if (areaFile) {
+          areaText = await readFileAsText(areaFile);
+        } else if (savedAreaText) {
+          areaText = savedAreaText;
+        } else {
+          alert('Please upload a weekly area file or use a saved one.');
+          return;
+        }
+
+        if (rulesFile) {
+          rulesText = await readFileAsText(rulesFile);
+        } else if (savedRulesText) {
+          rulesText = savedRulesText;
+        } else {
+          alert('Please upload a weekly rules file or use a saved one.');
+          return;
+        }
+
+        var snapshotText = await readFileAsText(snapshotFile);
+
+        var areaRows = parseCsv(areaText);
+        var rulesRows = parseCsv(rulesText);
+        var snapshotRows = parseCsv(snapshotText);
+
+        var skuToArea = new Map();
+        for (var i = 0; i < areaRows.length; i++) {
+          var areaRow = areaRows[i];
+          var areaSku = String(areaRow['ArticleSKU'] || '').trim();
+          var bin = String(areaRow['BinLocationName'] || '').trim();
+          if (!areaSku || !bin) continue;
+          var resolvedArea = getAreaFromBinLocation(bin);
+          if (resolvedArea) skuToArea.set(areaSku, resolvedArea);
+        }
+
+        var skuToDateType = new Map();
+        for (var r = 0; r < rulesRows.length; r++) {
+          var rulesRow = rulesRows[r];
+          var rulesSku = String(rulesRow['SKU'] || '').trim();
+          var packagingInfo = String(rulesRow['Packaging Info'] || '').trim();
+          if (!rulesSku || !packagingInfo) continue;
+          var dateType = getDateTypeFromPackagingInfo(packagingInfo);
+          if (dateType) skuToDateType.set(rulesSku, dateType);
+        }
+
+        detailedResults = [];
+        removeTmIds = [];
+
+        var checked = 0;
+        var removed = 0;
+        var missing = 0;
+
+        for (var s = 0; s < snapshotRows.length; s++) {
+          var row = snapshotRows[s];
+          var tmLocation = String(row['Tm location'] || '').trim();
+          if (!isStorageLocation(tmLocation)) continue;
+
+          checked++;
+
+          var sku = String(row['Sku code'] || '').trim();
+          var tmId = String(row['Tm id'] || '').trim();
+          var useByDateRaw = String(row['Use by date'] || '').trim();
+          var useByDate = parseDateFlexible(useByDateRaw);
+          var area = skuToArea.get(sku) || '';
+          var itemDateType = skuToDateType.get(sku) || '';
+
+          if (!area || !itemDateType || !useByDate) {
+            missing++;
+            continue;
+          }
+
+          if (area !== selectedArea) continue;
+
+          var minAllowedDate = itemDateType === 'ESD' ? minEsdDate : minUbdDate;
+
+          if (useByDate.getTime() <= minAllowedDate.getTime()) {
+            removed++;
+            removeTmIds.push({ 'Tm id': tmId });
+            detailedResults.push({
+              'Tm id': tmId,
+              'Sku code': sku,
+              'Tm location': tmLocation,
+              'Area': area,
+              'Date type': itemDateType,
+              'Use by date': useByDateRaw,
+              'Minimum date': formatDateDisplay(minAllowedDate),
+              'Qty': row['Qty'] || '',
+              'Usable qty': row['Usable qty'] || ''
+            });
+          }
+        }
+
+        renderResults(detailedResults);
+
+        document.getElementById('sumArea').textContent = selectedArea;
+        document.getElementById('sumChecked').textContent = String(checked);
+        document.getElementById('sumRemove').textContent = String(removed);
+        document.getElementById('sumMissing').textContent = String(missing);
+        document.getElementById('downloadTmBtn').disabled = removeTmIds.length === 0;
+
+        saveHistoryRun({
+          runTime: formatTimestamp(new Date()),
+          area: selectedArea,
+          minEsd: formatDateDisplay(minEsdDate),
+          minUbd: formatDateDisplay(minUbdDate),
+          checked: checked,
+          remove: removed,
+          missing: missing,
+          snapshotName: snapshotFile.name || ''
+        });
+        renderHistory();
+
+        setStatus(
+          'Done.\n' +
+          'Checked storage rows: ' + checked + '\n' +
+          'To remove: ' + removed + '\n' +
+          'Missing mapping/type/date: ' + missing
+        );
+      } catch (error) {
+        console.error(error);
+        setStatus('Error while processing files. Please verify the CSV headers and file format.');
+        alert('Error while processing files. Please verify the CSV headers and file format.');
+      }
+    }
+
+    document.getElementById('runBtn').addEventListener('click', runAnalysis);
+    document.getElementById('downloadTmBtn').addEventListener('click', function() {
+      downloadCsv('remove_tm_ids.csv', removeTmIds);
+    });
+    document.getElementById('saveWeeklyBtn').addEventListener('click', saveWeeklyFiles);
+    document.getElementById('clearWeeklyBtn').addEventListener('click', clearWeeklyFiles);
+    document.getElementById('clearHistoryBtn').addEventListener('click', clearHistory);
+
+    var sectionButtons = document.querySelectorAll('.section-btn');
+    for (var i = 0; i < sectionButtons.length; i++) {
+      sectionButtons[i].addEventListener('click', function() {
+        showView(this.getAttribute('data-view'));
+      });
+    }
+
+    updateCurrentDate();
+    loadSavedWeeklyFiles();
+    renderHistory();
+  </script>
+</body>
+</html>
