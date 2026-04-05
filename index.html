@@ -6,19 +6,23 @@
   <title>Freshness Filter</title>
   <style>
     :root {
-      --green: #0b8f47;
-      --green-dark: #08743a;
-      --green-soft: #eefaf3;
-      --green-soft-2: #dff4e7;
-      --bg: #f3f5f7;
-      --panel: #ffffff;
+      --green: #149255;
+      --green-dark: #0f7444;
+      --green-soft: #edf9f2;
+      --green-soft-2: #dbf1e4;
+      --blue-soft: #eef5ff;
+      --blue-text: #2457a6;
+      --orange-soft: #fff6e8;
+      --orange-text: #b76d00;
+      --red-soft: #fff0ef;
+      --red-text: #c53b30;
+      --bg: #f4f7f6;
+      --panel: rgba(255,255,255,0.94);
       --line: #e5e7eb;
-      --text: #182230;
+      --text: #162230;
       --muted: #667085;
-      --danger-bg: #feeceb;
-      --danger-text: #c43226;
-      --shadow: 0 10px 30px rgba(16,24,40,0.08);
-      --radius: 16px;
+      --shadow: 0 14px 34px rgba(16,24,40,0.08);
+      --radius: 18px;
     }
 
     * { box-sizing: border-box; }
@@ -26,47 +30,47 @@
     body {
       margin: 0;
       font-family: Inter, Arial, Helvetica, sans-serif;
-      background:
-        radial-gradient(circle at top right, rgba(11,143,71,0.08), transparent 22%),
-        linear-gradient(180deg, #f8faf9 0%, var(--bg) 28%);
       color: var(--text);
+      background:
+        radial-gradient(circle at top right, rgba(20,146,85,0.10), transparent 22%),
+        linear-gradient(180deg, #f8fbf9 0%, var(--bg) 32%);
     }
 
     .app {
       display: grid;
-      grid-template-columns: 250px 1fr;
+      grid-template-columns: 240px 1fr;
       min-height: 100vh;
     }
 
     .sidebar {
-      background: linear-gradient(180deg, #0c9349 0%, #08743a 100%);
+      background: linear-gradient(180deg, #149255 0%, #0d7443 100%);
       color: #fff;
       padding: 24px 0;
       box-shadow: inset -1px 0 0 rgba(255,255,255,0.08);
     }
 
     .brand {
-      padding: 0 24px 26px;
-      border-bottom: 1px solid rgba(255,255,255,0.16);
+      padding: 0 22px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
     }
 
     .brand-title {
-      font-size: 40px;
+      font-size: 38px;
+      font-weight: 900;
       line-height: 0.95;
-      font-weight: 800;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.03em;
     }
 
     .brand-sub {
       margin-top: 8px;
-      font-size: 13px;
-      letter-spacing: 0.14em;
+      font-size: 12px;
       text-transform: uppercase;
+      letter-spacing: 0.16em;
       opacity: 0.92;
     }
 
     .nav {
-      padding-top: 18px;
+      padding-top: 20px;
     }
 
     .nav-item {
@@ -74,13 +78,9 @@
       padding: 14px 16px;
       border-radius: 12px;
       font-size: 16px;
-      color: rgba(255,255,255,0.92);
-    }
-
-    .nav-item.active {
+      color: rgba(255,255,255,0.94);
       background: rgba(255,255,255,0.12);
       font-weight: 700;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
     }
 
     .main {
@@ -90,120 +90,107 @@
     }
 
     .topbar {
-      background: rgba(255,255,255,0.88);
-      backdrop-filter: blur(8px);
+      background: rgba(255,255,255,0.82);
+      backdrop-filter: blur(10px);
       border-bottom: 1px solid rgba(229,231,235,0.8);
-      padding: 22px 28px;
+      padding: 24px 28px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
       position: sticky;
       top: 0;
-      z-index: 20;
+      z-index: 30;
     }
 
     .title {
-      font-size: 34px;
-      font-weight: 800;
-      letter-spacing: -0.03em;
       margin: 0;
+      font-size: 34px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
     }
 
     .subtitle {
+      margin-top: 7px;
       color: var(--muted);
       font-size: 14px;
-      margin-top: 6px;
     }
 
-    .current-date {
+    .topbar-right {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .badge-card {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: linear-gradient(180deg, #ffffff 0%, #f7faf8 100%);
-      border: 1px solid #d8e6dc;
-      padding: 12px 16px;
+      background: linear-gradient(180deg, #ffffff 0%, #f6fbf8 100%);
+      border: 1px solid #d9e8df;
+      padding: 12px 15px;
       border-radius: 14px;
-      box-shadow: 0 6px 18px rgba(11,143,71,0.08);
+      box-shadow: 0 8px 18px rgba(20,146,85,0.08);
       color: var(--green-dark);
-      font-weight: 700;
-      white-space: nowrap;
+      font-weight: 800;
+      min-height: 54px;
     }
 
-    .date-icon {
-      width: 34px;
-      height: 34px;
+    .badge-icon {
+      width: 32px;
+      height: 32px;
       border-radius: 10px;
       background: var(--green-soft);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
-    }
-
-    .tabs {
-      display: flex;
-      gap: 28px;
-      padding: 0 28px;
-      border-bottom: 1px solid var(--line);
-      background: transparent;
-      overflow-x: auto;
-    }
-
-    .tab {
-      padding: 18px 2px 15px;
-      border-bottom: 3px solid transparent;
-      color: #344054;
-      font-size: 16px;
-      white-space: nowrap;
-    }
-
-    .tab.active {
-      color: var(--green-dark);
-      border-bottom-color: var(--green);
-      font-weight: 700;
+      font-size: 17px;
     }
 
     .content {
       padding: 28px;
     }
 
-    .panel {
-      background: rgba(255,255,255,0.94);
-      border: 1px solid rgba(229,231,235,0.85);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow);
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
     }
 
-    .panel-head {
-      padding: 24px 24px 18px;
+    .card {
+      background: var(--panel);
+      border: 1px solid rgba(229,231,235,0.9);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .card-head {
+      padding: 22px 24px 14px;
       border-bottom: 1px solid var(--line);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
       background: linear-gradient(180deg, #ffffff 0%, #fbfdfc 100%);
     }
 
-    .panel-title {
-      font-size: 28px;
-      font-weight: 800;
+    .card-title {
+      font-size: 24px;
+      font-weight: 900;
       letter-spacing: -0.03em;
     }
 
-    .panel-note {
+    .card-note {
+      margin-top: 6px;
       color: var(--muted);
       font-size: 14px;
-      margin-top: 6px;
     }
 
     .controls {
       display: grid;
-      grid-template-columns: repeat(3, minmax(220px, 1fr));
+      grid-template-columns: repeat(2, minmax(220px, 1fr));
       gap: 16px;
       padding: 22px 24px;
-      border-bottom: 1px solid var(--line);
       background: linear-gradient(180deg, #fcfefd 0%, #f9fbfa 100%);
     }
 
@@ -215,7 +202,7 @@
 
     .field label {
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 900;
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.06em;
@@ -223,6 +210,7 @@
 
     input[type="file"],
     input[type="date"],
+    input[type="text"],
     select {
       width: 100%;
       padding: 13px 14px;
@@ -237,10 +225,49 @@
 
     input[type="file"]:focus,
     input[type="date"]:focus,
+    input[type="text"]:focus,
     select:focus {
       border-color: #96d5af;
-      box-shadow: 0 0 0 4px rgba(11,143,71,0.1);
+      box-shadow: 0 0 0 4px rgba(20,146,85,0.1);
       transform: translateY(-1px);
+    }
+
+    .drop-zone {
+      border: 2px dashed #b6d7c3;
+      border-radius: 16px;
+      background: linear-gradient(180deg, #f8fdf9 0%, #f3fbf6 100%);
+      padding: 26px 20px;
+      text-align: center;
+      transition: 0.15s ease;
+    }
+
+    .drop-zone.dragover {
+      border-color: var(--green);
+      background: linear-gradient(180deg, #effaf3 0%, #e7f7ee 100%);
+      transform: translateY(-1px);
+    }
+
+    .drop-zone strong {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+
+    .drop-zone small {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .file-name {
+      margin-top: 12px;
+      display: inline-block;
+      background: #fff;
+      border: 1px solid #d9e8df;
+      color: var(--green-dark);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 700;
     }
 
     .toolbar {
@@ -249,9 +276,9 @@
       align-items: center;
       gap: 12px;
       padding: 18px 24px;
-      border-bottom: 1px solid var(--line);
+      border-top: 1px solid var(--line);
       flex-wrap: wrap;
-      background: white;
+      background: #fff;
     }
 
     .toolbar-left,
@@ -262,37 +289,25 @@
       flex-wrap: wrap;
     }
 
-    .chip {
-      background: linear-gradient(180deg, #f8faf8 0%, #eef3ef 100%);
-      border: 1px solid #e4e7ec;
-      border-radius: 999px;
-      padding: 10px 14px;
-      font-size: 13px;
-      color: #344054;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
-    }
-
     button {
       border: none;
       border-radius: 12px;
       padding: 12px 18px;
       font-size: 14px;
-      font-weight: 800;
+      font-weight: 900;
       cursor: pointer;
-      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
 
     button:hover:not(:disabled) {
       transform: translateY(-1px);
-      box-shadow: 0 8px 18px rgba(16,24,40,0.12);
+      box-shadow: 0 10px 20px rgba(16,24,40,0.12);
     }
 
     .btn-primary {
-      background: linear-gradient(180deg, #0da650 0%, #0b8f47 100%);
-      color: white;
+      background: linear-gradient(180deg, #17a35f 0%, #149255 100%);
+      color: #fff;
     }
-
-    .btn-primary:hover:not(:disabled) { background: linear-gradient(180deg, #0b9a4a 0%, #08743a 100%); }
 
     .btn-secondary {
       background: #fff;
@@ -300,40 +315,84 @@
       border: 1px solid #b7d7c1;
     }
 
-    .btn-primary:disabled,
-    .btn-secondary:disabled {
+    .btn-ghost {
+      background: #f4f6f8;
+      color: #344054;
+      border: 1px solid #e5e7eb;
+    }
+
+    button:disabled {
       opacity: 0.55;
       cursor: not-allowed;
+      box-shadow: none;
     }
 
     .status {
-      padding: 16px 24px;
-      font-size: 14px;
+      padding: 14px 24px 0;
       color: var(--muted);
-      border-bottom: 1px solid var(--line);
+      font-size: 14px;
       white-space: pre-line;
-      background: linear-gradient(180deg, #ffffff 0%, #fcfcfd 100%);
     }
 
-    .section-switcher {
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(160px, 1fr));
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .kpi {
+      padding: 18px;
+      border-radius: 16px;
+      border: 1px solid rgba(229,231,235,0.9);
+      box-shadow: var(--shadow);
+      background: var(--panel);
+    }
+
+    .kpi.blue { background: linear-gradient(180deg, #ffffff 0%, var(--blue-soft) 100%); }
+    .kpi.red { background: linear-gradient(180deg, #ffffff 0%, var(--red-soft) 100%); }
+    .kpi.orange { background: linear-gradient(180deg, #ffffff 0%, var(--orange-soft) 100%); }
+    .kpi.green { background: linear-gradient(180deg, #ffffff 0%, var(--green-soft) 100%); }
+
+    .kpi-label {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .kpi-value {
+      margin-top: 10px;
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .kpi-sub {
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .section-tabs {
       display: flex;
       gap: 10px;
-      padding: 0 24px 18px;
-      background: white;
-      border-bottom: 1px solid var(--line);
+      margin-bottom: 18px;
+      flex-wrap: wrap;
     }
 
-    .section-btn {
-      padding: 10px 14px;
+    .section-tab {
+      padding: 11px 15px;
       border-radius: 999px;
       background: #f4f6f8;
       color: #344054;
-      font-weight: 700;
+      font-weight: 800;
       border: 1px solid #e5e7eb;
       cursor: pointer;
     }
 
-    .section-btn.active {
+    .section-tab.active {
       background: var(--green-soft);
       color: var(--green-dark);
       border-color: #b8e1c7;
@@ -342,17 +401,52 @@
     .view { display: none; }
     .view.active { display: block; }
 
+    .table-card {
+      background: var(--panel);
+      border: 1px solid rgba(229,231,235,0.9);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .table-head {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      background: #fff;
+    }
+
+    .table-head-title {
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .table-tools {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .mini-input {
+      min-width: 220px;
+    }
+
     .table-wrap {
       overflow: auto;
-      max-height: 620px;
-      background: white;
+      max-height: 640px;
+      background: #fff;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
       font-size: 13px;
-      background: white;
+      background: #fff;
     }
 
     th, td {
@@ -367,12 +461,17 @@
       top: 0;
       background: #f8fafc;
       color: #6b7280;
-      font-weight: 800;
+      font-weight: 900;
       z-index: 1;
+      user-select: none;
+      cursor: pointer;
     }
 
-    tr.remove-row { background: #fffdfd; }
-    tr.history-row:nth-child(even) { background: #fbfcfd; }
+    tr:hover td {
+      background: #fbfdfc;
+    }
+
+    .remove-row td { background: #fffdfd; }
 
     .badge-remove {
       display: inline-block;
@@ -380,9 +479,92 @@
       text-align: center;
       padding: 6px 10px;
       border-radius: 10px;
-      background: var(--danger-bg);
-      color: var(--danger-text);
+      background: var(--red-soft);
+      color: var(--red-text);
+      font-weight: 900;
+    }
+
+    .badge-ok {
+      display: inline-block;
+      min-width: 66px;
+      text-align: center;
+      padding: 6px 10px;
+      border-radius: 10px;
+      background: var(--green-soft);
+      color: var(--green-dark);
+      font-weight: 900;
+    }
+
+    .warning-box {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .warning-card {
+      padding: 16px 18px;
+      border-radius: 14px;
+      border: 1px solid #f1d6d3;
+      background: linear-gradient(180deg, #fffdfd 0%, var(--red-soft) 100%);
+    }
+
+    .warning-card strong {
+      display: block;
+      font-size: 22px;
+      margin-top: 8px;
+      color: var(--red-text);
+    }
+
+    .warning-card small {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .info-list {
+      display: grid;
+      gap: 10px;
+      padding: 18px 24px 24px;
+    }
+
+    .info-item {
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid #e5e7eb;
+      background: #fff;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .sku-check-result {
+      margin-top: 12px;
+      padding: 16px;
+      border-radius: 14px;
+      border: 1px solid #d9e8df;
+      background: linear-gradient(180deg, #ffffff 0%, #f7fcf8 100%);
+      display: none;
+    }
+
+    .sku-check-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .sku-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--green-soft);
+      color: var(--green-dark);
       font-weight: 800;
+      font-size: 13px;
     }
 
     .empty {
@@ -392,40 +574,22 @@
       background: linear-gradient(180deg, #ffffff 0%, #fbfcfd 100%);
     }
 
-    .history-card {
-      padding: 20px 24px 0;
-      background: white;
-    }
-
-    .history-note {
-      color: var(--muted);
-      font-size: 14px;
-      margin-bottom: 16px;
-    }
-
-    .history-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 16px;
-    }
-
     .footer-note {
-      padding: 16px 24px 24px;
+      margin-top: 18px;
       color: var(--muted);
       font-size: 13px;
-      background: white;
+      text-align: center;
     }
 
-    @media (max-width: 1120px) {
+    @media (max-width: 1200px) {
       .app { grid-template-columns: 1fr; }
       .sidebar { display: none; }
-      .controls { grid-template-columns: 1fr 1fr; }
+      .hero-grid, .kpi-grid { grid-template-columns: 1fr 1fr; }
     }
 
-    @media (max-width: 760px) {
-      .controls { grid-template-columns: 1fr; }
-      .content, .topbar, .tabs { padding-left: 18px; padding-right: 18px; }
+    @media (max-width: 860px) {
+      .hero-grid, .kpi-grid, .controls, .warning-box { grid-template-columns: 1fr; }
+      .content, .topbar { padding-left: 18px; padding-right: 18px; }
       .title { font-size: 28px; }
     }
   </style>
@@ -438,7 +602,7 @@
         <div class="brand-sub">Operations</div>
       </div>
       <div class="nav">
-        <div class="nav-item active">Freshness Filter</div>
+        <div class="nav-item">Freshness Filter</div>
       </div>
     </aside>
 
@@ -446,96 +610,180 @@
       <div class="topbar">
         <div>
           <h1 class="title">Freshness Filter</h1>
-          <div class="subtitle">Storage pallet removal based on weekly mapping and date thresholds</div>
+          <div class="subtitle">Smart storage pallet removal based on weekly mappings, freshness rules and production area changes.</div>
         </div>
-        <div class="current-date" id="currentDateBox">
-          <span class="date-icon">📅</span>
-          <span id="currentDateLabel">--.--.----</span>
+        <div class="topbar-right">
+          <div class="badge-card">
+            <span class="badge-icon">📅</span>
+            <span id="currentDateLabel">--.--.----</span>
+          </div>
+          <div class="badge-card">
+            <span class="badge-icon">🗂️</span>
+            <span id="rulesVersionLabel">Weekly defaults: not loaded</span>
+          </div>
         </div>
-      </div>
-
-      <div class="tabs">
-        <div class="tab">Overview</div>
-        <div class="tab">Allocations</div>
-        <div class="tab active">Removal List</div>
-        <div class="tab">History</div>
       </div>
 
       <div class="content">
-        <section class="panel">
-          <div class="panel-head">
-            <div>
-              <div class="panel-title">Stock Removal Check</div>
-              <div class="panel-note">Upload the current snapshot and compare it with weekly mappings and freshness rules.</div>
+        <div class="hero-grid">
+          <section class="card">
+            <div class="card-head">
+              <div class="card-title">Run Analysis</div>
+              <div class="card-note">Weekly files are loaded automatically from the repository root or browser memory. Upload only the current snapshot when needed.</div>
             </div>
+
+            <div class="controls">
+              <div class="field">
+                <label>Production Day Change Area</label>
+                <select id="selectedArea">
+                  <option value="Hybrid">Hybrid</option>
+                  <option value="Kitting">Kitting</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Minimum Allowed ESD Date</label>
+                <input type="date" id="minEsdDate" />
+              </div>
+              <div class="field">
+                <label>Minimum Allowed UBD Date</label>
+                <input type="date" id="minUbdDate" />
+              </div>
+              <div class="field" style="grid-column: 1 / -1;">
+                <label>Snapshot File</label>
+                <div class="drop-zone" id="dropZone">
+                  <strong>Drop snapshot CSV here</strong>
+                  <small>or use the file picker below</small>
+                  <div style="margin-top: 14px;">
+                    <input type="file" id="snapshotFile" accept=".csv" />
+                  </div>
+                  <div class="file-name" id="snapshotFileName">No snapshot selected</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="toolbar">
+              <div class="toolbar-left">
+                <button id="runBtn" class="btn-primary">Run Analysis</button>
+                <button id="downloadTmBtn" class="btn-primary" disabled>Download Remove CSV</button>
+                <button id="downloadMissingBtn" class="btn-secondary" disabled>Download Missing CSV</button>
+                <button id="reloadDefaultsBtn" class="btn-secondary">Reload Weekly Defaults</button>
+              </div>
+            </div>
+
+            <div class="status" id="status">Loading weekly defaults...</div>
+          </section>
+
+          <section class="card">
+            <div class="card-head">
+              <div class="card-title">SKU Allocation Check</div>
+              <div class="card-note">Confirm whether a SKU is allocated to Hybrid or Kitting and which date logic it uses.</div>
+            </div>
+
+            <div class="controls" style="grid-template-columns: 1fr auto; align-items: end;">
+              <div class="field">
+                <label>Enter SKU</label>
+                <input type="text" id="skuLookupInput" placeholder="Example: PHF-11-10306-3" />
+              </div>
+              <div class="field">
+                <label>&nbsp;</label>
+                <button id="skuLookupBtn" class="btn-primary">Check SKU</button>
+              </div>
+            </div>
+
+            <div class="info-list">
+              <div class="info-item">
+                <div>
+                  <strong>Weekly area source</strong>
+                  <div id="areaSourceLabel" style="color: var(--muted); font-size: 13px; margin-top: 4px;">Not loaded yet</div>
+                </div>
+                <span class="sku-pill" id="areaReadyPill">Waiting</span>
+              </div>
+              <div class="info-item">
+                <div>
+                  <strong>Weekly rules source</strong>
+                  <div id="rulesSourceLabel" style="color: var(--muted); font-size: 13px; margin-top: 4px;">Not loaded yet</div>
+                </div>
+                <span class="sku-pill" id="rulesReadyPill">Waiting</span>
+              </div>
+
+              <div class="sku-check-result" id="skuCheckResult">
+                <strong id="skuCheckTitle">SKU Result</strong>
+                <div class="sku-check-grid">
+                  <div><small>Area</small><div id="skuCheckArea"></div></div>
+                  <div><small>Date Type</small><div id="skuCheckDateType"></div></div>
+                  <div><small>Example Rack</small><div id="skuCheckRack"></div></div>
+                  <div><small>Status</small><div id="skuCheckStatus"></div></div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi blue">
+            <div class="kpi-label">Checked Pallets</div>
+            <div class="kpi-value" id="sumChecked">0</div>
+            <div class="kpi-sub">Storage rows checked for CR / AR locations</div>
           </div>
-
-          <div class="controls">
-            <div class="field">
-              <label>Weekly Area File</label>
-              <input type="file" id="areaFile" accept=".csv" />
-            </div>
-            <div class="field">
-              <label>Weekly Rules File</label>
-              <input type="file" id="rulesFile" accept=".csv" />
-            </div>
-            <div class="field">
-              <label>Snapshot File</label>
-              <input type="file" id="snapshotFile" accept=".csv" />
-            </div>
-            <div class="field">
-              <label>Production Day Change Area</label>
-              <select id="selectedArea">
-                <option value="Hybrid">Hybrid</option>
-                <option value="Kitting">Kitting</option>
-              </select>
-            </div>
-            <div class="field">
-              <label>Minimum Allowed ESD Date</label>
-              <input type="date" id="minEsdDate" />
-            </div>
-            <div class="field">
-              <label>Minimum Allowed UBD Date</label>
-              <input type="date" id="minUbdDate" />
-            </div>
+          <div class="kpi red">
+            <div class="kpi-label">Remove Pallets</div>
+            <div class="kpi-value" id="sumRemove">0</div>
+            <div class="kpi-sub">Pallets below the minimum allowed freshness date</div>
           </div>
-
-          <div class="toolbar">
-            <div class="toolbar-left">
-              <button id="runBtn" class="btn-primary">Run Analysis</button>
-              <button id="downloadTmBtn" class="btn-primary" disabled>Download .csv</button>
-              <button id="saveWeeklyBtn" class="btn-secondary">Save Weekly Files</button>
-              <button id="clearWeeklyBtn" class="btn-secondary">Clear Saved Weekly Files</button>
-            </div>
-            <div class="toolbar-right">
-              <div class="chip">Area: <strong id="sumArea">-</strong></div>
-              <div class="chip">Checked: <strong id="sumChecked">0</strong></div>
-              <div class="chip">Remove: <strong id="sumRemove">0</strong></div>
-              <div class="chip">Missing: <strong id="sumMissing">0</strong></div>
-            </div>
+          <div class="kpi orange">
+            <div class="kpi-label">Missing Mapping</div>
+            <div class="kpi-value" id="sumMissing">0</div>
+            <div class="kpi-sub">Rows with missing area, date type or invalid date</div>
           </div>
-
-          <div class="status" id="status">Upload the files, choose the area and minimum dates, then run analysis.</div>
-
-          <div class="section-switcher">
-            <button class="section-btn active" data-view="resultsView">Removal List</button>
-            <button class="section-btn" data-view="historyView">History</button>
+          <div class="kpi green">
+            <div class="kpi-label">Run Time</div>
+            <div class="kpi-value" id="sumRuntime">0.00s</div>
+            <div class="kpi-sub"><span id="sumArea">-</span> selected for current run</div>
           </div>
+        </div>
 
-          <div id="resultsView" class="view active">
+        <div class="warning-box">
+          <div class="warning-card">
+            <small>Already expired or outdated stock</small>
+            <strong id="expiredCount">0</strong>
+          </div>
+          <div class="warning-card">
+            <small>Rows exactly on the minimum allowed date</small>
+            <strong id="borderlineCount">0</strong>
+          </div>
+        </div>
+
+        <div class="section-tabs" style="margin-top: 20px;">
+          <button class="section-tab active" data-view="resultsView">Removal List</button>
+          <button class="section-tab" data-view="missingView">Missing Mapping</button>
+          <button class="section-tab" data-view="historyView">History</button>
+        </div>
+
+        <div id="resultsView" class="view active">
+          <section class="table-card">
+            <div class="table-head">
+              <div>
+                <div class="table-head-title">Removal List</div>
+                <div class="card-note">Rows that should be isolated from storage based on selected area and minimum freshness dates.</div>
+              </div>
+              <div class="table-tools">
+                <input type="text" id="resultsSearch" class="mini-input" placeholder="Search TM id, SKU or location" />
+                <button id="clearResultsSearchBtn" class="btn-ghost">Clear</button>
+              </div>
+            </div>
             <div class="table-wrap">
               <table id="resultsTable">
                 <thead>
                   <tr>
-                    <th>Tm id</th>
-                    <th>Sku code</th>
-                    <th>Tm location</th>
-                    <th>Area</th>
-                    <th>Date type</th>
-                    <th>Use by date</th>
-                    <th>Minimum date</th>
-                    <th>Qty</th>
-                    <th>Usable qty</th>
+                    <th data-sort="Tm id">Tm id</th>
+                    <th data-sort="Sku code">Sku code</th>
+                    <th data-sort="Tm location">Tm location</th>
+                    <th data-sort="Area">Area</th>
+                    <th data-sort="Date type">Date type</th>
+                    <th data-sort="Use by date">Use by date</th>
+                    <th data-sort="Minimum date">Minimum date</th>
+                    <th data-sort="Qty">Qty</th>
+                    <th data-sort="Usable qty">Usable qty</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -543,12 +791,47 @@
               </table>
             </div>
             <div class="empty" id="emptyState">No removal list yet.</div>
-          </div>
+          </section>
+        </div>
 
-          <div id="historyView" class="view">
-            <div class="history-card">
-              <div class="history-note">Saved runs on this browser and this device. Each new analysis is added automatically.</div>
-              <div class="history-actions">
+        <div id="missingView" class="view">
+          <section class="table-card">
+            <div class="table-head">
+              <div>
+                <div class="table-head-title">Missing Mapping Diagnostics</div>
+                <div class="card-note">Use this list to improve weekly area and rules files.</div>
+              </div>
+              <div class="table-tools">
+                <input type="text" id="missingSearch" class="mini-input" placeholder="Search missing rows" />
+                <button id="clearMissingSearchBtn" class="btn-ghost">Clear</button>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table id="missingTable">
+                <thead>
+                  <tr>
+                    <th>Sku code</th>
+                    <th>Tm id</th>
+                    <th>Tm location</th>
+                    <th>Issue</th>
+                    <th>Use by date</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <div class="empty" id="missingEmptyState">No missing mapping rows.</div>
+          </section>
+        </div>
+
+        <div id="historyView" class="view">
+          <section class="table-card">
+            <div class="table-head">
+              <div>
+                <div class="table-head-title">Run History</div>
+                <div class="card-note">Saved in this browser on this device. Each completed analysis is added automatically.</div>
+              </div>
+              <div class="table-tools">
                 <button id="clearHistoryBtn" class="btn-secondary">Clear History</button>
               </div>
             </div>
@@ -563,6 +846,7 @@
                     <th>Checked</th>
                     <th>Remove</th>
                     <th>Missing</th>
+                    <th>Expired</th>
                     <th>Snapshot file</th>
                   </tr>
                 </thead>
@@ -570,12 +854,10 @@
               </table>
             </div>
             <div class="empty" id="historyEmptyState">No history yet.</div>
-          </div>
+          </section>
+        </div>
 
-          <div class="footer-note">
-            Weekly files and run history can be stored in this browser for faster reuse on the same device.
-          </div>
-        </section>
+        <div class="footer-note">Repository root should contain <strong>index.html</strong>, <strong>weekly_area.csv</strong> and <strong>weekly_rules.csv</strong>.</div>
       </div>
     </main>
   </div>
@@ -595,10 +877,21 @@
       "02 Kühlpflichtig": "UBD"
     };
 
-    var detailedResults = [];
     var removeTmIds = [];
+    var removeRows = [];
+    var missingRows = [];
     var savedAreaText = "";
     var savedRulesText = "";
+    var savedAreaName = "";
+    var savedRulesName = "";
+    var defaultAreaUrl = "weekly_area.csv";
+    var defaultRulesUrl = "weekly_rules.csv";
+    var areaRowsCache = [];
+    var rulesRowsCache = [];
+    var areaMap = new Map();
+    var dateTypeMap = new Map();
+    var rackExampleMap = new Map();
+    var currentSort = { key: "Tm id", dir: 1 };
 
     function setStatus(message) {
       document.getElementById("status").textContent = message;
@@ -761,50 +1054,104 @@
       URL.revokeObjectURL(url);
     }
 
-    function renderResults(rows) {
-      var tbody = document.querySelector("#resultsTable tbody");
-      var empty = document.getElementById("emptyState");
-      tbody.innerHTML = "";
+    function fetchTextIfExists(url) {
+      return fetch(url, { cache: "no-store" })
+        .then(function(response) {
+          if (!response.ok) return "";
+          return response.text();
+        })
+        .catch(function() { return ""; });
+    }
 
-      if (!rows.length) {
-        empty.style.display = "block";
-        return;
+    function buildWeeklyMaps() {
+      areaMap = new Map();
+      dateTypeMap = new Map();
+      rackExampleMap = new Map();
+
+      for (var i = 0; i < areaRowsCache.length; i++) {
+        var areaRow = areaRowsCache[i];
+        var areaSku = String(areaRow["ArticleSKU"] || "").trim();
+        var bin = String(areaRow["BinLocationName"] || "").trim();
+        if (!areaSku || !bin) continue;
+        var resolvedArea = getAreaFromBinLocation(bin);
+        if (resolvedArea && !areaMap.has(areaSku)) areaMap.set(areaSku, resolvedArea);
+        if (bin && !rackExampleMap.has(areaSku)) rackExampleMap.set(areaSku, bin);
       }
 
-      empty.style.display = "none";
+      for (var r = 0; r < rulesRowsCache.length; r++) {
+        var rulesRow = rulesRowsCache[r];
+        var rulesSku = String(rulesRow["SKU"] || "").trim();
+        var packagingInfo = String(rulesRow["Packaging Info"] || "").trim();
+        if (!rulesSku || !packagingInfo) continue;
+        var dateType = getDateTypeFromPackagingInfo(packagingInfo);
+        if (dateType && !dateTypeMap.has(rulesSku)) dateTypeMap.set(rulesSku, dateType);
+      }
+    }
 
-      for (var i = 0; i < rows.length; i++) {
-        var row = rows[i];
-        var tr = document.createElement("tr");
-        tr.className = "remove-row";
+    function updateWeeklyIndicators() {
+      document.getElementById("areaSourceLabel").textContent = savedAreaName || "Not loaded";
+      document.getElementById("rulesSourceLabel").textContent = savedRulesName || "Not loaded";
+      document.getElementById("areaReadyPill").textContent = savedAreaText ? "Ready" : "Missing";
+      document.getElementById("rulesReadyPill").textContent = savedRulesText ? "Ready" : "Missing";
 
-        var columns = [
-          "Tm id",
-          "Sku code",
-          "Tm location",
-          "Area",
-          "Date type",
-          "Use by date",
-          "Minimum date",
-          "Qty",
-          "Usable qty"
-        ];
+      var versionText = [];
+      if (savedAreaName) versionText.push(savedAreaName);
+      if (savedRulesName) versionText.push(savedRulesName);
+      document.getElementById("rulesVersionLabel").textContent = versionText.length ? "Weekly defaults: " + versionText.join(" + ") : "Weekly defaults: not loaded";
+    }
 
-        for (var c = 0; c < columns.length; c++) {
-          var td = document.createElement("td");
-          td.textContent = row[columns[c]] || "";
-          tr.appendChild(td);
+    function loadSavedWeeklyFiles() {
+      savedAreaText = localStorage.getItem("freshnessWeeklyArea") || "";
+      savedRulesText = localStorage.getItem("freshnessWeeklyRules") || "";
+      savedAreaName = localStorage.getItem("freshnessWeeklyAreaName") || "";
+      savedRulesName = localStorage.getItem("freshnessWeeklyRulesName") || "";
+
+      if (savedAreaText) areaRowsCache = parseCsv(savedAreaText);
+      if (savedRulesText) rulesRowsCache = parseCsv(savedRulesText);
+      buildWeeklyMaps();
+      updateWeeklyIndicators();
+    }
+
+    function loadDefaultWeeklyFiles() {
+      setStatus("Loading weekly defaults from repository...");
+
+      return Promise.all([
+        fetchTextIfExists(defaultAreaUrl),
+        fetchTextIfExists(defaultRulesUrl)
+      ]).then(function(loaded) {
+        var changed = false;
+
+        if (loaded[0]) {
+          savedAreaText = loaded[0];
+          savedAreaName = defaultAreaUrl;
+          localStorage.setItem("freshnessWeeklyArea", savedAreaText);
+          localStorage.setItem("freshnessWeeklyAreaName", savedAreaName);
+          areaRowsCache = parseCsv(savedAreaText);
+          changed = true;
         }
 
-        var actionTd = document.createElement("td");
-        var badge = document.createElement("span");
-        badge.className = "badge-remove";
-        badge.textContent = "Remove";
-        actionTd.appendChild(badge);
-        tr.appendChild(actionTd);
+        if (loaded[1]) {
+          savedRulesText = loaded[1];
+          savedRulesName = defaultRulesUrl;
+          localStorage.setItem("freshnessWeeklyRules", savedRulesText);
+          localStorage.setItem("freshnessWeeklyRulesName", savedRulesName);
+          rulesRowsCache = parseCsv(savedRulesText);
+          changed = true;
+        }
 
-        tbody.appendChild(tr);
-      }
+        buildWeeklyMaps();
+        updateWeeklyIndicators();
+
+        if (changed) {
+          setStatus("Weekly defaults loaded. Upload only the snapshot file and run analysis.");
+        } else {
+          setStatus("Could not find weekly defaults. Put weekly_area.csv and weekly_rules.csv in the repository root.");
+        }
+      });
+    }
+
+    function updateCurrentDate() {
+      document.getElementById("currentDateLabel").textContent = formatDateDisplay(new Date());
     }
 
     function getHistoryRuns() {
@@ -839,17 +1186,7 @@
       for (var i = 0; i < runs.length; i++) {
         var run = runs[i];
         var tr = document.createElement("tr");
-        tr.className = "history-row";
-        var values = [
-          run.runTime,
-          run.area,
-          run.minEsd,
-          run.minUbd,
-          String(run.checked),
-          String(run.remove),
-          String(run.missing),
-          run.snapshotName
-        ];
+        var values = [run.runTime, run.area, run.minEsd, run.minUbd, String(run.checked), String(run.remove), String(run.missing), String(run.expired), run.snapshotName];
         for (var j = 0; j < values.length; j++) {
           var td = document.createElement("td");
           td.textContent = values[j];
@@ -859,191 +1196,243 @@
       }
     }
 
-    function showView(viewId) {
-      var views = document.querySelectorAll('.view');
-      for (var i = 0; i < views.length; i++) {
-        views[i].classList.remove('active');
-      }
-      document.getElementById(viewId).classList.add('active');
-
-      var buttons = document.querySelectorAll('.section-btn');
-      for (var j = 0; j < buttons.length; j++) {
-        buttons[j].classList.remove('active');
-        if (buttons[j].getAttribute('data-view') === viewId) {
-          buttons[j].classList.add('active');
-        }
-      }
-    }
-
-    function updateCurrentDate() {
-      document.getElementById('currentDateLabel').textContent = formatDateDisplay(new Date());
-    }
-
-    function loadSavedWeeklyFiles() {
-      savedAreaText = localStorage.getItem('freshnessWeeklyArea') || '';
-      savedRulesText = localStorage.getItem('freshnessWeeklyRules') || '';
-      if (savedAreaText && savedRulesText) {
-        setStatus('Saved weekly files found in this browser. You can run analysis with only a snapshot file, or replace the weekly files by uploading new ones.');
-      }
-    }
-
-    async function saveWeeklyFiles() {
-      var areaFile = document.getElementById('areaFile').files[0];
-      var rulesFile = document.getElementById('rulesFile').files[0];
-
-      if (!areaFile || !rulesFile) {
-        alert('Upload both weekly files first.');
-        return;
-      }
-
-      var loaded = await Promise.all([
-        readFileAsText(areaFile),
-        readFileAsText(rulesFile)
-      ]);
-
-      savedAreaText = loaded[0];
-      savedRulesText = loaded[1];
-      localStorage.setItem('freshnessWeeklyArea', savedAreaText);
-      localStorage.setItem('freshnessWeeklyRules', savedRulesText);
-      setStatus('Weekly files saved in this browser. Next time you can upload only the snapshot file.');
-    }
-
-    function clearWeeklyFiles() {
-      localStorage.removeItem('freshnessWeeklyArea');
-      localStorage.removeItem('freshnessWeeklyRules');
-      savedAreaText = '';
-      savedRulesText = '';
-      setStatus('Saved weekly files were cleared from this browser.');
-    }
-
     function clearHistory() {
-      localStorage.removeItem('freshnessFilterHistory');
+      localStorage.removeItem("freshnessFilterHistory");
       renderHistory();
     }
 
-    async function runAnalysis() {
-      try {
-        setStatus('Reading files...');
+    function showView(viewId) {
+      var views = document.querySelectorAll(".view");
+      for (var i = 0; i < views.length; i++) views[i].classList.remove("active");
+      document.getElementById(viewId).classList.add("active");
 
-        var areaFile = document.getElementById('areaFile').files[0];
-        var rulesFile = document.getElementById('rulesFile').files[0];
-        var snapshotFile = document.getElementById('snapshotFile').files[0];
+      var tabs = document.querySelectorAll(".section-tab");
+      for (var j = 0; j < tabs.length; j++) {
+        tabs[j].classList.remove("active");
+        if (tabs[j].getAttribute("data-view") === viewId) tabs[j].classList.add("active");
+      }
+    }
 
-        if (!snapshotFile) {
-          alert('Please upload the snapshot file.');
-          return;
+    function matchesSearch(row, text) {
+      if (!text) return true;
+      var haystack = Object.keys(row).map(function(key) { return String(row[key] || "").toLowerCase(); }).join(" ");
+      return haystack.indexOf(text.toLowerCase()) !== -1;
+    }
+
+    function renderResults(rows) {
+      var search = document.getElementById("resultsSearch").value.trim();
+      var tbody = document.querySelector("#resultsTable tbody");
+      var empty = document.getElementById("emptyState");
+      tbody.innerHTML = "";
+
+      var filtered = rows.filter(function(row) { return matchesSearch(row, search); });
+      filtered.sort(function(a, b) {
+        var av = String(a[currentSort.key] || "");
+        var bv = String(b[currentSort.key] || "");
+        if (currentSort.key === "Qty" || currentSort.key === "Usable qty") {
+          av = Number(a[currentSort.key] || 0);
+          bv = Number(b[currentSort.key] || 0);
+        }
+        if (av < bv) return -1 * currentSort.dir;
+        if (av > bv) return 1 * currentSort.dir;
+        return 0;
+      });
+
+      if (!filtered.length) {
+        empty.style.display = "block";
+        return;
+      }
+
+      empty.style.display = "none";
+
+      for (var i = 0; i < filtered.length; i++) {
+        var row = filtered[i];
+        var tr = document.createElement("tr");
+        tr.className = "remove-row";
+
+        var columns = ["Tm id", "Sku code", "Tm location", "Area", "Date type", "Use by date", "Minimum date", "Qty", "Usable qty"];
+        for (var c = 0; c < columns.length; c++) {
+          var td = document.createElement("td");
+          td.textContent = row[columns[c]] || "";
+          tr.appendChild(td);
         }
 
-        var selectedArea = document.getElementById('selectedArea').value;
-        var minEsdDate = parseDateFlexible(document.getElementById('minEsdDate').value);
-        var minUbdDate = parseDateFlexible(document.getElementById('minUbdDate').value);
+        var actionTd = document.createElement("td");
+        var badge = document.createElement("span");
+        badge.className = "badge-remove";
+        badge.textContent = "Remove";
+        actionTd.appendChild(badge);
+        tr.appendChild(actionTd);
+        tbody.appendChild(tr);
+      }
+    }
 
-        if (!minEsdDate || !minUbdDate) {
-          alert('Please enter both minimum dates.');
-          return;
+    function renderMissing(rows) {
+      var search = document.getElementById("missingSearch").value.trim();
+      var tbody = document.querySelector("#missingTable tbody");
+      var empty = document.getElementById("missingEmptyState");
+      tbody.innerHTML = "";
+
+      var filtered = rows.filter(function(row) { return matchesSearch(row, search); });
+      if (!filtered.length) {
+        empty.style.display = "block";
+        return;
+      }
+
+      empty.style.display = "none";
+      for (var i = 0; i < filtered.length; i++) {
+        var row = filtered[i];
+        var tr = document.createElement("tr");
+        var cols = ["Sku code", "Tm id", "Tm location", "Issue", "Use by date"];
+        for (var c = 0; c < cols.length; c++) {
+          var td = document.createElement("td");
+          td.textContent = row[cols[c]] || "";
+          tr.appendChild(td);
         }
+        tbody.appendChild(tr);
+      }
+    }
 
-        var areaText = '';
-        var rulesText = '';
+    function updateSnapshotLabel(file) {
+      document.getElementById("snapshotFileName").textContent = file ? file.name : "No snapshot selected";
+    }
 
-        if (areaFile) {
-          areaText = await readFileAsText(areaFile);
-        } else if (savedAreaText) {
-          areaText = savedAreaText;
-        } else {
-          alert('Please upload a weekly area file or use a saved one.');
-          return;
-        }
+    function runSkuLookup() {
+      var sku = String(document.getElementById("skuLookupInput").value || "").trim();
+      var resultBox = document.getElementById("skuCheckResult");
+      if (!sku) {
+        resultBox.style.display = "none";
+        return;
+      }
 
-        if (rulesFile) {
-          rulesText = await readFileAsText(rulesFile);
-        } else if (savedRulesText) {
-          rulesText = savedRulesText;
-        } else {
-          alert('Please upload a weekly rules file or use a saved one.');
-          return;
-        }
+      var area = areaMap.get(sku) || "Not found";
+      var dateType = dateTypeMap.get(sku) || "Not found";
+      var rack = rackExampleMap.get(sku) || "Not found";
+      var status = (area !== "Not found" && dateType !== "Not found") ? "Ready for checks" : "Missing in weekly defaults";
 
-        var snapshotText = await readFileAsText(snapshotFile);
+      document.getElementById("skuCheckTitle").textContent = "SKU: " + sku;
+      document.getElementById("skuCheckArea").textContent = area;
+      document.getElementById("skuCheckDateType").textContent = dateType;
+      document.getElementById("skuCheckRack").textContent = rack;
+      document.getElementById("skuCheckStatus").textContent = status;
+      resultBox.style.display = "block";
+    }
 
-        var areaRows = parseCsv(areaText);
-        var rulesRows = parseCsv(rulesText);
+    function setDateInputDefault(id, daysAhead) {
+      var d = new Date();
+      d.setDate(d.getDate() + daysAhead);
+      var yyyy = d.getFullYear();
+      var mm = String(d.getMonth() + 1).padStart(2, "0");
+      var dd = String(d.getDate()).padStart(2, "0");
+      document.getElementById(id).value = yyyy + "-" + mm + "-" + dd;
+    }
+
+    function runAnalysis() {
+      var started = performance.now();
+      setStatus("Reading snapshot and weekly defaults...");
+
+      var snapshotFile = document.getElementById("snapshotFile").files[0];
+      if (!snapshotFile) {
+        alert("Please upload the snapshot file.");
+        return;
+      }
+
+      if (!savedAreaText || !savedRulesText) {
+        alert("Weekly defaults are not ready. Make sure weekly_area.csv and weekly_rules.csv are uploaded to the repository root, then click Reload Weekly Defaults.");
+        return;
+      }
+
+      var selectedArea = document.getElementById("selectedArea").value;
+      var minEsdDate = parseDateFlexible(document.getElementById("minEsdDate").value);
+      var minUbdDate = parseDateFlexible(document.getElementById("minUbdDate").value);
+      if (!minEsdDate || !minUbdDate) {
+        alert("Please enter both minimum dates.");
+        return;
+      }
+
+      readFileAsText(snapshotFile).then(function(snapshotText) {
         var snapshotRows = parseCsv(snapshotText);
 
-        var skuToArea = new Map();
-        for (var i = 0; i < areaRows.length; i++) {
-          var areaRow = areaRows[i];
-          var areaSku = String(areaRow['ArticleSKU'] || '').trim();
-          var bin = String(areaRow['BinLocationName'] || '').trim();
-          if (!areaSku || !bin) continue;
-          var resolvedArea = getAreaFromBinLocation(bin);
-          if (resolvedArea) skuToArea.set(areaSku, resolvedArea);
-        }
-
-        var skuToDateType = new Map();
-        for (var r = 0; r < rulesRows.length; r++) {
-          var rulesRow = rulesRows[r];
-          var rulesSku = String(rulesRow['SKU'] || '').trim();
-          var packagingInfo = String(rulesRow['Packaging Info'] || '').trim();
-          if (!rulesSku || !packagingInfo) continue;
-          var dateType = getDateTypeFromPackagingInfo(packagingInfo);
-          if (dateType) skuToDateType.set(rulesSku, dateType);
-        }
-
-        detailedResults = [];
         removeTmIds = [];
+        removeRows = [];
+        missingRows = [];
 
         var checked = 0;
         var removed = 0;
         var missing = 0;
+        var expired = 0;
+        var borderline = 0;
+        var today = new Date();
+        today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
 
-        for (var s = 0; s < snapshotRows.length; s++) {
-          var row = snapshotRows[s];
-          var tmLocation = String(row['Tm location'] || '').trim();
+        for (var i = 0; i < snapshotRows.length; i++) {
+          var row = snapshotRows[i];
+          var tmLocation = String(row["Tm location"] || "").trim();
           if (!isStorageLocation(tmLocation)) continue;
 
           checked++;
 
-          var sku = String(row['Sku code'] || '').trim();
-          var tmId = String(row['Tm id'] || '').trim();
-          var useByDateRaw = String(row['Use by date'] || '').trim();
+          var sku = String(row["Sku code"] || "").trim();
+          var tmId = String(row["Tm id"] || "").trim();
+          var useByDateRaw = String(row["Use by date"] || "").trim();
           var useByDate = parseDateFlexible(useByDateRaw);
-          var area = skuToArea.get(sku) || '';
-          var itemDateType = skuToDateType.get(sku) || '';
+          var area = areaMap.get(sku) || "";
+          var itemDateType = dateTypeMap.get(sku) || "";
 
           if (!area || !itemDateType || !useByDate) {
+            var issue = !area ? "Missing area mapping" : (!itemDateType ? "Missing date type" : "Invalid use by date");
             missing++;
+            missingRows.push({
+              "Sku code": sku,
+              "Tm id": tmId,
+              "Tm location": tmLocation,
+              "Issue": issue,
+              "Use by date": useByDateRaw
+            });
             continue;
           }
 
           if (area !== selectedArea) continue;
 
-          var minAllowedDate = itemDateType === 'ESD' ? minEsdDate : minUbdDate;
+          var normalizedUseBy = new Date(useByDate.getFullYear(), useByDate.getMonth(), useByDate.getDate());
+          var minAllowedDate = itemDateType === "ESD" ? minEsdDate : minUbdDate;
+          var minNormalized = new Date(minAllowedDate.getFullYear(), minAllowedDate.getMonth(), minAllowedDate.getDate());
 
-          if (useByDate.getTime() < minAllowedDate.getTime()) {
+          if (normalizedUseBy.getTime() < today.getTime()) expired++;
+          if (normalizedUseBy.getTime() === minNormalized.getTime()) borderline++;
+
+          if (normalizedUseBy.getTime() < minNormalized.getTime()) {
             removed++;
-            removeTmIds.push({ 'Tm id': tmId });
-            detailedResults.push({
-              'Tm id': tmId,
-              'Sku code': sku,
-              'Tm location': tmLocation,
-              'Area': area,
-              'Date type': itemDateType,
-              'Use by date': useByDateRaw,
-              'Minimum date': formatDateDisplay(minAllowedDate),
-              'Qty': row['Qty'] || '',
-              'Usable qty': row['Usable qty'] || ''
+            removeTmIds.push({ "Tm id": tmId });
+            removeRows.push({
+              "Tm id": tmId,
+              "Sku code": sku,
+              "Tm location": tmLocation,
+              "Area": area,
+              "Date type": itemDateType,
+              "Use by date": useByDateRaw,
+              "Minimum date": formatDateDisplay(minNormalized),
+              "Qty": row["Qty"] || "",
+              "Usable qty": row["Usable qty"] || ""
             });
           }
         }
 
-        renderResults(detailedResults);
+        document.getElementById("sumArea").textContent = selectedArea;
+        document.getElementById("sumChecked").textContent = String(checked);
+        document.getElementById("sumRemove").textContent = String(removed);
+        document.getElementById("sumMissing").textContent = String(missing);
+        document.getElementById("expiredCount").textContent = String(expired);
+        document.getElementById("borderlineCount").textContent = String(borderline);
+        document.getElementById("downloadTmBtn").disabled = removeTmIds.length === 0;
+        document.getElementById("downloadMissingBtn").disabled = missingRows.length === 0;
 
-        document.getElementById('sumArea').textContent = selectedArea;
-        document.getElementById('sumChecked').textContent = String(checked);
-        document.getElementById('sumRemove').textContent = String(removed);
-        document.getElementById('sumMissing').textContent = String(missing);
-        document.getElementById('downloadTmBtn').disabled = removeTmIds.length === 0;
+        var finished = performance.now();
+        var runtime = ((finished - started) / 1000).toFixed(2) + "s";
+        document.getElementById("sumRuntime").textContent = runtime;
+
+        renderResults(removeRows);
+        renderMissing(missingRows);
 
         saveHistoryRun({
           runTime: formatTimestamp(new Date()),
@@ -1053,41 +1442,115 @@
           checked: checked,
           remove: removed,
           missing: missing,
-          snapshotName: snapshotFile.name || ''
+          expired: expired,
+          snapshotName: snapshotFile.name || ""
         });
         renderHistory();
 
         setStatus(
-          'Done.\n' +
-          'Checked storage rows: ' + checked + '\n' +
-          'To remove: ' + removed + '\n' +
-          'Missing mapping/type/date: ' + missing
+          "Done.\n" +
+          "Checked storage rows: " + checked + "\n" +
+          "To remove: " + removed + "\n" +
+          "Missing mapping/type/date: " + missing + "\n" +
+          "Expired or outdated stock found: " + expired + "\n" +
+          "Runtime: " + runtime
         );
-      } catch (error) {
+      }).catch(function(error) {
         console.error(error);
-        setStatus('Error while processing files. Please verify the CSV headers and file format.');
-        alert('Error while processing files. Please verify the CSV headers and file format.');
+        setStatus("Error while processing the snapshot. Please verify the CSV structure.");
+        alert("Error while processing the snapshot. Please verify the CSV structure.");
+      });
+    }
+
+    function setupDragAndDrop() {
+      var dropZone = document.getElementById("dropZone");
+      var fileInput = document.getElementById("snapshotFile");
+
+      ["dragenter", "dragover"].forEach(function(eventName) {
+        dropZone.addEventListener(eventName, function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          dropZone.classList.add("dragover");
+        });
+      });
+
+      ["dragleave", "drop"].forEach(function(eventName) {
+        dropZone.addEventListener(eventName, function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          dropZone.classList.remove("dragover");
+        });
+      });
+
+      dropZone.addEventListener("drop", function(e) {
+        var files = e.dataTransfer.files;
+        if (files && files[0]) {
+          fileInput.files = files;
+          updateSnapshotLabel(files[0]);
+        }
+      });
+
+      fileInput.addEventListener("change", function() {
+        updateSnapshotLabel(fileInput.files[0] || null);
+      });
+    }
+
+    function initSorting() {
+      var ths = document.querySelectorAll("#resultsTable th[data-sort]");
+      for (var i = 0; i < ths.length; i++) {
+        ths[i].addEventListener("click", function() {
+          var key = this.getAttribute("data-sort");
+          if (currentSort.key === key) currentSort.dir *= -1;
+          else {
+            currentSort.key = key;
+            currentSort.dir = 1;
+          }
+          renderResults(removeRows);
+        });
       }
     }
 
-    document.getElementById('runBtn').addEventListener('click', runAnalysis);
-    document.getElementById('downloadTmBtn').addEventListener('click', function() {
-      downloadCsv('remove_tm_ids.csv', removeTmIds);
+    document.getElementById("runBtn").addEventListener("click", runAnalysis);
+    document.getElementById("reloadDefaultsBtn").addEventListener("click", loadDefaultWeeklyFiles);
+    document.getElementById("downloadTmBtn").addEventListener("click", function() {
+      downloadCsv("remove_tm_ids.csv", removeTmIds);
     });
-    document.getElementById('saveWeeklyBtn').addEventListener('click', saveWeeklyFiles);
-    document.getElementById('clearWeeklyBtn').addEventListener('click', clearWeeklyFiles);
-    document.getElementById('clearHistoryBtn').addEventListener('click', clearHistory);
+    document.getElementById("downloadMissingBtn").addEventListener("click", function() {
+      downloadCsv("missing_mapping_rows.csv", missingRows);
+    });
+    document.getElementById("skuLookupBtn").addEventListener("click", runSkuLookup);
+    document.getElementById("skuLookupInput").addEventListener("keydown", function(e) {
+      if (e.key === "Enter") runSkuLookup();
+    });
+    document.getElementById("resultsSearch").addEventListener("input", function() { renderResults(removeRows); });
+    document.getElementById("missingSearch").addEventListener("input", function() { renderMissing(missingRows); });
+    document.getElementById("clearResultsSearchBtn").addEventListener("click", function() {
+      document.getElementById("resultsSearch").value = "";
+      renderResults(removeRows);
+    });
+    document.getElementById("clearMissingSearchBtn").addEventListener("click", function() {
+      document.getElementById("missingSearch").value = "";
+      renderMissing(missingRows);
+    });
+    document.getElementById("clearHistoryBtn").addEventListener("click", clearHistory);
 
-    var sectionButtons = document.querySelectorAll('.section-btn');
-    for (var i = 0; i < sectionButtons.length; i++) {
-      sectionButtons[i].addEventListener('click', function() {
-        showView(this.getAttribute('data-view'));
+    var sectionTabs = document.querySelectorAll(".section-tab");
+    for (var i = 0; i < sectionTabs.length; i++) {
+      sectionTabs[i].addEventListener("click", function() {
+        showView(this.getAttribute("data-view"));
       });
     }
 
     updateCurrentDate();
+    setDateInputDefault("minEsdDate", 2);
+    setDateInputDefault("minUbdDate", 5);
     loadSavedWeeklyFiles();
     renderHistory();
+    setupDragAndDrop();
+    initSorting();
+    renderResults([]);
+    renderMissing([]);
+    loadDefaultWeeklyFiles();
   </script>
 </body>
 </html>
