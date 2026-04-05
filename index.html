@@ -9,13 +9,9 @@
       --green: #149255;
       --green-dark: #0f7444;
       --green-soft: #edf9f2;
-      --green-soft-2: #dbf1e4;
       --blue-soft: #eef5ff;
-      --blue-text: #2457a6;
-      --orange-soft: #fff6e8;
-      --orange-text: #b76d00;
       --red-soft: #fff0ef;
-      --red-text: #c53b30;
+      --orange-soft: #fff6e8;
       --bg: #f4f7f6;
       --panel: rgba(255,255,255,0.94);
       --line: #e5e7eb;
@@ -24,574 +20,102 @@
       --shadow: 0 14px 34px rgba(16,24,40,0.08);
       --radius: 18px;
     }
-
     * { box-sizing: border-box; }
-
     body {
       margin: 0;
       font-family: Inter, Arial, Helvetica, sans-serif;
       color: var(--text);
-      background:
-        radial-gradient(circle at top right, rgba(20,146,85,0.10), transparent 22%),
-        linear-gradient(180deg, #f8fbf9 0%, var(--bg) 32%);
+      background: radial-gradient(circle at top right, rgba(20,146,85,0.10), transparent 22%), linear-gradient(180deg, #f8fbf9 0%, var(--bg) 32%);
     }
-
-    .app {
-      display: grid;
-      grid-template-columns: 240px 1fr;
-      min-height: 100vh;
-    }
-
+    .app { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
     .sidebar {
       background: linear-gradient(180deg, #149255 0%, #0d7443 100%);
-      color: #fff;
-      padding: 24px 0;
-      box-shadow: inset -1px 0 0 rgba(255,255,255,0.08);
+      color: #fff; padding: 24px 0; box-shadow: inset -1px 0 0 rgba(255,255,255,0.08);
     }
-
-    .brand {
-      padding: 0 22px 24px;
-      border-bottom: 1px solid rgba(255,255,255,0.15);
-    }
-
-    .brand-title {
-      font-size: 38px;
-      font-weight: 900;
-      line-height: 0.95;
-      letter-spacing: -0.03em;
-    }
-
-    .brand-sub {
-      margin-top: 8px;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      opacity: 0.92;
-    }
-
-    .nav {
-      padding-top: 20px;
-    }
-
-    .nav-item {
-      margin: 8px 12px;
-      padding: 14px 16px;
-      border-radius: 12px;
-      font-size: 16px;
-      color: rgba(255,255,255,0.94);
-      background: rgba(255,255,255,0.12);
-      font-weight: 700;
-    }
-
-    .main {
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-    }
-
+    .brand { padding: 0 22px 24px; border-bottom: 1px solid rgba(255,255,255,0.15); }
+    .brand-title { font-size: 38px; font-weight: 900; line-height: 0.95; letter-spacing: -0.03em; }
+    .brand-sub { margin-top: 8px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.16em; opacity: 0.92; }
+    .nav { padding-top: 20px; }
+    .nav-item { margin: 8px 12px; padding: 14px 16px; border-radius: 12px; font-size: 16px; color: rgba(255,255,255,0.94); background: rgba(255,255,255,0.12); font-weight: 700; }
+    .main { min-width: 0; display: flex; flex-direction: column; }
     .topbar {
-      background: rgba(255,255,255,0.82);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(229,231,235,0.8);
-      padding: 24px 28px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 18px;
-      flex-wrap: wrap;
-      position: sticky;
-      top: 0;
-      z-index: 30;
+      background: rgba(255,255,255,0.82); backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(229,231,235,0.8); padding: 24px 28px;
+      display: flex; justify-content: space-between; align-items: center; gap: 18px; flex-wrap: wrap;
+      position: sticky; top: 0; z-index: 30;
     }
-
-    .title {
-      margin: 0;
-      font-size: 34px;
-      font-weight: 900;
-      letter-spacing: -0.03em;
-    }
-
-    .subtitle {
-      margin-top: 7px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .topbar-right {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
+    .title { margin: 0; font-size: 34px; font-weight: 900; letter-spacing: -0.03em; }
+    .subtitle { margin-top: 7px; color: var(--muted); font-size: 14px; }
+    .topbar-right { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
     .badge-card {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: linear-gradient(180deg, #ffffff 0%, #f6fbf8 100%);
-      border: 1px solid #d9e8df;
-      padding: 12px 15px;
-      border-radius: 14px;
-      box-shadow: 0 8px 18px rgba(20,146,85,0.08);
-      color: var(--green-dark);
-      font-weight: 800;
-      min-height: 54px;
+      display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(180deg, #ffffff 0%, #f6fbf8 100%);
+      border: 1px solid #d9e8df; padding: 12px 15px; border-radius: 14px; box-shadow: 0 8px 18px rgba(20,146,85,0.08);
+      color: var(--green-dark); font-weight: 800; min-height: 54px;
     }
-
-    .badge-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 10px;
-      background: var(--green-soft);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 17px;
+    .badge-icon { width: 32px; height: 32px; border-radius: 10px; background: var(--green-soft); display: inline-flex; align-items: center; justify-content: center; font-size: 17px; }
+    .content { padding: 28px; }
+    .hero-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; margin-bottom: 20px; }
+    .card, .table-card {
+      background: var(--panel); border: 1px solid rgba(229,231,235,0.9); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden;
     }
-
-    .content {
-      padding: 28px;
+    .card-head, .table-head {
+      padding: 22px 24px 14px; border-bottom: 1px solid var(--line); background: linear-gradient(180deg, #ffffff 0%, #fbfdfc 100%);
     }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.5fr 1fr;
-      gap: 20px;
-      margin-bottom: 20px;
-    }
-
-    .card {
-      background: var(--panel);
-      border: 1px solid rgba(229,231,235,0.9);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    .card-head {
-      padding: 22px 24px 14px;
-      border-bottom: 1px solid var(--line);
-      background: linear-gradient(180deg, #ffffff 0%, #fbfdfc 100%);
-    }
-
-    .card-title {
-      font-size: 24px;
-      font-weight: 900;
-      letter-spacing: -0.03em;
-    }
-
-    .card-note {
-      margin-top: 6px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .controls {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(220px, 1fr));
-      gap: 16px;
-      padding: 22px 24px;
-      background: linear-gradient(180deg, #fcfefd 0%, #f9fbfa 100%);
-    }
-
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .field label {
-      font-size: 12px;
-      font-weight: 900;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-
-    input[type="file"],
-    input[type="date"],
-    input[type="text"],
-    select {
-      width: 100%;
-      padding: 13px 14px;
-      border: 1px solid #d6dde3;
-      border-radius: 12px;
-      background: #fff;
-      font-size: 14px;
-      color: var(--text);
-      outline: none;
+    .table-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .card-title, .table-head-title { font-size: 24px; font-weight: 900; letter-spacing: -0.03em; }
+    .table-head-title { font-size: 20px; }
+    .card-note { margin-top: 6px; color: var(--muted); font-size: 14px; }
+    .controls { display: grid; grid-template-columns: repeat(2, minmax(220px, 1fr)); gap: 16px; padding: 22px 24px; background: linear-gradient(180deg, #fcfefd 0%, #f9fbfa 100%); }
+    .field { display: flex; flex-direction: column; gap: 8px; }
+    .field label { font-size: 12px; font-weight: 900; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+    input[type="file"], input[type="date"], input[type="text"], select {
+      width: 100%; padding: 13px 14px; border: 1px solid #d6dde3; border-radius: 12px; background: #fff; font-size: 14px; color: var(--text); outline: none;
       transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
     }
-
-    input[type="file"]:focus,
-    input[type="date"]:focus,
-    input[type="text"]:focus,
-    select:focus {
-      border-color: #96d5af;
-      box-shadow: 0 0 0 4px rgba(20,146,85,0.1);
-      transform: translateY(-1px);
-    }
-
-    .drop-zone {
-      border: 2px dashed #b6d7c3;
-      border-radius: 16px;
-      background: linear-gradient(180deg, #f8fdf9 0%, #f3fbf6 100%);
-      padding: 26px 20px;
-      text-align: center;
-      transition: 0.15s ease;
-    }
-
-    .drop-zone.dragover {
-      border-color: var(--green);
-      background: linear-gradient(180deg, #effaf3 0%, #e7f7ee 100%);
-      transform: translateY(-1px);
-    }
-
-    .drop-zone strong {
-      display: block;
-      font-size: 18px;
-      margin-bottom: 6px;
-    }
-
-    .drop-zone small {
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .file-name {
-      margin-top: 12px;
-      display: inline-block;
-      background: #fff;
-      border: 1px solid #d9e8df;
-      color: var(--green-dark);
-      border-radius: 999px;
-      padding: 8px 12px;
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .toolbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      padding: 18px 24px;
-      border-top: 1px solid var(--line);
-      flex-wrap: wrap;
-      background: #fff;
-    }
-
-    .toolbar-left,
-    .toolbar-right {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
+    input[type="file"]:focus, input[type="date"]:focus, input[type="text"]:focus, select:focus { border-color: #96d5af; box-shadow: 0 0 0 4px rgba(20,146,85,0.1); transform: translateY(-1px); }
+    .drop-zone { border: 2px dashed #b6d7c3; border-radius: 16px; background: linear-gradient(180deg, #f8fdf9 0%, #f3fbf6 100%); padding: 26px 20px; text-align: center; transition: 0.15s ease; }
+    .drop-zone.dragover { border-color: var(--green); background: linear-gradient(180deg, #effaf3 0%, #e7f7ee 100%); transform: translateY(-1px); }
+    .drop-zone strong { display: block; font-size: 18px; margin-bottom: 6px; }
+    .drop-zone small { color: var(--muted); font-size: 13px; }
+    .file-name { margin-top: 12px; display: inline-block; background: #fff; border: 1px solid #d9e8df; color: var(--green-dark); border-radius: 999px; padding: 8px 12px; font-size: 13px; font-weight: 700; }
+    .toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 18px 24px; border-top: 1px solid var(--line); flex-wrap: wrap; background: #fff; }
+    .toolbar-left, .toolbar-right, .table-tools { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
     button {
-      border: none;
-      border-radius: 12px;
-      padding: 12px 18px;
-      font-size: 14px;
-      font-weight: 900;
-      cursor: pointer;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      border: none; border-radius: 12px; padding: 12px 18px; font-size: 14px; font-weight: 900; cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
-
-    button:hover:not(:disabled) {
-      transform: translateY(-1px);
-      box-shadow: 0 10px 20px rgba(16,24,40,0.12);
-    }
-
-    .btn-primary {
-      background: linear-gradient(180deg, #17a35f 0%, #149255 100%);
-      color: #fff;
-    }
-
-    .btn-secondary {
-      background: #fff;
-      color: var(--green-dark);
-      border: 1px solid #b7d7c1;
-    }
-
-    .btn-ghost {
-      background: #f4f6f8;
-      color: #344054;
-      border: 1px solid #e5e7eb;
-    }
-
-    button:disabled {
-      opacity: 0.55;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-
-    .status {
-      padding: 14px 24px 0;
-      color: var(--muted);
-      font-size: 14px;
-      white-space: pre-line;
-    }
-
-    .kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(160px, 1fr));
-      gap: 14px;
-      margin-bottom: 20px;
-    }
-
-    .kpi {
-      padding: 18px;
-      border-radius: 16px;
-      border: 1px solid rgba(229,231,235,0.9);
-      box-shadow: var(--shadow);
-      background: var(--panel);
-    }
-
+    button:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 10px 20px rgba(16,24,40,0.12); }
+    .btn-primary { background: linear-gradient(180deg, #17a35f 0%, #149255 100%); color: #fff; }
+    .btn-secondary { background: #fff; color: var(--green-dark); border: 1px solid #b7d7c1; }
+    .btn-ghost { background: #f4f6f8; color: #344054; border: 1px solid #e5e7eb; }
+    button:disabled { opacity: 0.55; cursor: not-allowed; box-shadow: none; }
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, minmax(160px, 1fr)); gap: 14px; margin-bottom: 20px; }
+    .kpi { padding: 18px; border-radius: 16px; border: 1px solid rgba(229,231,235,0.9); box-shadow: var(--shadow); background: var(--panel); }
     .kpi.blue { background: linear-gradient(180deg, #ffffff 0%, var(--blue-soft) 100%); }
     .kpi.red { background: linear-gradient(180deg, #ffffff 0%, var(--red-soft) 100%); }
-    .kpi.orange { background: linear-gradient(180deg, #ffffff 0%, var(--orange-soft) 100%); }
     .kpi.green { background: linear-gradient(180deg, #ffffff 0%, var(--green-soft) 100%); }
-
-    .kpi-label {
-      font-size: 13px;
-      color: var(--muted);
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .kpi-value {
-      margin-top: 10px;
-      font-size: 30px;
-      font-weight: 900;
-      letter-spacing: -0.03em;
-    }
-
-    .kpi-sub {
-      margin-top: 8px;
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .section-tabs {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 18px;
-      flex-wrap: wrap;
-    }
-
-    .section-tab {
-      padding: 11px 15px;
-      border-radius: 999px;
-      background: #f4f6f8;
-      color: #344054;
-      font-weight: 800;
-      border: 1px solid #e5e7eb;
-      cursor: pointer;
-    }
-
-    .section-tab.active {
-      background: var(--green-soft);
-      color: var(--green-dark);
-      border-color: #b8e1c7;
-    }
-
+    .kpi.orange { background: linear-gradient(180deg, #ffffff 0%, var(--orange-soft) 100%); }
+    .kpi-label { font-size: 13px; color: var(--muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; }
+    .kpi-value { margin-top: 10px; font-size: 30px; font-weight: 900; letter-spacing: -0.03em; }
+    .kpi-sub { margin-top: 8px; font-size: 13px; color: var(--muted); }
+    .section-tabs { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+    .section-tab { padding: 11px 15px; border-radius: 999px; background: #f4f6f8; color: #344054; font-weight: 800; border: 1px solid #e5e7eb; cursor: pointer; }
+    .section-tab.active { background: var(--green-soft); color: var(--green-dark); border-color: #b8e1c7; }
     .view { display: none; }
     .view.active { display: block; }
-
-    .table-card {
-      background: var(--panel);
-      border: 1px solid rgba(229,231,235,0.9);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    .table-head {
-      padding: 18px 24px;
-      border-bottom: 1px solid var(--line);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      background: #fff;
-    }
-
-    .table-head-title {
-      font-size: 20px;
-      font-weight: 900;
-    }
-
-    .table-tools {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .mini-input {
-      min-width: 220px;
-    }
-
-    .table-wrap {
-      overflow: auto;
-      max-height: 640px;
-      background: #fff;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-      background: #fff;
-    }
-
-    th, td {
-      padding: 12px 14px;
-      border-bottom: 1px solid #eceef2;
-      text-align: left;
-      white-space: nowrap;
-    }
-
-    th {
-      position: sticky;
-      top: 0;
-      background: #f8fafc;
-      color: #6b7280;
-      font-weight: 900;
-      z-index: 1;
-      user-select: none;
-      cursor: pointer;
-    }
-
-    tr:hover td {
-      background: #fbfdfc;
-    }
-
+    .table-wrap { overflow: auto; max-height: 640px; background: #fff; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; background: #fff; }
+    th, td { padding: 12px 14px; border-bottom: 1px solid #eceef2; text-align: left; white-space: nowrap; }
+    th { position: sticky; top: 0; background: #f8fafc; color: #6b7280; font-weight: 900; z-index: 1; user-select: none; cursor: pointer; }
+    tr:hover td { background: #fbfdfc; }
     .remove-row td { background: #fffdfd; }
-
-    .badge-remove {
-      display: inline-block;
-      min-width: 86px;
-      text-align: center;
-      padding: 6px 10px;
-      border-radius: 10px;
-      background: var(--red-soft);
-      color: var(--red-text);
-      font-weight: 900;
-    }
-
-    .badge-ok {
-      display: inline-block;
-      min-width: 66px;
-      text-align: center;
-      padding: 6px 10px;
-      border-radius: 10px;
-      background: var(--green-soft);
-      color: var(--green-dark);
-      font-weight: 900;
-    }
-
-    .warning-box {
-      margin-top: 14px;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(200px, 1fr));
-      gap: 12px;
-    }
-
-    .warning-card {
-      padding: 16px 18px;
-      border-radius: 14px;
-      border: 1px solid #f1d6d3;
-      background: linear-gradient(180deg, #fffdfd 0%, var(--red-soft) 100%);
-    }
-
-    .warning-card strong {
-      display: block;
-      font-size: 22px;
-      margin-top: 8px;
-      color: var(--red-text);
-    }
-
-    .warning-card small {
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .info-list {
-      display: grid;
-      gap: 10px;
-      padding: 18px 24px 24px;
-    }
-
-    .info-item {
-      padding: 14px 16px;
-      border-radius: 14px;
-      border: 1px solid #e5e7eb;
-      background: #fff;
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .sku-check-result {
-      margin-top: 12px;
-      padding: 16px;
-      border-radius: 14px;
-      border: 1px solid #d9e8df;
-      background: linear-gradient(180deg, #ffffff 0%, #f7fcf8 100%);
-      display: none;
-    }
-
-    .sku-check-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(180px, 1fr));
-      gap: 12px;
-      margin-top: 10px;
-    }
-
-    .sku-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: var(--green-soft);
-      color: var(--green-dark);
-      font-weight: 800;
-      font-size: 13px;
-    }
-
-    .empty {
-      padding: 56px 20px;
-      text-align: center;
-      color: var(--muted);
-      background: linear-gradient(180deg, #ffffff 0%, #fbfcfd 100%);
-    }
-
-    .footer-note {
-      margin-top: 18px;
-      color: var(--muted);
-      font-size: 13px;
-      text-align: center;
-    }
-
-    @media (max-width: 1200px) {
-      .app { grid-template-columns: 1fr; }
-      .sidebar { display: none; }
-      .hero-grid, .kpi-grid { grid-template-columns: 1fr 1fr; }
-    }
-
-    @media (max-width: 860px) {
-      .hero-grid, .kpi-grid, .controls, .warning-box { grid-template-columns: 1fr; }
-      .content, .topbar { padding-left: 18px; padding-right: 18px; }
-      .title { font-size: 28px; }
-    }
+    .badge-remove { display: inline-block; min-width: 86px; text-align: center; padding: 6px 10px; border-radius: 10px; background: var(--red-soft); color: #c53b30; font-weight: 900; }
+    .info-list { display: grid; gap: 10px; padding: 18px 24px 24px; }
+    .sku-check-result { padding: 16px; border-radius: 14px; border: 1px solid #d9e8df; background: linear-gradient(180deg, #ffffff 0%, #f7fcf8 100%); display: none; }
+    .sku-check-grid { display: grid; grid-template-columns: repeat(2, minmax(180px, 1fr)); gap: 12px; margin-top: 10px; }
+    .empty { padding: 56px 20px; text-align: center; color: var(--muted); background: linear-gradient(180deg, #ffffff 0%, #fbfcfd 100%); }
+    .footer-note { margin-top: 18px; color: var(--muted); font-size: 13px; text-align: center; }
+    @media (max-width: 1200px) { .app { grid-template-columns: 1fr; } .sidebar { display: none; } .hero-grid, .kpi-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 860px) { .hero-grid, .kpi-grid, .controls, .sku-check-grid { grid-template-columns: 1fr; } .content, .topbar { padding-left: 18px; padding-right: 18px; } .title { font-size: 28px; } }
   </style>
 </head>
 <body>
@@ -601,289 +125,114 @@
         <div class="brand-title">GREEN</div>
         <div class="brand-sub">Operations</div>
       </div>
-      <div class="nav">
-        <div class="nav-item">Freshness Filter</div>
-      </div>
+      <div class="nav"><div class="nav-item">Freshness Filter</div></div>
     </aside>
-
     <main class="main">
       <div class="topbar">
         <div>
           <h1 class="title">Freshness Filter</h1>
-          <div class="subtitle">Smart storage pallet removal based on weekly mappings, freshness rules and production area changes.</div>
+          <div class="subtitle">Focus: dates, snapshot and pallets to remove. Rack stock check is available as a secondary helper.</div>
         </div>
         <div class="topbar-right">
-          <div class="badge-card">
-            <span class="badge-icon">📅</span>
-            <span id="currentDateLabel">--.--.----</span>
-          </div>
-          <div class="badge-card">
-            <span class="badge-icon">🗂️</span>
-            <span id="rulesVersionLabel">Weekly defaults: not loaded</span>
-          </div>
+          <div class="badge-card"><span class="badge-icon">📅</span><span id="currentDateLabel">--.--.----</span></div>
         </div>
       </div>
-
       <div class="content">
         <div class="hero-grid">
           <section class="card">
             <div class="card-head">
               <div class="card-title">Run Analysis</div>
-              <div class="card-note">Weekly files are loaded automatically from the repository root or browser memory. Upload only the current snapshot when needed.</div>
+              <div class="card-note">Upload the current snapshot, choose the production area and minimum allowed dates, then generate the pallet removal list.</div>
             </div>
-
             <div class="controls">
               <div class="field">
                 <label>Production Day Change Area</label>
-                <select id="selectedArea">
-                  <option value="Hybrid">Hybrid</option>
-                  <option value="Kitting">Kitting</option>
-                </select>
+                <select id="selectedArea"><option value="Hybrid">Hybrid</option><option value="Kitting">Kitting</option></select>
               </div>
-              <div class="field">
-                <label>Minimum Allowed ESD Date</label>
-                <input type="date" id="minEsdDate" />
-              </div>
-              <div class="field">
-                <label>Minimum Allowed UBD Date</label>
-                <input type="date" id="minUbdDate" />
-              </div>
+              <div class="field"><label>Minimum Allowed ESD Date</label><input type="date" id="minEsdDate" /></div>
+              <div class="field"><label>Minimum Allowed UBD Date</label><input type="date" id="minUbdDate" /></div>
               <div class="field" style="grid-column: 1 / -1;">
                 <label>Snapshot File</label>
                 <div class="drop-zone" id="dropZone">
                   <strong>Drop snapshot CSV here</strong>
                   <small>or use the file picker below</small>
-                  <div style="margin-top: 14px;">
-                    <input type="file" id="snapshotFile" accept=".csv" />
-                  </div>
+                  <div style="margin-top: 14px;"><input type="file" id="snapshotFile" accept=".csv" /></div>
                   <div class="file-name" id="snapshotFileName">No snapshot selected</div>
                 </div>
               </div>
             </div>
-
-            <div class="toolbar">
-              <div class="toolbar-left">
-                <button id="runBtn" class="btn-primary">Run Analysis</button>
-                <button id="downloadTmBtn" class="btn-primary" disabled>Download Remove CSV</button>
-                <button id="downloadMissingBtn" class="btn-secondary" disabled>Download Missing CSV</button>
-                <button id="reloadDefaultsBtn" class="btn-secondary">Reload Weekly Defaults</button>
-              </div>
-            </div>
-
-            <div class="status" id="status">Loading weekly defaults...</div>
+            <div class="toolbar"><div class="toolbar-left"><button id="runBtn" class="btn-primary">Run Analysis</button><button id="downloadTmBtn" class="btn-primary" disabled>Download Remove CSV</button></div></div>
           </section>
-
           <section class="card">
             <div class="card-head">
-              <div class="card-title">SKU Allocation Check</div>
-              <div class="card-note">Confirm whether a SKU is allocated to Hybrid or Kitting and which date logic it uses.</div>
+              <div class="card-title">Rack Stock UBD Check</div>
+              <div class="card-note">Enter a SKU to check whether older stock exists in storage racks for that item.</div>
             </div>
-
             <div class="controls" style="grid-template-columns: 1fr auto; align-items: end;">
-              <div class="field">
-                <label>Enter SKU</label>
-                <input type="text" id="skuLookupInput" placeholder="Example: PHF-11-10306-3" />
-              </div>
-              <div class="field">
-                <label>&nbsp;</label>
-                <button id="skuLookupBtn" class="btn-primary">Check SKU</button>
-              </div>
+              <div class="field"><label>Enter SKU</label><input type="text" id="skuLookupInput" placeholder="Example: BAK-00-003852-5" /></div>
+              <div class="field"><label>&nbsp;</label><button id="skuLookupBtn" class="btn-primary">Check SKU</button></div>
             </div>
-
             <div class="info-list">
-              <div class="info-item">
-                <div>
-                  <strong>Weekly area source</strong>
-                  <div id="areaSourceLabel" style="color: var(--muted); font-size: 13px; margin-top: 4px;">Not loaded yet</div>
-                </div>
-                <span class="sku-pill" id="areaReadyPill">Waiting</span>
-              </div>
-              <div class="info-item">
-                <div>
-                  <strong>Weekly rules source</strong>
-                  <div id="rulesSourceLabel" style="color: var(--muted); font-size: 13px; margin-top: 4px;">Not loaded yet</div>
-                </div>
-                <span class="sku-pill" id="rulesReadyPill">Waiting</span>
-              </div>
-
               <div class="sku-check-result" id="skuCheckResult">
                 <strong id="skuCheckTitle">SKU Result</strong>
                 <div class="sku-check-grid">
                   <div><small>Area</small><div id="skuCheckArea"></div></div>
                   <div><small>Date Type</small><div id="skuCheckDateType"></div></div>
                   <div><small>Example Rack</small><div id="skuCheckRack"></div></div>
+                  <div><small>Oldest Storage Date</small><div id="skuCheckOldest"></div></div>
+                  <div><small>Storage Pallets Found</small><div id="skuCheckCount"></div></div>
                   <div><small>Status</small><div id="skuCheckStatus"></div></div>
                 </div>
               </div>
             </div>
           </section>
         </div>
-
         <div class="kpi-grid">
-          <div class="kpi blue">
-            <div class="kpi-label">Checked Pallets</div>
-            <div class="kpi-value" id="sumChecked">0</div>
-            <div class="kpi-sub">Storage rows checked for CR / AR locations</div>
-          </div>
-          <div class="kpi red">
-            <div class="kpi-label">Remove Pallets</div>
-            <div class="kpi-value" id="sumRemove">0</div>
-            <div class="kpi-sub">Pallets below the minimum allowed freshness date</div>
-          </div>
-          <div class="kpi orange">
-            <div class="kpi-label">Missing Mapping</div>
-            <div class="kpi-value" id="sumMissing">0</div>
-            <div class="kpi-sub">Rows with missing area, date type or invalid date</div>
-          </div>
-          <div class="kpi green">
-            <div class="kpi-label">Run Time</div>
-            <div class="kpi-value" id="sumRuntime">0.00s</div>
-            <div class="kpi-sub"><span id="sumArea">-</span> selected for current run</div>
-          </div>
+          <div class="kpi blue"><div class="kpi-label">Checked Pallets</div><div class="kpi-value" id="sumChecked">0</div><div class="kpi-sub">Storage rows checked for CR / AR locations</div></div>
+          <div class="kpi red"><div class="kpi-label">Remove Pallets</div><div class="kpi-value" id="sumRemove">0</div><div class="kpi-sub">Pallets below the minimum allowed freshness date</div></div>
+          <div class="kpi green"><div class="kpi-label">Borderline Pallets</div><div class="kpi-value" id="borderlineCount">0</div><div class="kpi-sub">Rows exactly on the minimum allowed date</div></div>
+          <div class="kpi orange"><div class="kpi-label">Expired in Storage</div><div class="kpi-value" id="expiredCount">0</div><div class="kpi-sub">Rows with a use by date earlier than today</div></div>
         </div>
-
-        <div class="warning-box">
-          <div class="warning-card">
-            <small>Already expired or outdated stock</small>
-            <strong id="expiredCount">0</strong>
-          </div>
-          <div class="warning-card">
-            <small>Rows exactly on the minimum allowed date</small>
-            <strong id="borderlineCount">0</strong>
-          </div>
-        </div>
-
-        <div class="section-tabs" style="margin-top: 20px;">
-          <button class="section-tab active" data-view="resultsView">Removal List</button>
-          <button class="section-tab" data-view="missingView">Missing Mapping</button>
-          <button class="section-tab" data-view="historyView">History</button>
-        </div>
-
+        <div class="section-tabs"><button class="section-tab active" data-view="resultsView">Removal List</button></div>
         <div id="resultsView" class="view active">
           <section class="table-card">
             <div class="table-head">
-              <div>
-                <div class="table-head-title">Removal List</div>
-                <div class="card-note">Rows that should be isolated from storage based on selected area and minimum freshness dates.</div>
-              </div>
-              <div class="table-tools">
-                <input type="text" id="resultsSearch" class="mini-input" placeholder="Search TM id, SKU or location" />
-                <button id="clearResultsSearchBtn" class="btn-ghost">Clear</button>
-              </div>
+              <div><div class="table-head-title">Removal List</div><div class="card-note">Rows that should be isolated from storage based on selected area and minimum freshness dates.</div></div>
+              <div class="table-tools"><input type="text" id="resultsSearch" placeholder="Search TM id, SKU or location" /><button id="clearResultsSearchBtn" class="btn-ghost">Clear</button></div>
             </div>
             <div class="table-wrap">
               <table id="resultsTable">
-                <thead>
-                  <tr>
-                    <th data-sort="Tm id">Tm id</th>
-                    <th data-sort="Sku code">Sku code</th>
-                    <th data-sort="Tm location">Tm location</th>
-                    <th data-sort="Area">Area</th>
-                    <th data-sort="Date type">Date type</th>
-                    <th data-sort="Use by date">Use by date</th>
-                    <th data-sort="Minimum date">Minimum date</th>
-                    <th data-sort="Qty">Qty</th>
-                    <th data-sort="Usable qty">Usable qty</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
+                <thead><tr>
+                  <th data-sort="Tm id">Tm id</th>
+                  <th data-sort="Sku code">Sku code</th>
+                  <th data-sort="Tm location">Tm location</th>
+                  <th data-sort="Area">Area</th>
+                  <th data-sort="Date type">Date type</th>
+                  <th data-sort="Use by date">Use by date</th>
+                  <th data-sort="Minimum date">Minimum date</th>
+                  <th data-sort="Qty">Qty</th>
+                  <th data-sort="Usable qty">Usable qty</th>
+                  <th>Action</th>
+                </tr></thead>
                 <tbody></tbody>
               </table>
             </div>
             <div class="empty" id="emptyState">No removal list yet.</div>
           </section>
         </div>
-
-        <div id="missingView" class="view">
-          <section class="table-card">
-            <div class="table-head">
-              <div>
-                <div class="table-head-title">Missing Mapping Diagnostics</div>
-                <div class="card-note">Use this list to improve weekly area and rules files.</div>
-              </div>
-              <div class="table-tools">
-                <input type="text" id="missingSearch" class="mini-input" placeholder="Search missing rows" />
-                <button id="clearMissingSearchBtn" class="btn-ghost">Clear</button>
-              </div>
-            </div>
-            <div class="table-wrap">
-              <table id="missingTable">
-                <thead>
-                  <tr>
-                    <th>Sku code</th>
-                    <th>Tm id</th>
-                    <th>Tm location</th>
-                    <th>Issue</th>
-                    <th>Use by date</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-            </div>
-            <div class="empty" id="missingEmptyState">No missing mapping rows.</div>
-          </section>
-        </div>
-
-        <div id="historyView" class="view">
-          <section class="table-card">
-            <div class="table-head">
-              <div>
-                <div class="table-head-title">Run History</div>
-                <div class="card-note">Saved in this browser on this device. Each completed analysis is added automatically.</div>
-              </div>
-              <div class="table-tools">
-                <button id="clearHistoryBtn" class="btn-secondary">Clear History</button>
-              </div>
-            </div>
-            <div class="table-wrap">
-              <table id="historyTable">
-                <thead>
-                  <tr>
-                    <th>Run time</th>
-                    <th>Area</th>
-                    <th>Min ESD</th>
-                    <th>Min UBD</th>
-                    <th>Checked</th>
-                    <th>Remove</th>
-                    <th>Missing</th>
-                    <th>Expired</th>
-                    <th>Snapshot file</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-            </div>
-            <div class="empty" id="historyEmptyState">No history yet.</div>
-          </section>
-        </div>
-
         <div class="footer-note">Repository root should contain <strong>index.html</strong>, <strong>weekly_area.csv</strong> and <strong>weekly_rules.csv</strong>.</div>
       </div>
     </main>
   </div>
-
   <script>
     var STORAGE_PREFIXES = ["CR", "AR"];
-
-    var AREA_BY_BIN_PREFIX = {
-      HL: "Hybrid",
-      AD: "Hybrid",
-      FK: "Kitting"
-    };
-
-    var DATE_TYPE_BY_PACKAGING_INFO = {
-      "03 Meal Kit": "ESD",
-      "04 Assembly": "ESD",
-      "02 Kühlpflichtig": "UBD"
-    };
-
+    var AREA_BY_BIN_PREFIX = { HL: "Hybrid", AD: "Hybrid", FK: "Kitting" };
+    var DATE_TYPE_BY_PACKAGING_INFO = { "03 Meal Kit": "ESD", "04 Assembly": "ESD", "02 Kühlpflichtig": "UBD" };
     var removeTmIds = [];
     var removeRows = [];
-    var missingRows = [];
+    var snapshotRowsCache = [];
     var savedAreaText = "";
     var savedRulesText = "";
-    var savedAreaName = "";
-    var savedRulesName = "";
     var defaultAreaUrl = "weekly_area.csv";
     var defaultRulesUrl = "weekly_rules.csv";
     var areaRowsCache = [];
@@ -893,663 +242,240 @@
     var rackExampleMap = new Map();
     var currentSort = { key: "Tm id", dir: 1 };
 
-    function setStatus(message) {
-      document.getElementById("status").textContent = message;
+    function normalizeHeader(str) { return String(str || "").trim(); }
+    function getPrefix(value) { return String(value || "").trim().toUpperCase().slice(0, 2); }
+    function isStorageLocation(location) { return STORAGE_PREFIXES.indexOf(getPrefix(location)) !== -1; }
+    function getAreaFromBinLocation(binLocationName) { return AREA_BY_BIN_PREFIX[getPrefix(binLocationName)] || null; }
+    function getDateTypeFromPackagingInfo(packagingInfo) { return DATE_TYPE_BY_PACKAGING_INFO[String(packagingInfo || "").trim()] || null; }
+    function normalizeDateTypeBySku(sku, packagingInfo) {
+      var rawSku = String(sku || "").trim().toUpperCase();
+      if (rawSku.indexOf("BAK-") === 0) return "UBD";
+      return getDateTypeFromPackagingInfo(packagingInfo);
     }
-
-    function normalizeHeader(str) {
-      return String(str || "").trim();
-    }
-
-    function getPrefix(value) {
-      var v = String(value || "").trim().toUpperCase();
-      return v.slice(0, 2);
-    }
-
-    function isStorageLocation(location) {
-      return STORAGE_PREFIXES.indexOf(getPrefix(location)) !== -1;
-    }
-
-    function getAreaFromBinLocation(binLocationName) {
-      var prefix = getPrefix(binLocationName);
-      return AREA_BY_BIN_PREFIX[prefix] || null;
-    }
-
-    function getDateTypeFromPackagingInfo(packagingInfo) {
-      var key = String(packagingInfo || "").trim();
-      return DATE_TYPE_BY_PACKAGING_INFO[key] || null;
-    }
-
     function parseDateFlexible(value) {
       if (!value) return null;
       var raw = String(value).trim();
       if (!raw) return null;
-
       var m = raw.match(/^(\d{1,2})[./-](\d{1,2})[./-](\d{2,4})$/);
       if (m) {
-        var day = parseInt(m[1], 10);
-        var month = parseInt(m[2], 10) - 1;
-        var year = parseInt(m[3], 10);
-        if (year < 100) year += 2000;
-        var d = new Date(year, month, day);
+        var d = new Date(parseInt(m[3],10) < 100 ? parseInt(m[3],10)+2000 : parseInt(m[3],10), parseInt(m[2],10)-1, parseInt(m[1],10));
         if (!isNaN(d.getTime())) return d;
       }
-
       m = raw.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
       if (m) {
-        var d2 = new Date(parseInt(m[1], 10), parseInt(m[2], 10) - 1, parseInt(m[3], 10));
+        var d2 = new Date(parseInt(m[1],10), parseInt(m[2],10)-1, parseInt(m[3],10));
         if (!isNaN(d2.getTime())) return d2;
       }
-
       var fallback = new Date(raw);
       if (!isNaN(fallback.getTime())) return fallback;
       return null;
     }
-
     function formatDateDisplay(date) {
       if (!date || isNaN(date.getTime())) return "";
-      var dd = String(date.getDate()).padStart(2, "0");
-      var mm = String(date.getMonth() + 1).padStart(2, "0");
-      var yyyy = date.getFullYear();
-      return dd + "." + mm + "." + yyyy;
+      return String(date.getDate()).padStart(2, "0") + "." + String(date.getMonth()+1).padStart(2, "0") + "." + date.getFullYear();
     }
-
-    function formatTimestamp(date) {
-      if (!date || isNaN(date.getTime())) return "";
-      var dd = String(date.getDate()).padStart(2, "0");
-      var mm = String(date.getMonth() + 1).padStart(2, "0");
-      var yyyy = date.getFullYear();
-      var hh = String(date.getHours()).padStart(2, "0");
-      var min = String(date.getMinutes()).padStart(2, "0");
-      return dd + "." + mm + "." + yyyy + " " + hh + ":" + min;
-    }
-
     function splitCsvLine(line) {
-      var result = [];
-      var current = "";
-      var inQuotes = false;
-
+      var result = [], current = "", inQuotes = false;
       for (var i = 0; i < line.length; i++) {
-        var char = line[i];
-        var next = line[i + 1];
-
-        if (char === '"' && inQuotes && next === '"') {
-          current += '"';
-          i++;
-        } else if (char === '"') {
-          inQuotes = !inQuotes;
-        } else if (char === ',' && !inQuotes) {
-          result.push(current);
-          current = "";
-        } else {
-          current += char;
-        }
+        var char = line[i], next = line[i+1];
+        if (char === '"' && inQuotes && next === '"') { current += '"'; i++; }
+        else if (char === '"') inQuotes = !inQuotes;
+        else if (char === ',' && !inQuotes) { result.push(current); current = ""; }
+        else current += char;
       }
-
       result.push(current);
-
-      for (var j = 0; j < result.length; j++) {
-        result[j] = result[j].trim();
-      }
-
-      return result;
+      return result.map(function(v){ return v.trim(); });
     }
-
     function parseCsv(text) {
-      var lines = text
-        .replace(/\r\n/g, "\n")
-        .replace(/\r/g, "\n")
-        .split("\n")
-        .filter(function(line) { return line.trim() !== ""; });
-
+      var lines = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n").split("\n").filter(function(line){ return line.trim() !== ""; });
       if (!lines.length) return [];
-
-      var headers = splitCsvLine(lines[0]).map(normalizeHeader);
-      var rows = [];
-
+      var headers = splitCsvLine(lines[0]).map(normalizeHeader), rows = [];
       for (var i = 1; i < lines.length; i++) {
-        var values = splitCsvLine(lines[i]);
-        var row = {};
-        for (var h = 0; h < headers.length; h++) {
-          row[headers[h]] = values[h] !== undefined ? values[h] : "";
-        }
+        var values = splitCsvLine(lines[i]), row = {};
+        for (var h = 0; h < headers.length; h++) row[headers[h]] = values[h] !== undefined ? values[h] : "";
         rows.push(row);
       }
-
       return rows;
     }
-
     function readFileAsText(file) {
-      return new Promise(function(resolve, reject) {
-        var reader = new FileReader();
-        reader.onload = function(e) { resolve(e.target.result); };
-        reader.onerror = reject;
-        reader.readAsText(file, "utf-8");
-      });
+      return new Promise(function(resolve, reject){ var reader = new FileReader(); reader.onload = function(e){ resolve(e.target.result); }; reader.onerror = reject; reader.readAsText(file, "utf-8"); });
     }
-
     function downloadCsv(filename, rows) {
       if (!rows.length) return;
-
-      var headers = Object.keys(rows[0]);
-      var lines = [headers.join(",")];
-
+      var headers = Object.keys(rows[0]), lines = [headers.join(",")];
       for (var i = 0; i < rows.length; i++) {
-        var row = rows[i];
         var values = [];
-        for (var j = 0; j < headers.length; j++) {
-          var value = row[headers[j]] == null ? "" : String(row[headers[j]]);
-          values.push('"' + value.replace(/"/g, '""') + '"');
-        }
+        for (var j = 0; j < headers.length; j++) values.push('"' + String(rows[i][headers[j]] == null ? "" : rows[i][headers[j]]).replace(/"/g, '""') + '"');
         lines.push(values.join(","));
       }
-
-      var csv = lines.join("\n");
-      var blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-      var url = URL.createObjectURL(blob);
-      var a = document.createElement("a");
-      a.href = url;
-      a.download = filename;
-      a.click();
-      URL.revokeObjectURL(url);
+      var blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8;" });
+      var url = URL.createObjectURL(blob), a = document.createElement("a");
+      a.href = url; a.download = filename; a.click(); URL.revokeObjectURL(url);
     }
-
-    function fetchTextIfExists(url) {
-      return fetch(url, { cache: "no-store" })
-        .then(function(response) {
-          if (!response.ok) return "";
-          return response.text();
-        })
-        .catch(function() { return ""; });
-    }
-
+    function fetchTextIfExists(url) { return fetch(url, { cache: "no-store" }).then(function(r){ return r.ok ? r.text() : ""; }).catch(function(){ return ""; }); }
     function buildWeeklyMaps() {
-      areaMap = new Map();
-      dateTypeMap = new Map();
-      rackExampleMap = new Map();
-
+      areaMap = new Map(); dateTypeMap = new Map(); rackExampleMap = new Map();
       for (var i = 0; i < areaRowsCache.length; i++) {
-        var areaRow = areaRowsCache[i];
-        var areaSku = String(areaRow["ArticleSKU"] || "").trim();
-        var bin = String(areaRow["BinLocationName"] || "").trim();
-        if (!areaSku || !bin) continue;
-        var resolvedArea = getAreaFromBinLocation(bin);
-        if (resolvedArea && !areaMap.has(areaSku)) areaMap.set(areaSku, resolvedArea);
-        if (bin && !rackExampleMap.has(areaSku)) rackExampleMap.set(areaSku, bin);
+        var skuA = String(areaRowsCache[i]["ArticleSKU"] || "").trim();
+        var bin = String(areaRowsCache[i]["BinLocationName"] || "").trim();
+        var area = getAreaFromBinLocation(bin);
+        if (skuA && area && !areaMap.has(skuA)) areaMap.set(skuA, area);
+        if (skuA && bin && !rackExampleMap.has(skuA)) rackExampleMap.set(skuA, bin);
       }
-
       for (var r = 0; r < rulesRowsCache.length; r++) {
-        var rulesRow = rulesRowsCache[r];
-        var rulesSku = String(rulesRow["SKU"] || "").trim();
-        var packagingInfo = String(rulesRow["Packaging Info"] || "").trim();
-        if (!rulesSku || !packagingInfo) continue;
-        var dateType = getDateTypeFromPackagingInfo(packagingInfo);
-        if (dateType && !dateTypeMap.has(rulesSku)) dateTypeMap.set(rulesSku, dateType);
+        var skuR = String(rulesRowsCache[r]["SKU"] || "").trim();
+        var packagingInfo = String(rulesRowsCache[r]["Packaging Info"] || "").trim();
+        var dt = normalizeDateTypeBySku(skuR, packagingInfo);
+        if (skuR && dt && !dateTypeMap.has(skuR)) dateTypeMap.set(skuR, dt);
       }
     }
-
-    function updateWeeklyIndicators() {
-      document.getElementById("areaSourceLabel").textContent = savedAreaName || "Not loaded";
-      document.getElementById("rulesSourceLabel").textContent = savedRulesName || "Not loaded";
-      document.getElementById("areaReadyPill").textContent = savedAreaText ? "Ready" : "Missing";
-      document.getElementById("rulesReadyPill").textContent = savedRulesText ? "Ready" : "Missing";
-
-      var versionText = [];
-      if (savedAreaName) versionText.push(savedAreaName);
-      if (savedRulesName) versionText.push(savedRulesName);
-      document.getElementById("rulesVersionLabel").textContent = versionText.length ? "Weekly defaults: " + versionText.join(" + ") : "Weekly defaults: not loaded";
-    }
-
     function loadSavedWeeklyFiles() {
       savedAreaText = localStorage.getItem("freshnessWeeklyArea") || "";
       savedRulesText = localStorage.getItem("freshnessWeeklyRules") || "";
-      savedAreaName = localStorage.getItem("freshnessWeeklyAreaName") || "";
-      savedRulesName = localStorage.getItem("freshnessWeeklyRulesName") || "";
-
       if (savedAreaText) areaRowsCache = parseCsv(savedAreaText);
       if (savedRulesText) rulesRowsCache = parseCsv(savedRulesText);
       buildWeeklyMaps();
-      updateWeeklyIndicators();
     }
-
     function loadDefaultWeeklyFiles() {
-      setStatus("Loading weekly defaults from repository...");
-
-      return Promise.all([
-        fetchTextIfExists(defaultAreaUrl),
-        fetchTextIfExists(defaultRulesUrl)
-      ]).then(function(loaded) {
-        var changed = false;
-
-        if (loaded[0]) {
-          savedAreaText = loaded[0];
-          savedAreaName = defaultAreaUrl;
-          localStorage.setItem("freshnessWeeklyArea", savedAreaText);
-          localStorage.setItem("freshnessWeeklyAreaName", savedAreaName);
-          areaRowsCache = parseCsv(savedAreaText);
-          changed = true;
-        }
-
-        if (loaded[1]) {
-          savedRulesText = loaded[1];
-          savedRulesName = defaultRulesUrl;
-          localStorage.setItem("freshnessWeeklyRules", savedRulesText);
-          localStorage.setItem("freshnessWeeklyRulesName", savedRulesName);
-          rulesRowsCache = parseCsv(savedRulesText);
-          changed = true;
-        }
-
+      return Promise.all([fetchTextIfExists(defaultAreaUrl), fetchTextIfExists(defaultRulesUrl)]).then(function(loaded){
+        if (loaded[0]) { savedAreaText = loaded[0]; localStorage.setItem("freshnessWeeklyArea", savedAreaText); areaRowsCache = parseCsv(savedAreaText); }
+        if (loaded[1]) { savedRulesText = loaded[1]; localStorage.setItem("freshnessWeeklyRules", savedRulesText); rulesRowsCache = parseCsv(savedRulesText); }
         buildWeeklyMaps();
-        updateWeeklyIndicators();
-
-        if (changed) {
-          setStatus("Weekly defaults loaded. Upload only the snapshot file and run analysis.");
-        } else {
-          setStatus("Could not find weekly defaults. Put weekly_area.csv and weekly_rules.csv in the repository root.");
-        }
       });
     }
-
-    function updateCurrentDate() {
-      document.getElementById("currentDateLabel").textContent = formatDateDisplay(new Date());
-    }
-
-    function getHistoryRuns() {
-      try {
-        var raw = localStorage.getItem("freshnessFilterHistory");
-        return raw ? JSON.parse(raw) : [];
-      } catch (e) {
-        return [];
-      }
-    }
-
-    function saveHistoryRun(run) {
-      var runs = getHistoryRuns();
-      runs.unshift(run);
-      if (runs.length > 50) runs = runs.slice(0, 50);
-      localStorage.setItem("freshnessFilterHistory", JSON.stringify(runs));
-    }
-
-    function renderHistory() {
-      var runs = getHistoryRuns();
-      var tbody = document.querySelector("#historyTable tbody");
-      var empty = document.getElementById("historyEmptyState");
-      tbody.innerHTML = "";
-
-      if (!runs.length) {
-        empty.style.display = "block";
-        return;
-      }
-
-      empty.style.display = "none";
-
-      for (var i = 0; i < runs.length; i++) {
-        var run = runs[i];
-        var tr = document.createElement("tr");
-        var values = [run.runTime, run.area, run.minEsd, run.minUbd, String(run.checked), String(run.remove), String(run.missing), String(run.expired), run.snapshotName];
-        for (var j = 0; j < values.length; j++) {
-          var td = document.createElement("td");
-          td.textContent = values[j];
-          tr.appendChild(td);
-        }
-        tbody.appendChild(tr);
-      }
-    }
-
-    function clearHistory() {
-      localStorage.removeItem("freshnessFilterHistory");
-      renderHistory();
-    }
-
-    function showView(viewId) {
-      var views = document.querySelectorAll(".view");
-      for (var i = 0; i < views.length; i++) views[i].classList.remove("active");
-      document.getElementById(viewId).classList.add("active");
-
-      var tabs = document.querySelectorAll(".section-tab");
-      for (var j = 0; j < tabs.length; j++) {
-        tabs[j].classList.remove("active");
-        if (tabs[j].getAttribute("data-view") === viewId) tabs[j].classList.add("active");
-      }
-    }
-
+    function updateCurrentDate() { document.getElementById("currentDateLabel").textContent = formatDateDisplay(new Date()); }
     function matchesSearch(row, text) {
       if (!text) return true;
-      var haystack = Object.keys(row).map(function(key) { return String(row[key] || "").toLowerCase(); }).join(" ");
+      var haystack = Object.keys(row).map(function(k){ return String(row[k] || "").toLowerCase(); }).join(" ");
       return haystack.indexOf(text.toLowerCase()) !== -1;
     }
-
     function renderResults(rows) {
       var search = document.getElementById("resultsSearch").value.trim();
-      var tbody = document.querySelector("#resultsTable tbody");
-      var empty = document.getElementById("emptyState");
+      var tbody = document.querySelector("#resultsTable tbody"), empty = document.getElementById("emptyState");
       tbody.innerHTML = "";
-
-      var filtered = rows.filter(function(row) { return matchesSearch(row, search); });
-      filtered.sort(function(a, b) {
-        var av = String(a[currentSort.key] || "");
-        var bv = String(b[currentSort.key] || "");
-        if (currentSort.key === "Qty" || currentSort.key === "Usable qty") {
-          av = Number(a[currentSort.key] || 0);
-          bv = Number(b[currentSort.key] || 0);
-        }
-        if (av < bv) return -1 * currentSort.dir;
-        if (av > bv) return 1 * currentSort.dir;
-        return 0;
+      var filtered = rows.filter(function(row){ return matchesSearch(row, search); });
+      filtered.sort(function(a,b){
+        var av = currentSort.key === "Qty" || currentSort.key === "Usable qty" ? Number(a[currentSort.key] || 0) : String(a[currentSort.key] || "");
+        var bv = currentSort.key === "Qty" || currentSort.key === "Usable qty" ? Number(b[currentSort.key] || 0) : String(b[currentSort.key] || "");
+        if (av < bv) return -1 * currentSort.dir; if (av > bv) return 1 * currentSort.dir; return 0;
       });
-
-      if (!filtered.length) {
-        empty.style.display = "block";
-        return;
-      }
-
-      empty.style.display = "none";
-
-      for (var i = 0; i < filtered.length; i++) {
-        var row = filtered[i];
-        var tr = document.createElement("tr");
-        tr.className = "remove-row";
-
-        var columns = ["Tm id", "Sku code", "Tm location", "Area", "Date type", "Use by date", "Minimum date", "Qty", "Usable qty"];
-        for (var c = 0; c < columns.length; c++) {
-          var td = document.createElement("td");
-          td.textContent = row[columns[c]] || "";
-          tr.appendChild(td);
-        }
-
-        var actionTd = document.createElement("td");
-        var badge = document.createElement("span");
-        badge.className = "badge-remove";
-        badge.textContent = "Remove";
-        actionTd.appendChild(badge);
-        tr.appendChild(actionTd);
-        tbody.appendChild(tr);
-      }
-    }
-
-    function renderMissing(rows) {
-      var search = document.getElementById("missingSearch").value.trim();
-      var tbody = document.querySelector("#missingTable tbody");
-      var empty = document.getElementById("missingEmptyState");
-      tbody.innerHTML = "";
-
-      var filtered = rows.filter(function(row) { return matchesSearch(row, search); });
-      if (!filtered.length) {
-        empty.style.display = "block";
-        return;
-      }
-
+      if (!filtered.length) { empty.style.display = "block"; return; }
       empty.style.display = "none";
       for (var i = 0; i < filtered.length; i++) {
-        var row = filtered[i];
-        var tr = document.createElement("tr");
-        var cols = ["Sku code", "Tm id", "Tm location", "Issue", "Use by date"];
-        for (var c = 0; c < cols.length; c++) {
-          var td = document.createElement("td");
-          td.textContent = row[cols[c]] || "";
-          tr.appendChild(td);
-        }
-        tbody.appendChild(tr);
+        var tr = document.createElement("tr"); tr.className = "remove-row";
+        var cols = ["Tm id","Sku code","Tm location","Area","Date type","Use by date","Minimum date","Qty","Usable qty"];
+        for (var c = 0; c < cols.length; c++) { var td = document.createElement("td"); td.textContent = filtered[i][cols[c]] || ""; tr.appendChild(td); }
+        var actionTd = document.createElement("td"), badge = document.createElement("span"); badge.className = "badge-remove"; badge.textContent = "Remove"; actionTd.appendChild(badge); tr.appendChild(actionTd); tbody.appendChild(tr);
       }
     }
-
-    function updateSnapshotLabel(file) {
-      document.getElementById("snapshotFileName").textContent = file ? file.name : "No snapshot selected";
-    }
-
+    function updateSnapshotLabel(file) { document.getElementById("snapshotFileName").textContent = file ? file.name : "No snapshot selected"; }
     function runSkuLookup() {
       var sku = String(document.getElementById("skuLookupInput").value || "").trim();
       var resultBox = document.getElementById("skuCheckResult");
-      if (!sku) {
-        resultBox.style.display = "none";
-        return;
-      }
-
+      if (!sku) { resultBox.style.display = "none"; return; }
       var area = areaMap.get(sku) || "Not found";
       var dateType = dateTypeMap.get(sku) || "Not found";
       var rack = rackExampleMap.get(sku) || "Not found";
-      var status = (area !== "Not found" && dateType !== "Not found") ? "Ready for checks" : "Missing in weekly defaults";
-
+      var storageRows = [];
+      for (var i = 0; i < snapshotRowsCache.length; i++) {
+        var rowSku = String(snapshotRowsCache[i]["Sku code"] || "").trim();
+        var loc = String(snapshotRowsCache[i]["Tm location"] || "").trim();
+        if (rowSku === sku && isStorageLocation(loc)) storageRows.push(snapshotRowsCache[i]);
+      }
+      var oldestDate = "Not found";
+      if (storageRows.length) {
+        var oldest = null;
+        for (var j = 0; j < storageRows.length; j++) {
+          var parsed = parseDateFlexible(storageRows[j]["Use by date"] || "");
+          if (parsed && (!oldest || parsed.getTime() < oldest.getTime())) oldest = parsed;
+        }
+        if (oldest) oldestDate = formatDateDisplay(oldest);
+      }
+      var status = storageRows.length ? "Old stock present in storage" : "No storage stock found in loaded snapshot";
+      if (area === "Not found" || dateType === "Not found") status = "Missing in weekly defaults";
       document.getElementById("skuCheckTitle").textContent = "SKU: " + sku;
       document.getElementById("skuCheckArea").textContent = area;
       document.getElementById("skuCheckDateType").textContent = dateType;
       document.getElementById("skuCheckRack").textContent = rack;
+      document.getElementById("skuCheckOldest").textContent = oldestDate;
+      document.getElementById("skuCheckCount").textContent = String(storageRows.length);
       document.getElementById("skuCheckStatus").textContent = status;
       resultBox.style.display = "block";
     }
-
     function setDateInputDefault(id, daysAhead) {
-      var d = new Date();
-      d.setDate(d.getDate() + daysAhead);
-      var yyyy = d.getFullYear();
-      var mm = String(d.getMonth() + 1).padStart(2, "0");
-      var dd = String(d.getDate()).padStart(2, "0");
-      document.getElementById(id).value = yyyy + "-" + mm + "-" + dd;
+      var d = new Date(); d.setDate(d.getDate() + daysAhead);
+      document.getElementById(id).value = d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
     }
-
     function runAnalysis() {
-      var started = performance.now();
-      setStatus("Reading snapshot and weekly defaults...");
-
       var snapshotFile = document.getElementById("snapshotFile").files[0];
-      if (!snapshotFile) {
-        alert("Please upload the snapshot file.");
-        return;
-      }
-
-      if (!savedAreaText || !savedRulesText) {
-        alert("Weekly defaults are not ready. Make sure weekly_area.csv and weekly_rules.csv are uploaded to the repository root, then click Reload Weekly Defaults.");
-        return;
-      }
-
+      if (!snapshotFile) { alert("Please upload the snapshot file."); return; }
+      if (!savedAreaText || !savedRulesText) { alert("Weekly defaults are not ready. Make sure weekly_area.csv and weekly_rules.csv are in the repository root."); return; }
       var selectedArea = document.getElementById("selectedArea").value;
       var minEsdDate = parseDateFlexible(document.getElementById("minEsdDate").value);
       var minUbdDate = parseDateFlexible(document.getElementById("minUbdDate").value);
-      if (!minEsdDate || !minUbdDate) {
-        alert("Please enter both minimum dates.");
-        return;
-      }
-
-      readFileAsText(snapshotFile).then(function(snapshotText) {
-        var snapshotRows = parseCsv(snapshotText);
-
-        removeTmIds = [];
-        removeRows = [];
-        missingRows = [];
-
-        var checked = 0;
-        var removed = 0;
-        var missing = 0;
-        var expired = 0;
-        var borderline = 0;
-        var today = new Date();
-        today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-
-        for (var i = 0; i < snapshotRows.length; i++) {
-          var row = snapshotRows[i];
-          var tmLocation = String(row["Tm location"] || "").trim();
+      if (!minEsdDate || !minUbdDate) { alert("Please enter both minimum dates."); return; }
+      readFileAsText(snapshotFile).then(function(snapshotText){
+        snapshotRowsCache = parseCsv(snapshotText);
+        removeTmIds = []; removeRows = [];
+        var checked = 0, removed = 0, expired = 0, borderline = 0;
+        var today = new Date(); today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        for (var i = 0; i < snapshotRowsCache.length; i++) {
+          var row = snapshotRowsCache[i], tmLocation = String(row["Tm location"] || "").trim();
           if (!isStorageLocation(tmLocation)) continue;
-
           checked++;
-
           var sku = String(row["Sku code"] || "").trim();
           var tmId = String(row["Tm id"] || "").trim();
           var useByDateRaw = String(row["Use by date"] || "").trim();
           var useByDate = parseDateFlexible(useByDateRaw);
           var area = areaMap.get(sku) || "";
           var itemDateType = dateTypeMap.get(sku) || "";
-
-          if (!area || !itemDateType || !useByDate) {
-            var issue = !area ? "Missing area mapping" : (!itemDateType ? "Missing date type" : "Invalid use by date");
-            missing++;
-            missingRows.push({
-              "Sku code": sku,
-              "Tm id": tmId,
-              "Tm location": tmLocation,
-              "Issue": issue,
-              "Use by date": useByDateRaw
-            });
-            continue;
-          }
-
+          if (!area || !itemDateType || !useByDate) continue;
           if (area !== selectedArea) continue;
-
           var normalizedUseBy = new Date(useByDate.getFullYear(), useByDate.getMonth(), useByDate.getDate());
           var minAllowedDate = itemDateType === "ESD" ? minEsdDate : minUbdDate;
           var minNormalized = new Date(minAllowedDate.getFullYear(), minAllowedDate.getMonth(), minAllowedDate.getDate());
-
           if (normalizedUseBy.getTime() < today.getTime()) expired++;
           if (normalizedUseBy.getTime() === minNormalized.getTime()) borderline++;
-
           if (normalizedUseBy.getTime() < minNormalized.getTime()) {
             removed++;
             removeTmIds.push({ "Tm id": tmId });
-            removeRows.push({
-              "Tm id": tmId,
-              "Sku code": sku,
-              "Tm location": tmLocation,
-              "Area": area,
-              "Date type": itemDateType,
-              "Use by date": useByDateRaw,
-              "Minimum date": formatDateDisplay(minNormalized),
-              "Qty": row["Qty"] || "",
-              "Usable qty": row["Usable qty"] || ""
-            });
+            removeRows.push({ "Tm id": tmId, "Sku code": sku, "Tm location": tmLocation, "Area": area, "Date type": itemDateType, "Use by date": useByDateRaw, "Minimum date": formatDateDisplay(minNormalized), "Qty": row["Qty"] || "", "Usable qty": row["Usable qty"] || "" });
           }
         }
-
-        document.getElementById("sumArea").textContent = selectedArea;
         document.getElementById("sumChecked").textContent = String(checked);
         document.getElementById("sumRemove").textContent = String(removed);
-        document.getElementById("sumMissing").textContent = String(missing);
         document.getElementById("expiredCount").textContent = String(expired);
         document.getElementById("borderlineCount").textContent = String(borderline);
         document.getElementById("downloadTmBtn").disabled = removeTmIds.length === 0;
-        document.getElementById("downloadMissingBtn").disabled = missingRows.length === 0;
-
-        var finished = performance.now();
-        var runtime = ((finished - started) / 1000).toFixed(2) + "s";
-        document.getElementById("sumRuntime").textContent = runtime;
-
         renderResults(removeRows);
-        renderMissing(missingRows);
-
-        saveHistoryRun({
-          runTime: formatTimestamp(new Date()),
-          area: selectedArea,
-          minEsd: formatDateDisplay(minEsdDate),
-          minUbd: formatDateDisplay(minUbdDate),
-          checked: checked,
-          remove: removed,
-          missing: missing,
-          expired: expired,
-          snapshotName: snapshotFile.name || ""
-        });
-        renderHistory();
-
-        setStatus(
-          "Done.\n" +
-          "Checked storage rows: " + checked + "\n" +
-          "To remove: " + removed + "\n" +
-          "Missing mapping/type/date: " + missing + "\n" +
-          "Expired or outdated stock found: " + expired + "\n" +
-          "Runtime: " + runtime
-        );
-      }).catch(function(error) {
-        console.error(error);
-        setStatus("Error while processing the snapshot. Please verify the CSV structure.");
-        alert("Error while processing the snapshot. Please verify the CSV structure.");
-      });
+      }).catch(function(){ alert("Error while processing the snapshot. Please verify the CSV structure."); });
     }
-
     function setupDragAndDrop() {
-      var dropZone = document.getElementById("dropZone");
-      var fileInput = document.getElementById("snapshotFile");
-
-      ["dragenter", "dragover"].forEach(function(eventName) {
-        dropZone.addEventListener(eventName, function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-          dropZone.classList.add("dragover");
-        });
-      });
-
-      ["dragleave", "drop"].forEach(function(eventName) {
-        dropZone.addEventListener(eventName, function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-          dropZone.classList.remove("dragover");
-        });
-      });
-
-      dropZone.addEventListener("drop", function(e) {
-        var files = e.dataTransfer.files;
-        if (files && files[0]) {
-          fileInput.files = files;
-          updateSnapshotLabel(files[0]);
-        }
-      });
-
-      fileInput.addEventListener("change", function() {
-        updateSnapshotLabel(fileInput.files[0] || null);
-      });
+      var dropZone = document.getElementById("dropZone"), fileInput = document.getElementById("snapshotFile");
+      ["dragenter", "dragover"].forEach(function(name){ dropZone.addEventListener(name, function(e){ e.preventDefault(); e.stopPropagation(); dropZone.classList.add("dragover"); }); });
+      ["dragleave", "drop"].forEach(function(name){ dropZone.addEventListener(name, function(e){ e.preventDefault(); e.stopPropagation(); dropZone.classList.remove("dragover"); }); });
+      dropZone.addEventListener("drop", function(e){ var files = e.dataTransfer.files; if (files && files[0]) { fileInput.files = files; updateSnapshotLabel(files[0]); } });
+      fileInput.addEventListener("change", function(){ updateSnapshotLabel(fileInput.files[0] || null); });
     }
-
     function initSorting() {
       var ths = document.querySelectorAll("#resultsTable th[data-sort]");
       for (var i = 0; i < ths.length; i++) {
-        ths[i].addEventListener("click", function() {
-          var key = this.getAttribute("data-sort");
-          if (currentSort.key === key) currentSort.dir *= -1;
-          else {
-            currentSort.key = key;
-            currentSort.dir = 1;
-          }
-          renderResults(removeRows);
-        });
+        ths[i].addEventListener("click", function(){ var key = this.getAttribute("data-sort"); currentSort = currentSort.key === key ? { key: key, dir: currentSort.dir * -1 } : { key: key, dir: 1 }; renderResults(removeRows); });
       }
     }
-
     document.getElementById("runBtn").addEventListener("click", runAnalysis);
-    document.getElementById("reloadDefaultsBtn").addEventListener("click", loadDefaultWeeklyFiles);
-    document.getElementById("downloadTmBtn").addEventListener("click", function() {
-      downloadCsv("remove_tm_ids.csv", removeTmIds);
-    });
-    document.getElementById("downloadMissingBtn").addEventListener("click", function() {
-      downloadCsv("missing_mapping_rows.csv", missingRows);
-    });
+    document.getElementById("downloadTmBtn").addEventListener("click", function(){ downloadCsv("remove_tm_ids.csv", removeTmIds); });
     document.getElementById("skuLookupBtn").addEventListener("click", runSkuLookup);
-    document.getElementById("skuLookupInput").addEventListener("keydown", function(e) {
-      if (e.key === "Enter") runSkuLookup();
-    });
-    document.getElementById("resultsSearch").addEventListener("input", function() { renderResults(removeRows); });
-    document.getElementById("missingSearch").addEventListener("input", function() { renderMissing(missingRows); });
-    document.getElementById("clearResultsSearchBtn").addEventListener("click", function() {
-      document.getElementById("resultsSearch").value = "";
-      renderResults(removeRows);
-    });
-    document.getElementById("clearMissingSearchBtn").addEventListener("click", function() {
-      document.getElementById("missingSearch").value = "";
-      renderMissing(missingRows);
-    });
-    document.getElementById("clearHistoryBtn").addEventListener("click", clearHistory);
-
-    var sectionTabs = document.querySelectorAll(".section-tab");
-    for (var i = 0; i < sectionTabs.length; i++) {
-      sectionTabs[i].addEventListener("click", function() {
-        showView(this.getAttribute("data-view"));
-      });
-    }
-
+    document.getElementById("skuLookupInput").addEventListener("keydown", function(e){ if (e.key === "Enter") runSkuLookup(); });
+    document.getElementById("resultsSearch").addEventListener("input", function(){ renderResults(removeRows); });
+    document.getElementById("clearResultsSearchBtn").addEventListener("click", function(){ document.getElementById("resultsSearch").value = ""; renderResults(removeRows); });
     updateCurrentDate();
     setDateInputDefault("minEsdDate", 2);
     setDateInputDefault("minUbdDate", 5);
     loadSavedWeeklyFiles();
-    renderHistory();
     setupDragAndDrop();
     initSorting();
     renderResults([]);
-    renderMissing([]);
     loadDefaultWeeklyFiles();
   </script>
 </body>
