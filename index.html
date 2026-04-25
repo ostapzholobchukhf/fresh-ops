@@ -988,7 +988,7 @@
           <div class="kpi blue">
             <div class="kpi-label">Checked Pallets</div>
             <div class="kpi-value" id="sumChecked">0</div>
-            <div class="kpi-sub">CR / AR storage rows checked</div>
+            <div class="kpi-sub">Storage / staging rows checked</div>
           </div>
           <div class="kpi red">
             <div class="kpi-label">Remove Pallets</div>
@@ -1049,6 +1049,13 @@
 
   <script>
     const STORAGE_PREFIXES = ["CR", "AR"];
+    const STORAGE_LOCATION_PREFIXES = [
+      "HYBRID-CD-STAGING-",
+      "HYBRID-PHF-STAGING-",
+      "KITTING-CD-ST-",
+      "KS-",
+      "LABEL-ST-"
+    ];
     const RACK_PREFIXES = ["FK", "HL", "AD"];
     const AREA_BY_BIN_PREFIX = { HL: "Hybrid", AD: "Hybrid", FK: "Kitting" };
     const DATE_TYPE_BY_PACKAGING_INFO = {
@@ -1092,7 +1099,13 @@
     }
 
     function isStorageLocation(location) {
-      return STORAGE_PREFIXES.includes(getPrefix(location));
+      const loc = String(location || "").trim().toUpperCase();
+
+      if (STORAGE_PREFIXES.includes(getPrefix(loc))) return true;
+
+      return STORAGE_LOCATION_PREFIXES.some(function(prefix) {
+        return loc.startsWith(prefix);
+      });
     }
 
     function isRackLocation(location) {
@@ -1110,7 +1123,7 @@
       // PHF is checked against ESD.
       // Everything else with a SKU is checked against UBD/MHD.
       // Packaging info may help with area fallback, but it must NOT convert non-PHF SKUs to ESD.
-      if (skuUpper.startsWith("OTH-")) return "";
+      if (skuUpper.startsWith("OTH-") || skuUpper.startsWith("PCK-") || skuUpper.startsWith("VBM-")) return "";
       if (skuUpper.startsWith("PHF-")) return "ESD";
       if (skuUpper) return "UBD";
       return "";
@@ -1125,7 +1138,7 @@
       // 2) Packaging rules can still identify Kitting / Hybrid when available.
       // 3) PHF is treated as Kitting because PHF uses ESD.
       // 4) Any other unplanned SKU defaults to Hybrid and is checked against UBD/MHD.
-      if (skuUpper.startsWith("OTH-")) return "EXCLUDE";
+      if (skuUpper.startsWith("OTH-") || skuUpper.startsWith("PCK-") || skuUpper.startsWith("VBM-")) return "EXCLUDE";
       if (packaging === "03 Meal Kit") return "Kitting";
       if (packaging === "04 Assembly") return "Hybrid";
       if (skuUpper.startsWith("PHF-")) return "Kitting";
