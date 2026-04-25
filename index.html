@@ -623,7 +623,7 @@
       <header class="hero">
         <div>
           <h1>The BARN Fresh Operations</h1>
-          <p>Operational dashboard for freshness control, storage pallet isolation and rack stock visibility.</p>
+          <p>Premium operational dashboard for freshness control, storage pallet isolation and rack stock visibility.</p>
         </div>
         <div class="hero-art">
           <div class="box-stack">
@@ -654,14 +654,6 @@
                 <select id="selectedArea">
                   <option value="Hybrid">Hybrid</option>
                   <option value="Kitting">Kitting</option>
-                </select>
-              </div>
-
-              <div class="field">
-                <label>Unplanned Short Stock</label>
-                <select id="includeUnplanned">
-                  <option value="yes">Include scoped unplanned stock</option>
-                  <option value="no">Ignore unplanned stock</option>
                 </select>
               </div>
 
@@ -1336,7 +1328,7 @@
       }
 
       var selectedArea = document.getElementById("selectedArea").value;
-      var includeUnplanned = document.getElementById("includeUnplanned").value === "yes";
+      var includeUnplanned = true;
       var minEsdDate = parseDateFlexible(document.getElementById("minEsdDate").value);
       var minUbdDate = parseDateFlexible(document.getElementById("minUbdDate").value);
 
