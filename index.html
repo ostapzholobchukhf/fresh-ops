@@ -1120,23 +1120,16 @@
       const skuUpper = String(sku || "").trim().toUpperCase();
       const packaging = String(packagingInfo || "").trim();
 
+      // Area fallback order for stock not present in weekly area allocation:
+      // 1) OTH is excluded from freshness removals.
+      // 2) Packaging rules can still identify Kitting / Hybrid when available.
+      // 3) PHF is treated as Kitting because PHF uses ESD.
+      // 4) Any other unplanned SKU defaults to Hybrid and is checked against UBD/MHD.
       if (skuUpper.startsWith("OTH-")) return "EXCLUDE";
       if (packaging === "03 Meal Kit") return "Kitting";
       if (packaging === "04 Assembly") return "Hybrid";
       if (skuUpper.startsWith("PHF-")) return "Kitting";
-
-      if (
-        skuUpper.startsWith("PTN-") ||
-        skuUpper.startsWith("CON-") ||
-        skuUpper.startsWith("BAK-") ||
-        skuUpper.startsWith("SPI-") ||
-        skuUpper.startsWith("DRY-") ||
-        skuUpper.startsWith("DAI-") ||
-        skuUpper.startsWith("VEG-") ||
-        skuUpper.startsWith("FRU-")
-      ) {
-        return "Hybrid";
-      }
+      if (skuUpper) return "Hybrid";
 
       return "";
     }
