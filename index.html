@@ -1105,11 +1105,13 @@
 
     function normalizeDateTypeBySku(sku, packagingInfo) {
       const skuUpper = String(sku || "").trim().toUpperCase();
-      const packaging = String(packagingInfo || "").trim();
 
+      // FSQA freshness logic:
+      // PHF is checked against ESD.
+      // Everything else with a SKU is checked against UBD/MHD.
+      // Packaging info may help with area fallback, but it must NOT convert non-PHF SKUs to ESD.
       if (skuUpper.startsWith("OTH-")) return "";
       if (skuUpper.startsWith("PHF-")) return "ESD";
-      if (DATE_TYPE_BY_PACKAGING_INFO[packaging]) return DATE_TYPE_BY_PACKAGING_INFO[packaging];
       if (skuUpper) return "UBD";
       return "";
     }
