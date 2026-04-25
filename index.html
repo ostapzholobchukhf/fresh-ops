@@ -151,6 +151,10 @@
               </div>
               <div class="field"><label>Minimum Allowed ESD Date</label><input type="date" id="minEsdDate" /></div>
               <div class="field"><label>Minimum Allowed UBD Date</label><input type="date" id="minUbdDate" /></div>
+              <div class="field">
+                <label>Unplanned Short Stock</label>
+                <select id="includeUnplanned"><option value="yes">Include in removal list</option><option value="no">Ignore unplanned stock</option></select>
+              </div>
               <div class="field" style="grid-column: 1 / -1;">
                 <label>Snapshot File</label>
                 <div class="drop-zone" id="dropZone">
@@ -206,6 +210,7 @@
                   <th data-sort="Sku code">Sku code</th>
                   <th data-sort="Tm location">Tm location</th>
                   <th data-sort="Area">Area</th>
+                  <th data-sort="Reason">Reason</th>
                   <th data-sort="Date type">Date type</th>
                   <th data-sort="Use by date">Use by date</th>
                   <th data-sort="Qty">Qty</th>
@@ -406,7 +411,7 @@
       empty.style.display = "none";
       for (var i = 0; i < filtered.length; i++) {
         var tr = document.createElement("tr"); tr.className = "remove-row";
-        var cols = ["Tm id","Sku code","Tm location","Area","Date type","Use by date","Qty","Usable qty"];
+        var cols = ["Tm id","Sku code","Tm location","Area","Reason","Date type","Use by date","Qty","Usable qty"];
         for (var c = 0; c < cols.length; c++) { var td = document.createElement("td"); td.textContent = filtered[i][cols[c]] || ""; tr.appendChild(td); }
         var actionTd = document.createElement("td"), badge = document.createElement("span"); badge.className = "badge-remove"; badge.textContent = "Remove"; actionTd.appendChild(badge); tr.appendChild(actionTd); tbody.appendChild(tr);
       }
@@ -475,6 +480,7 @@
       if (!snapshotFile) { alert("Please upload the snapshot file."); return; }
       if (!savedAreaText || !savedRulesText) { alert("Weekly defaults are not ready. Make sure weekly_area.csv and weekly_rules.csv are in the repository root."); return; }
       var selectedArea = document.getElementById("selectedArea").value;
+      var includeUnplanned = document.getElementById("includeUnplanned").value === "yes";
       var minEsdDate = parseDateFlexible(document.getElementById("minEsdDate").value);
       var minUbdDate = parseDateFlexible(document.getElementById("minUbdDate").value);
       if (!minEsdDate || !minUbdDate) { alert("Please enter both minimum dates."); return; }
@@ -494,8 +500,10 @@
           var useByDate = parseDateFlexible(useByDateRaw);
           var area = areaMap.get(sku) || snapshotAreaMap.get(sku) || "";
           var itemDateType = dateTypeMap.get(sku) || "";
-          if (!area || !itemDateType || !useByDate) continue;
-          if (area !== selectedArea) continue;
+          if (!itemDateType || !useByDate) continue;
+          var isPlannedForSelectedArea = area === selectedArea;
+          var isUnplanned = !area;
+          if (!isPlannedForSelectedArea && !(includeUnplanned && isUnplanned)) continue;
           var normalizedUseBy = new Date(useByDate.getFullYear(), useByDate.getMonth(), useByDate.getDate());
           var minAllowedDate = itemDateType === "ESD" ? minEsdDate : minUbdDate;
           var minNormalized = new Date(minAllowedDate.getFullYear(), minAllowedDate.getMonth(), minAllowedDate.getDate());
@@ -504,7 +512,7 @@
           if (normalizedUseBy.getTime() < minNormalized.getTime()) {
             removed++;
             removeTmIds.push({ "Tm id": tmId });
-            removeRows.push({ "Tm id": tmId, "Sku code": sku, "Tm location": tmLocation, "Area": area, "Date type": itemDateType, "Use by date": useByDateRaw, "Qty": getField(row, ["Qty"]) || "", "Usable qty": getField(row, ["Usable qty"]) || "" });
+            removeRows.push({ "Tm id": tmId, "Sku code": sku, "Tm location": tmLocation, "Area": area || "Unplanned", "Reason": area ? "Planned area match" : "Unplanned short stock", "Date type": itemDateType, "Use by date": useByDateRaw, "Qty": getField(row, ["Qty"]) || "", "Usable qty": getField(row, ["Usable qty"]) || "" });
           }
         }
         document.getElementById("sumChecked").textContent = String(checked);
