@@ -6,841 +6,245 @@
   <title>The BARN Fresh Operations</title>
   <style>
     :root {
-      --hf-green: #14a44d;
-      --hf-green-dark: #0c7c3b;
-      --hf-lime: #b7e432;
-      --hf-mint: #eef9f2;
-      --hf-mint-2: #e4f5ea;
-      --hf-bg: #f4f8f6;
-      --ink: #162338;
+      --green: #0b8f4d;
+      --green-2: #0a743f;
+      --green-3: #18a85f;
+      --lime: #b8e63b;
+      --mint: #eef9f3;
+      --mint-2: #e1f4e8;
+      --ink: #132033;
       --muted: #607089;
       --line: #dfe8e5;
-      --panel: #ffffff;
-      --soft: #fbfefc;
-      --red: #c64034;
-      --red-bg: #fff1ef;
+      --bg: #f4f8f6;
+      --white: #fff;
+      --red: #c63f33;
+      --red-bg: #fff0ee;
       --blue: #2f5fb1;
       --blue-bg: #eef4ff;
-      --amber: #946d00;
-      --amber-bg: #fff8e7;
-      --shadow: 0 20px 52px rgba(17, 24, 39, 0.08);
-      --shadow-soft: 0 12px 28px rgba(17, 24, 39, 0.07);
+      --amber: #8a6500;
+      --amber-bg: #fff7df;
+      --purple: #6d38b8;
+      --purple-bg: #f4efff;
+      --shadow: 0 18px 44px rgba(17, 24, 39, 0.09);
       --radius: 24px;
     }
 
     * { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; }
     body {
+      min-height: 100vh;
       font-family: Inter, Arial, Helvetica, sans-serif;
       color: var(--ink);
       background:
-        radial-gradient(circle at top right, rgba(20,164,77,0.14), transparent 25%),
-        linear-gradient(180deg, #fbfefc 0%, var(--hf-bg) 48%, #f2f7f4 100%);
+        radial-gradient(circle at top right, rgba(24, 168, 95, 0.14), transparent 30%),
+        linear-gradient(180deg, #fbfefc 0%, var(--bg) 42%, #f1f7f4 100%);
     }
 
-    .app {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 252px 1fr;
-    }
+    .app { display: grid; grid-template-columns: 250px 1fr; min-height: 100vh; }
 
     .sidebar {
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0)),
-        linear-gradient(180deg, var(--hf-green) 0%, var(--hf-green-dark) 100%);
+      background: linear-gradient(180deg, #2ab165, var(--green));
       color: #fff;
-      position: relative;
+      padding: 30px 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
       overflow: hidden;
-      box-shadow: inset -1px 0 0 rgba(255,255,255,0.08);
-      padding: 26px 0;
     }
-
     .sidebar::after {
       content: "";
       position: absolute;
-      left: -30px;
-      right: -30px;
+      left: -50px;
+      right: -40px;
       bottom: -28px;
-      height: 136px;
+      height: 140px;
       background:
-        radial-gradient(130px 44px at 20% 100%, rgba(255,255,255,0.13), transparent 72%),
-        radial-gradient(130px 48px at 58% 100%, rgba(255,255,255,0.10), transparent 72%),
-        radial-gradient(120px 42px at 86% 100%, rgba(255,255,255,0.12), transparent 72%);
+        radial-gradient(130px 48px at 20% 100%, rgba(255,255,255,.14), transparent 70%),
+        radial-gradient(140px 50px at 58% 100%, rgba(255,255,255,.10), transparent 70%),
+        radial-gradient(120px 44px at 88% 100%, rgba(255,255,255,.12), transparent 70%);
       pointer-events: none;
     }
-
-    .brand {
-      padding: 0 24px 24px;
-      border-bottom: 1px solid rgba(255,255,255,0.18);
-    }
-
-    .brand-title {
-      font-size: 35px;
-      font-weight: 950;
-      letter-spacing: -0.05em;
-      line-height: 0.95;
-    }
-
-    .brand-sub {
-      margin-top: 10px;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      font-weight: 800;
-      opacity: 0.96;
-    }
-
-    .nav { padding: 18px 12px; }
-    .nav-item {
-      background: rgba(255,255,255,0.14);
-      border-radius: 16px;
+    .brand { padding: 0 22px 26px; border-bottom: 1px solid rgba(255,255,255,.18); }
+    .brand-title { font-size: 34px; font-weight: 950; letter-spacing: -.05em; line-height: .96; }
+    .brand-sub { margin-top: 10px; font-size: 12px; letter-spacing: .18em; text-transform: uppercase; font-weight: 900; opacity: .96; }
+    .nav { padding: 18px 10px; position: relative; z-index: 2; }
+    .nav button {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      color: #fff;
+      text-align: left;
       padding: 15px 16px;
+      border-radius: 15px;
+      cursor: pointer;
       font-weight: 900;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+      font-size: 15px;
+      margin-bottom: 8px;
+      transition: .18s;
     }
+    .nav button:hover { background: rgba(255,255,255,.12); }
+    .nav button.active { background: rgba(255,255,255,.18); box-shadow: inset 0 1px 0 rgba(255,255,255,.10); }
 
     .main { min-width: 0; }
-
     .hero {
-      position: sticky;
-      top: 0;
-      z-index: 20;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 24px;
+      justify-content: space-between;
+      gap: 22px;
       padding: 28px 34px 24px;
       border-bottom: 1px solid var(--line);
       background:
-        radial-gradient(circle at top right, rgba(20,164,77,0.16), transparent 24%),
-        linear-gradient(135deg, #ffffff 0%, #f8fffb 58%, #eaf7ef 100%);
-      backdrop-filter: blur(8px);
+        radial-gradient(circle at top right, rgba(24, 168, 95, 0.14), transparent 25%),
+        linear-gradient(135deg, #fff 0%, #fbfffc 62%, #e9f7ef 100%);
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
-
-    .hero h1 {
-      margin: 0;
-      font-size: 42px;
-      font-weight: 950;
-      letter-spacing: -0.055em;
-      line-height: 0.98;
-    }
-
-    .hero p {
-      margin: 10px 0 0;
-      max-width: 760px;
-      font-size: 15px;
-      color: var(--muted);
-      line-height: 1.45;
-    }
-
-    .hero-art {
-      display: flex;
+    .hero h1 { margin: 0; font-size: 40px; letter-spacing: -.055em; font-weight: 950; line-height: 1; }
+    .hero p { margin: 10px 0 0; color: var(--muted); font-size: 15px; }
+    .hero-tools { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: flex-end; }
+    .hero-icon, .date-pill {
+      display: inline-flex;
       align-items: center;
-      gap: 14px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
+      justify-content: center;
+      border: 1px solid #cfe6d8;
+      background: linear-gradient(180deg, #fff, #f5fbf7);
+      box-shadow: 0 14px 30px rgba(20,164,77,.10);
     }
+    .hero-icon { width: 48px; height: 48px; border-radius: 16px; font-size: 22px; }
+    .date-pill { min-width: 160px; border-radius: 20px; padding: 14px 18px; gap: 10px; color: var(--green-2); font-weight: 950; }
 
-    .box-stack {
-      display: flex;
-      gap: 10px;
-    }
+    .content { padding: 28px 30px 42px; }
+    .view { display: none; }
+    .view.active { display: block; }
 
-    .box {
-      width: 48px;
-      height: 48px;
-      border-radius: 16px;
-      background: linear-gradient(180deg, #ffffff, #f4fbf7);
-      border: 1px solid #cfe5d8;
-      display: grid;
-      place-items: center;
-      font-size: 22px;
-      box-shadow: 0 12px 28px rgba(20,164,77,0.10);
-    }
-
-    .hero-chip {
-      min-width: 176px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 18px;
-      border-radius: 22px;
-      background: linear-gradient(180deg, #ffffff, #f5fbf7);
-      border: 1px solid #cee6d8;
-      box-shadow: 0 18px 40px rgba(20,164,77,0.10);
-      color: var(--hf-green-dark);
-      font-weight: 950;
-      font-size: 16px;
-    }
-
-    .hero-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 14px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(180deg, #eaf8ef, #dbf1e4);
-      font-size: 20px;
-    }
-
-    .content { padding: 28px 30px 38px; }
-
-    .grid-main {
-      display: grid;
-      grid-template-columns: minmax(680px, 1.35fr) minmax(400px, 0.95fr);
-      gap: 22px;
-      align-items: start;
-    }
-
+    .grid-main { display: grid; grid-template-columns: minmax(660px, 1.25fr) minmax(400px, .9fr); gap: 22px; align-items: start; }
     .card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.985), rgba(251,254,252,0.985));
-      border: 1px solid rgba(220,229,226,0.95);
+      background: linear-gradient(180deg, rgba(255,255,255,.985), rgba(252,254,253,.985));
+      border: 1px solid rgba(220,229,226,.95);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       overflow: hidden;
     }
-
     .card-head {
       padding: 24px 28px 16px;
       border-bottom: 1px solid var(--line);
-      background:
-        radial-gradient(circle at top right, rgba(20,164,77,0.09), transparent 30%),
-        linear-gradient(180deg, #ffffff, #fbfefc);
+      background: radial-gradient(circle at top right, rgba(20,164,77,.09), transparent 30%), linear-gradient(180deg, #fff, #fbfefc);
     }
+    .card-title { font-size: 30px; font-weight: 950; letter-spacing: -.04em; margin: 0; }
+    .card-note { margin-top: 7px; color: var(--muted); font-size: 14px; line-height: 1.42; }
 
-    .card-title {
-      margin: 0;
-      font-size: 30px;
-      font-weight: 950;
-      letter-spacing: -0.04em;
-    }
-
-    .card-note {
-      margin-top: 6px;
-      font-size: 14px;
-      line-height: 1.4;
-      color: var(--muted);
-    }
-
-    .analysis-grid {
-      padding: 22px 26px;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(250px, 1fr));
-      gap: 16px;
-      background: linear-gradient(180deg, #ffffff, #fbfdfc);
-    }
-
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .field label {
-      font-size: 12px;
-      font-weight: 950;
-      color: #607089;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    .field input,
-    .field select,
-    .search,
-    .rack-search {
+    .form-grid { padding: 22px 26px; display: grid; grid-template-columns: repeat(2, minmax(230px, 1fr)); gap: 16px; background: linear-gradient(180deg, #fff, #fbfdfc); }
+    .field { display: flex; flex-direction: column; gap: 8px; }
+    .field label { color: var(--muted); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; font-weight: 950; }
+    input, select {
       width: 100%;
-      border: 1px solid #d3dde3;
+      border: 1px solid #d1dde2;
       border-radius: 16px;
-      background: linear-gradient(180deg, #ffffff, #fcfefd);
-      padding: 15px 16px;
+      background: #fff;
       color: var(--ink);
+      padding: 15px 16px;
       font-size: 14px;
-      outline: 0;
-      transition: 0.18s;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
+      outline: none;
+      transition: .16s;
     }
-
-    .field input:hover,
-    .field select:hover,
-    .search:hover,
-    .rack-search:hover {
-      border-color: #b8d7c5;
-    }
-
-    .field input:focus,
-    .field select:focus,
-    .search:focus,
-    .rack-search:focus {
-      border-color: #8fceb0;
-      box-shadow: 0 0 0 4px rgba(16,144,84,0.12), 0 10px 20px rgba(16,144,84,0.08);
-      transform: translateY(-1px);
-    }
+    input:hover, select:hover { border-color: #b9d7c5; }
+    input:focus, select:focus { border-color: #8fceb0; box-shadow: 0 0 0 4px rgba(20,164,77,.12); }
 
     .production-panel {
+      min-height: 126px;
       border: 1px solid #cfe8d8;
       border-radius: 22px;
-      padding: 18px 18px 16px;
-      background:
-        radial-gradient(circle at top right, rgba(20,164,77,0.16), transparent 40%),
-        linear-gradient(180deg, #ffffff, #f2fbf6);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.88), 0 12px 28px rgba(20,164,77,0.08);
-      min-height: 144px;
+      padding: 18px;
+      background: radial-gradient(circle at top right, rgba(20,164,77,.16), transparent 40%), linear-gradient(180deg, #fff, #f2fbf6);
       display: flex;
-      align-items: center;
-    }
-
-    .production-wrap {
-      width: 100%;
-      display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
       gap: 16px;
     }
-
-    .production-label {
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #607089;
-      font-weight: 950;
-    }
-
-    .production-title {
-      margin-top: 6px;
-      font-size: 24px;
-      line-height: 0.98;
-      font-weight: 950;
-      letter-spacing: -0.04em;
-      color: var(--hf-green-dark);
-      max-width: 260px;
-    }
-
-    .production-icon {
-      margin-top: 10px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 14px;
-      background: linear-gradient(180deg, #eaf8ef, #dbf1e4);
-      border: 1px solid #cce6d6;
-      box-shadow: 0 10px 24px rgba(20,164,77,0.10);
-      font-size: 20px;
-    }
-
-    .area-art {
-      width: 170px;
-      height: 104px;
-      flex: 0 0 170px;
-      border-radius: 18px;
-      border: 1px solid #d7eadf;
-      background: linear-gradient(180deg, #f4fbf7, #ffffff);
-      display: grid;
-      place-items: center;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.94);
-      overflow: hidden;
-    }
-
-    .area-art svg {
-      width: 160px;
-      height: 94px;
-    }
+    .production-label { font-size: 12px; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; font-weight: 950; }
+    .production-title { margin-top: 6px; font-size: 24px; line-height: 1; font-weight: 950; letter-spacing: -.04em; color: var(--green-2); }
+    .area-art { width: 150px; height: 96px; flex: 0 0 150px; border-radius: 18px; border: 1px solid #d7eadf; background: #fff; display: grid; place-items: center; overflow: hidden; }
+    .area-art svg { width: 140px; height: 86px; }
 
     .drop {
       grid-column: 1 / -1;
-      border: 2px dashed #aedcbd;
-      border-radius: 20px;
-      padding: 28px 24px;
-      text-align: center;
-      background:
-        radial-gradient(circle at top right, rgba(20,164,77,0.08), transparent 28%),
-        linear-gradient(180deg, #fbfffc, #f2fbf6);
-      transition: 0.18s;
-    }
-
-    .drop.dragover {
-      border-color: var(--hf-green);
-      background: #ecf9f1;
-      transform: translateY(-1px);
-    }
-
-    .drop strong { display: block; font-size: 20px; }
-    .drop small { display: block; margin-top: 7px; color: var(--muted); }
-    .drop input { margin-top: 16px; }
-
-    .file-pill {
-      display: inline-block;
-      margin-top: 14px;
-      padding: 9px 13px;
-      border-radius: 999px;
-      background: #fff;
-      border: 1px solid #d7eadf;
-      color: var(--hf-green-dark);
-      font-size: 13px;
-      font-weight: 900;
-    }
-
-    .toolbar {
-      padding: 18px 26px;
-      border-top: 1px solid var(--line);
-      background: #fff;
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      border: 0;
-      border-radius: 14px;
-      padding: 13px 20px;
-      font-weight: 950;
-      cursor: pointer;
-      transition: 0.16s;
-    }
-
-    .btn:hover:not(:disabled) {
-      transform: translateY(-1px);
-      box-shadow: 0 12px 24px rgba(16,24,40,0.12);
-    }
-
-    .btn-primary {
-      color: #fff;
-      background: linear-gradient(180deg, #1aae62, #109054);
-      box-shadow: 0 12px 24px rgba(20,164,77,0.20);
-    }
-
-    .btn-soft {
-      color: var(--hf-green-dark);
-      background: linear-gradient(180deg, #fff, #f7fcf9);
-      border: 1px solid #c6e4d1;
-    }
-
-    .btn:disabled {
-      opacity: 0.55;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-
-    .rack-card {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .rack-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background:
-        radial-gradient(circle at top right, rgba(20,164,77,0.12), transparent 28%),
-        radial-gradient(circle at bottom left, rgba(183,228,50,0.10), transparent 26%);
-      opacity: 0.75;
-    }
-
-    .rack-card > * {
-      position: relative;
-      z-index: 1;
-    }
-
-    .rack-grid {
-      padding: 22px 26px;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 14px;
-      align-items: end;
-      background: linear-gradient(180deg, #ffffff, #fbfdfc);
-    }
-
-    .rack-actions {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .rack-result {
-      margin: 0 26px 24px;
-      padding: 20px;
-      border: 1px solid #d6eadf;
-      border-radius: 20px;
-      background: linear-gradient(180deg, #ffffff, #f5fcf8);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.82);
-      display: none;
-    }
-
-    .rack-result-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 12px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-    }
-
-    .rack-result-title {
-      font-size: 18px;
-      font-weight: 950;
-      letter-spacing: -0.02em;
-    }
-
-    .rack-status {
-      display: inline-flex;
-      align-items: center;
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 900;
-      background: linear-gradient(180deg, #edf9f2, #dff4e8);
-      color: var(--hf-green-dark);
-      border: 1px solid #cde7d6;
-    }
-
-    .rack-metrics {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(110px, 1fr));
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-
-    .metric-box {
-      border-radius: 16px;
-      padding: 12px 13px;
-      background: rgba(255,255,255,0.85);
-      border: 1px solid #deeee5;
-    }
-
-    .metric-box small {
-      display: block;
-      font-size: 11px;
-      color: var(--muted);
-      margin-bottom: 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      font-weight: 800;
-    }
-
-    .metric-box strong {
-      display: block;
-      font-size: 17px;
-      line-height: 1.2;
-      font-weight: 950;
-      color: var(--ink);
-    }
-
-    .rack-list-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin: 8px 0 10px;
-      flex-wrap: wrap;
-    }
-
-    .rack-list-title {
-      font-size: 13px;
-      font-weight: 950;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      color: #607089;
-    }
-
-    .rack-list-meta {
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 700;
-    }
-
-    .rack-search-wrap {
-      margin-bottom: 12px;
-    }
-
-    .rack-search {
-      padding: 12px 14px;
-      border-radius: 14px;
-    }
-
-    .rack-list {
-      display: grid;
-      gap: 10px;
-      max-height: 250px;
-      overflow: auto;
-      padding-right: 2px;
-    }
-
-    .rack-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 12px 14px;
-      border-radius: 16px;
-      background: linear-gradient(180deg, #ffffff, #f7fcf8);
-      border: 1px solid #dceee3;
-    }
-
-    .rack-item-main {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      min-width: 0;
-    }
-
-    .rack-item-icon {
-      width: 34px;
-      height: 34px;
-      border-radius: 12px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(180deg, #e9f8ef, #dff4e8);
-      border: 1px solid #cbe6d5;
-      font-size: 16px;
-      flex: 0 0 34px;
-    }
-
-    .rack-item-name {
-      font-size: 14px;
-      font-weight: 900;
-      color: var(--ink);
-      line-height: 1.2;
-    }
-
-    .rack-item-sub {
-      margin-top: 2px;
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.2;
-    }
-
-    .rack-count {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 66px;
-      padding: 8px 10px;
-      border-radius: 999px;
-      background: linear-gradient(180deg, #eefaf3, #e1f5e8);
-      border: 1px solid #c6e4d1;
-      color: var(--hf-green-dark);
-      font-size: 12px;
-      font-weight: 900;
-      white-space: nowrap;
-    }
-
-    .rack-empty {
-      padding: 16px;
-      border-radius: 16px;
-      border: 1px dashed #d6e7de;
-      color: var(--muted);
-      text-align: center;
-      background: rgba(255,255,255,0.72);
-    }
-
-    .kpis {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(170px, 1fr));
-      gap: 15px;
-      margin: 22px 0;
-    }
-
-    .kpi {
-      border: 1px solid rgba(227,232,234,0.95);
+      border: 2px dashed #aad9b9;
       border-radius: 22px;
-      box-shadow: var(--shadow-soft);
-      padding: 22px;
-      background: #fff;
-      position: relative;
-      overflow: hidden;
+      padding: 26px 24px;
+      text-align: center;
+      background: radial-gradient(circle at top right, rgba(20,164,77,.08), transparent 28%), linear-gradient(180deg, #fbfffc, #f2fbf6);
+      transition: .18s;
     }
+    .drop.dragover { border-color: var(--green-3); background: #ecf9f1; transform: translateY(-1px); }
+    .drop strong { display: block; font-size: 20px; margin-top: 6px; }
+    .drop small { display: block; color: var(--muted); margin-top: 7px; }
+    .drop input { margin-top: 16px; }
+    .file-pill { margin-top: 14px; display: inline-block; padding: 9px 14px; border-radius: 999px; background: #fff; border: 1px solid #d7eadf; color: var(--green-2); font-weight: 900; font-size: 13px; }
 
-    .kpi::before {
-      content: "";
-      position: absolute;
-      top: -30px;
-      right: -20px;
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.35);
-    }
+    .toolbar { padding: 18px 26px; border-top: 1px solid var(--line); background: #fff; display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn { border: 0; border-radius: 14px; padding: 13px 20px; font-weight: 950; cursor: pointer; transition: .16s; }
+    .btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 12px 22px rgba(16,24,40,.12); }
+    .btn-primary { color: #fff; background: linear-gradient(180deg, #1aae62, #109054); box-shadow: 0 12px 24px rgba(20,164,77,.20); }
+    .btn-soft { color: var(--green-2); background: #fff; border: 1px solid #c6e4d1; }
+    .btn:disabled { opacity: .55; cursor: not-allowed; transform: none; box-shadow: none; }
 
-    .kpi.blue { background: linear-gradient(180deg, #ffffff, var(--blue-bg)); }
-    .kpi.red { background: linear-gradient(180deg, #ffffff, var(--red-bg)); }
-    .kpi.green { background: linear-gradient(180deg, #ffffff, var(--hf-mint)); }
-    .kpi.orange { background: linear-gradient(180deg, #ffffff, var(--amber-bg)); }
+    .helper-card { padding: 24px 26px; }
+    .helper-title { font-size: 20px; font-weight: 950; letter-spacing: -.03em; }
+    .helper-list { margin: 12px 0 0; padding: 0; list-style: none; color: var(--muted); font-size: 14px; line-height: 1.8; }
+    .helper-list strong { color: var(--ink); }
 
-    .kpi-label {
-      position: relative;
-      z-index: 1;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      color: #607089;
-      font-weight: 950;
-    }
+    .kpis { display: grid; grid-template-columns: repeat(4, minmax(160px, 1fr)); gap: 15px; margin: 22px 0; }
+    .kpi { border: 1px solid var(--line); border-radius: 22px; box-shadow: 0 12px 28px rgba(17,24,39,.07); padding: 20px; background: #fff; overflow: hidden; position: relative; }
+    .kpi::after { content: ""; position: absolute; top: -28px; right: -18px; width: 110px; height: 110px; border-radius: 50%; background: rgba(255,255,255,.35); }
+    .kpi.blue { background: linear-gradient(180deg, #fff, var(--blue-bg)); }
+    .kpi.green { background: linear-gradient(180deg, #fff, var(--mint)); }
+    .kpi.red { background: linear-gradient(180deg, #fff, var(--red-bg)); }
+    .kpi.amber { background: linear-gradient(180deg, #fff, var(--amber-bg)); }
+    .kpi.purple { background: linear-gradient(180deg, #fff, var(--purple-bg)); }
+    .kpi-label { position: relative; z-index: 1; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; font-size: 12px; font-weight: 950; }
+    .kpi-value { position: relative; z-index: 1; font-size: 36px; font-weight: 950; letter-spacing: -.05em; margin-top: 10px; }
+    .kpi-sub { position: relative; z-index: 1; margin-top: 6px; color: var(--muted); font-size: 13px; }
 
-    .kpi-value {
-      position: relative;
-      z-index: 1;
-      font-size: 38px;
-      font-weight: 950;
-      margin-top: 10px;
-      letter-spacing: -0.05em;
-    }
+    .stock-kpis { grid-template-columns: repeat(6, minmax(130px, 1fr)); }
+    .stock-kpi .kpi-value { font-size: 28px; }
 
-    .kpi-sub {
-      position: relative;
-      z-index: 1;
-      font-size: 13px;
-      color: var(--muted);
-      margin-top: 7px;
-    }
-
-    .table-card {
-      background: linear-gradient(180deg, #ffffff, #fcfefd);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: 0 20px 50px rgba(16,24,40,0.09);
-      overflow: hidden;
-    }
-
-    .table-head {
-      padding: 22px 26px;
-      border-bottom: 1px solid var(--line);
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 14px;
-      flex-wrap: wrap;
-      background:
-        linear-gradient(180deg, #ffffff, #fafffb),
-        linear-gradient(90deg, rgba(20,164,77,0.06), transparent);
-    }
-
-    .table-title {
-      font-size: 28px;
-      font-weight: 950;
-      letter-spacing: -0.04em;
-    }
-
-    .table-note {
-      margin-top: 6px;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.4;
-    }
-
-    .table-tools {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .search {
-      min-width: 300px;
-      border-radius: 14px;
-      padding: 13px 15px;
-    }
-
-    .table-wrap {
-      overflow: auto;
-      max-height: 720px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-    }
-
-    th, td {
-      padding: 16px 16px;
-      border-bottom: 1px solid #edf0f2;
-      text-align: left;
-      white-space: nowrap;
-    }
-
-    th {
-      position: sticky;
-      top: 0;
-      z-index: 2;
-      background: #f5faf7;
-      color: #607089;
-      font-weight: 950;
-      cursor: pointer;
-    }
-
-    tbody tr:nth-child(2n) { background: rgba(250,253,251,0.55); }
+    .table-card { border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); background: #fff; overflow: hidden; margin-top: 22px; }
+    .table-head { padding: 22px 26px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; flex-wrap: wrap; background: linear-gradient(180deg, #fff, #fafffb); }
+    .table-title { font-size: 28px; font-weight: 950; letter-spacing: -.04em; }
+    .table-note { margin-top: 6px; color: var(--muted); font-size: 14px; }
+    .table-tools { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .search { min-width: 300px; border-radius: 14px; padding: 13px 15px; }
+    .table-wrap { max-height: 720px; overflow: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 14px 16px; border-bottom: 1px solid #edf0f2; text-align: left; white-space: nowrap; }
+    th { position: sticky; top: 0; z-index: 2; background: #0b7a3b; color: #fff; font-weight: 950; cursor: pointer; }
+    tbody tr:nth-child(2n) { background: #f7fcf9; }
     tbody tr:hover td { background: #fbfefc; }
+    .sku-name-cell { max-width: 360px; white-space: normal; line-height: 1.35; }
 
-    .sku-name-cell {
-      max-width: 360px;
-      white-space: normal;
-      line-height: 1.35;
-    }
-
-    .badge-remove,
-    .badge-reason,
-    .badge-type {
-      display: inline-block;
-      border-radius: 999px;
-      padding: 7px 12px;
-      font-size: 12px;
-      font-weight: 950;
-    }
-
-    .badge-remove {
-      color: var(--red);
-      background: linear-gradient(180deg, #fff1ef, #ffe6e2);
-    }
-
-    .badge-reason {
-      color: var(--hf-green-dark);
-      background: linear-gradient(180deg, #edf9f2, #dff4e8);
-    }
-
-    .badge-type {
-      color: var(--blue);
-      background: linear-gradient(180deg, #f1f6ff, #e3eeff);
-    }
-
-    .empty {
-      padding: 54px;
-      text-align: center;
-      color: var(--muted);
-      background: #fff;
-    }
-
-    .footer {
-      margin-top: 18px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 13px;
-    }
+    .badge { display: inline-block; border-radius: 999px; padding: 7px 12px; font-size: 12px; font-weight: 950; }
+    .badge-remove { color: var(--red); background: #ffe8e4; }
+    .badge-reason { color: var(--green-2); background: #e8f7ee; }
+    .badge-type { color: var(--blue); background: #eaf2ff; }
+    .badge-bucket { color: var(--green-2); background: #e8f7ee; }
+    .empty { padding: 46px; text-align: center; color: var(--muted); background: #fff; }
+    .footer { margin-top: 18px; text-align: center; color: var(--muted); font-size: 13px; }
 
     @media (max-width: 1250px) {
       .app { grid-template-columns: 1fr; }
       .sidebar { display: none; }
       .grid-main { grid-template-columns: 1fr; }
-      .kpis { grid-template-columns: repeat(2, 1fr); }
+      .kpis, .stock-kpis { grid-template-columns: repeat(2, 1fr); }
     }
-
-    @media (max-width: 860px) {
-      .hero,
-      .content { padding-left: 18px; padding-right: 18px; }
-      .analysis-grid,
-      .kpis,
-      .rack-metrics { grid-template-columns: 1fr; }
+    @media (max-width: 780px) {
+      .hero, .content { padding-left: 18px; padding-right: 18px; }
       .hero { align-items: flex-start; }
       .hero h1 { font-size: 31px; }
-      .hero-art { justify-content: flex-start; }
+      .form-grid, .kpis, .stock-kpis { grid-template-columns: 1fr; }
+      .production-panel { flex-direction: column; align-items: flex-start; }
+      .area-art { width: 100%; }
       .search { min-width: 100%; }
-      .production-wrap { flex-direction: column; align-items: flex-start; }
-      .area-art { width: 100%; height: 116px; flex-basis: auto; }
-      .area-art svg { width: 180px; height: 104px; }
-      .rack-grid { grid-template-columns: 1fr; }
-      .rack-actions { width: 100%; }
-      .rack-actions .btn { flex: 1; }
     }
   </style>
 </head>
@@ -851,313 +255,243 @@
         <div class="brand-title">The BARN</div>
         <div class="brand-sub">Fresh Operations</div>
       </div>
-      <div class="nav">
-        <div class="nav-item">Freshness Filter</div>
-      </div>
+      <nav class="nav">
+        <button class="active" data-view="freshnessView">Freshness Filter</button>
+        <button data-view="stockOverviewView">Stock Overview</button>
+      </nav>
     </aside>
 
     <main class="main">
       <header class="hero">
         <div>
           <h1>The BARN Fresh Operations</h1>
-          <p>Operational dashboard for freshness control, storage pallet isolation and rack stock visibility.</p>
+          <p>Operational dashboard for freshness control, storage pallet isolation and stock visibility.</p>
         </div>
-        <div class="hero-art">
-          <div class="box-stack">
-            <div class="box">📦</div>
-            <div class="box">🥬</div>
-            <div class="box">🏷️</div>
-          </div>
-          <div class="hero-chip">
-            <span class="hero-icon">📅</span>
-            <span id="currentDateLabel">--.--.----</span>
-          </div>
+        <div class="hero-tools">
+          <span class="hero-icon">📦</span>
+          <span class="hero-icon">🥬</span>
+          <span class="hero-icon">🏷️</span>
+          <span class="date-pill"><span>📅</span><span id="currentDateLabel">--.--.----</span></span>
         </div>
       </header>
 
       <section class="content">
-        <div class="grid-main">
-          <section class="card">
-            <div class="card-head">
-              <div class="card-title">Run Analysis</div>
-              <div class="card-note">Upload the current snapshot, choose the production area and minimum allowed dates, then generate the full pallet removal list.</div>
-            </div>
-
-            <div class="analysis-grid">
-              <div class="field">
-                <label>Production Day Change Area</label>
-                <select id="selectedArea">
-                  <option value="Hybrid">Hybrid</option>
-                  <option value="Kitting">Kitting</option>
-                </select>
+        <section id="freshnessView" class="view active">
+          <div class="grid-main">
+            <section class="card">
+              <div class="card-head">
+                <div class="card-title">Run Analysis</div>
+                <div class="card-note">Upload the current snapshot, choose the production area and minimum allowed dates, then generate the full pallet removal list.</div>
               </div>
 
-              <div class="production-panel" id="productionPanel">
-                <div class="production-wrap">
+              <div class="form-grid">
+                <div class="field">
+                  <label>Production Day Change Area</label>
+                  <select id="selectedArea">
+                    <option value="Hybrid">Hybrid</option>
+                    <option value="Kitting">Kitting</option>
+                  </select>
+                </div>
+
+                <div class="production-panel">
                   <div>
                     <div class="production-label">Production Day</div>
                     <div class="production-title" id="prodDayTitle">Select ESD date</div>
-                    <div class="production-icon">📅</div>
                   </div>
                   <div class="area-art" id="areaArt"></div>
                 </div>
+
+                <div class="field">
+                  <label>Minimum Allowed ESD Date</label>
+                  <input type="date" id="minEsdDate" />
+                </div>
+
+                <div class="field">
+                  <label>Minimum Allowed UBD Date</label>
+                  <input type="date" id="minUbdDate" />
+                </div>
+
+                <div class="field drop" id="dropZone">
+                  <label>Snapshot CSV File</label>
+                  <strong>Drop snapshot CSV here</strong>
+                  <small>or choose the current inventory snapshot below</small>
+                  <input type="file" id="snapshotFile" accept=".csv,text/csv" />
+                  <div class="file-pill" id="snapshotFileName">No snapshot selected</div>
+                </div>
               </div>
 
-              <div class="field">
-                <label>Minimum Allowed ESD Date</label>
-                <input type="date" id="minEsdDate" />
+              <div class="toolbar">
+                <button class="btn btn-primary" id="runBtn">Run Analysis</button>
+                <button class="btn btn-primary" id="downloadTmBtn" disabled>Download Remove CSV</button>
               </div>
+            </section>
 
-              <div class="field">
-                <label>Minimum Allowed UBD Date</label>
-                <input type="date" id="minUbdDate" />
+            <section class="card helper-card">
+              <div class="helper-title">Stock Overview</div>
+              <ul class="helper-list">
+                <li><strong>Same snapshot</strong> can be used for the stock overview tab.</li>
+                <li><strong>Inbound</strong> checks C-IN / C-IN-PD / AMB-IN / AMB-IN-PD.</li>
+                <li><strong>Staging</strong> checks KS, Hybrid/Kitting staging and ST locations.</li>
+                <li><strong>Storage</strong> checks CR / AR.</li>
+                <li><strong>Production</strong> checks FK / HL / AD racks.</li>
+              </ul>
+            </section>
+          </div>
+
+          <div class="kpis">
+            <div class="kpi blue"><div class="kpi-label">Checked Pallets</div><div class="kpi-value" id="sumChecked">0</div><div class="kpi-sub">Storage / staging rows checked</div></div>
+            <div class="kpi red"><div class="kpi-label">Remove Pallets</div><div class="kpi-value" id="sumRemove">0</div><div class="kpi-sub">Below selected minimum freshness date</div></div>
+            <div class="kpi green"><div class="kpi-label">Borderline</div><div class="kpi-value" id="borderlineCount">0</div><div class="kpi-sub">Exactly on minimum allowed date</div></div>
+            <div class="kpi amber"><div class="kpi-label">Expired</div><div class="kpi-value" id="expiredCount">0</div><div class="kpi-sub">Use by date earlier than today</div></div>
+          </div>
+
+          <section class="table-card">
+            <div class="table-head">
+              <div>
+                <div class="table-title">Removal List</div>
+                <div class="table-note">Focused removal view with all pallets that fall below the minimum allowed freshness date.</div>
               </div>
-
-              <div class="field drop" id="dropZone">
-                <label>Snapshot File</label>
-                <strong>Drop snapshot CSV here</strong>
-                <small>or choose the current inventory snapshot below</small>
-                <input type="file" id="snapshotFile" accept=".csv" />
-                <div class="file-pill" id="snapshotFileName">No snapshot selected</div>
+              <div class="table-tools">
+                <input class="search" type="text" id="resultsSearch" placeholder="Search TM id, SKU or location" />
+                <button class="btn btn-soft" id="clearResultsSearchBtn">Clear</button>
               </div>
             </div>
-
-            <div class="toolbar">
-              <button class="btn btn-primary" id="runBtn">Run Analysis</button>
-              <button class="btn btn-primary" id="downloadTmBtn" disabled>Download Remove CSV</button>
+            <div class="table-wrap">
+              <table id="resultsTable">
+                <thead>
+                  <tr>
+                    <th data-sort="Tm id">Tm id</th>
+                    <th data-sort="Sku code">Sku code</th>
+                    <th data-sort="Sku name">SKU name</th>
+                    <th data-sort="Tm location">Tm location</th>
+                    <th data-sort="Use by date">Use by date</th>
+                    <th data-sort="Qty">Qty</th>
+                    <th data-sort="Date type">Date type</th>
+                    <th data-sort="Area">Area</th>
+                    <th data-sort="Reason">Reason</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
             </div>
+            <div class="empty" id="emptyState">No removal list yet.</div>
           </section>
-
-          <section class="card rack-card">
-            <div class="card-head">
-              <div class="card-title">Rack Old Stock Check</div>
-              <div class="card-note">Enter a SKU to see where it exists in FK / HL / AD racks, with clearer rack visibility and TM count breakdown.</div>
-            </div>
-
-            <div class="rack-grid">
-              <div class="field">
-                <label>Enter SKU</label>
-                <input type="text" id="skuLookupInput" placeholder="Example: PHF-11-10943-3" />
-              </div>
-              <div class="rack-actions">
-                <button class="btn btn-primary" id="skuLookupBtn">Check SKU</button>
-                <button class="btn btn-soft" id="clearSkuBtn">Clear</button>
-              </div>
-            </div>
-
-            <div class="rack-result" id="skuCheckResult">
-              <div class="rack-result-head">
-                <div class="rack-result-title" id="skuCheckTitle">SKU Result</div>
-                <div class="rack-status" id="skuCheckStatus">Ready</div>
-              </div>
-
-              <div class="rack-metrics">
-                <div class="metric-box">
-                  <small>Area</small>
-                  <strong id="skuCheckArea">-</strong>
-                </div>
-                <div class="metric-box">
-                  <small>Oldest Date</small>
-                  <strong id="skuCheckOldest">-</strong>
-                </div>
-                <div class="metric-box">
-                  <small>Total TM IDs</small>
-                  <strong id="skuCheckCount">0</strong>
-                </div>
-                <div class="metric-box">
-                  <small>Unique Racks</small>
-                  <strong id="skuCheckRackCount">0</strong>
-                </div>
-              </div>
-
-              <div class="rack-list-head">
-                <div class="rack-list-title">Rack Summary</div>
-                <div class="rack-list-meta" id="rackListMeta">Sorted by TM count</div>
-              </div>
-
-              <div class="rack-search-wrap">
-                <input type="text" class="rack-search" id="rackFilterInput" placeholder="Filter racks by rack name" />
-              </div>
-
-              <div class="rack-list" id="skuCheckRacks"></div>
-            </div>
-          </section>
-        </div>
-
-        <div class="kpis">
-          <div class="kpi blue">
-            <div class="kpi-label">Checked Pallets</div>
-            <div class="kpi-value" id="sumChecked">0</div>
-            <div class="kpi-sub">Storage / staging rows checked</div>
-          </div>
-          <div class="kpi red">
-            <div class="kpi-label">Remove Pallets</div>
-            <div class="kpi-value" id="sumRemove">0</div>
-            <div class="kpi-sub">Below selected minimum freshness date</div>
-          </div>
-          <div class="kpi green">
-            <div class="kpi-label">Borderline</div>
-            <div class="kpi-value" id="borderlineCount">0</div>
-            <div class="kpi-sub">Exactly on minimum allowed date</div>
-          </div>
-          <div class="kpi orange">
-            <div class="kpi-label">Expired</div>
-            <div class="kpi-value" id="expiredCount">0</div>
-            <div class="kpi-sub">Use by date earlier than today</div>
-          </div>
-        </div>
-
-        <section class="table-card">
-          <div class="table-head">
-            <div>
-              <div class="table-title">Removal List</div>
-              <div class="table-note">Focused removal view with all storage pallets that fall below the minimum allowed freshness date.</div>
-            </div>
-            <div class="table-tools">
-              <input class="search" type="text" id="resultsSearch" placeholder="Search TM id, SKU or location" />
-              <button class="btn btn-soft" id="clearResultsSearchBtn">Clear</button>
-            </div>
-          </div>
-
-          <div class="table-wrap">
-            <table id="resultsTable">
-              <thead>
-                <tr>
-                  <th data-sort="Tm id">Tm id</th>
-                  <th data-sort="Sku code">Sku code</th>
-                  <th data-sort="Sku name">SKU name</th>
-                  <th data-sort="Tm location">Tm location</th>
-                  <th data-sort="Area">Area</th>
-                  <th data-sort="Reason">Reason</th>
-                  <th data-sort="Date type">Date type</th>
-                  <th data-sort="Use by date">Use by date</th>
-                  <th data-sort="Qty">Qty</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-
-          <div class="empty" id="emptyState">No removal list yet.</div>
         </section>
 
-        <div class="footer">Place <strong>index.html</strong>, <strong>weekly_area.csv</strong> and <strong>weekly_rules.csv</strong> in the repository root.</div>
+        <section id="stockOverviewView" class="view">
+          <section class="card">
+            <div class="card-head">
+              <div class="card-title">Stock Overview</div>
+              <div class="card-note">Use the uploaded snapshot to visualize inventory by operational location bucket.</div>
+            </div>
+            <div class="toolbar">
+              <button class="btn btn-primary" id="runOverviewBtn">Run Stock Overview</button>
+              <button class="btn btn-primary" id="downloadOverviewBtn" disabled>Download Overview CSV</button>
+            </div>
+          </section>
+
+          <div class="kpis stock-kpis" id="stockKpis">
+            <div class="kpi green stock-kpi"><div class="kpi-label">Inbound</div><div class="kpi-value" id="bucketInbound">0</div><div class="kpi-sub">C-IN / AMB-IN</div></div>
+            <div class="kpi blue stock-kpi"><div class="kpi-label">Staging</div><div class="kpi-value" id="bucketStaging">0</div><div class="kpi-sub">ST / KS / staging</div></div>
+            <div class="kpi amber stock-kpi"><div class="kpi-label">Storage</div><div class="kpi-value" id="bucketStorage">0</div><div class="kpi-sub">CR / AR</div></div>
+            <div class="kpi purple stock-kpi"><div class="kpi-label">Production</div><div class="kpi-value" id="bucketProduction">0</div><div class="kpi-sub">FK / HL / AD</div></div>
+            <div class="kpi red stock-kpi"><div class="kpi-label">Unusable</div><div class="kpi-value" id="bucketUnusable">0</div><div class="kpi-sub">Tafel / disposal / quarantine</div></div>
+            <div class="kpi stock-kpi"><div class="kpi-label">Unknown</div><div class="kpi-value" id="bucketUnknown">0</div><div class="kpi-sub">Needs review</div></div>
+          </div>
+
+          <section class="table-card">
+            <div class="table-head">
+              <div>
+                <div class="table-title">Inventory Buckets</div>
+                <div class="table-note">All snapshot rows grouped by operational stock area.</div>
+              </div>
+              <div class="table-tools">
+                <input class="search" type="text" id="overviewSearch" placeholder="Search bucket, TM id, SKU or location" />
+                <button class="btn btn-soft" id="clearOverviewSearchBtn">Clear</button>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table id="overviewTable">
+                <thead>
+                  <tr>
+                    <th data-overview-sort="Bucket">Bucket</th>
+                    <th data-overview-sort="Tm id">Tm id</th>
+                    <th data-overview-sort="Sku code">Sku code</th>
+                    <th data-overview-sort="Sku name">SKU name</th>
+                    <th data-overview-sort="Tm location">Tm location</th>
+                    <th data-overview-sort="Use by date">Use by date</th>
+                    <th data-overview-sort="Qty">Qty</th>
+                    <th data-overview-sort="Stock state">Stock state</th>
+                    <th data-overview-sort="Hold state">Hold state</th>
+                    <th data-overview-sort="Temp class">Temp class</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <div class="empty" id="overviewEmptyState">No stock overview yet.</div>
+          </section>
+        </section>
+
+        <div class="footer">For GitHub Pages: keep <strong>index.html</strong>, <strong>weekly_area.csv</strong> and <strong>weekly_rules.csv</strong> in the repository root.</div>
       </section>
     </main>
   </div>
 
   <script>
     const STORAGE_PREFIXES = ["CR", "AR"];
-    const STORAGE_LOCATION_PREFIXES = [
-      "HYBRID-CD-STAGING-",
-      "HYBRID-PHF-STAGING-",
-      "KITTING-CD-ST-",
-      "KS-",
-      "LABEL-ST-"
-    ];
+    const STORAGE_LOCATION_PREFIXES = ["HYBRID-CD-STAGING-", "HYBRID-PHF-STAGING-", "KITTING-CD-ST-", "KS-", "LABEL-ST-"];
     const RACK_PREFIXES = ["FK", "HL", "AD"];
     const AREA_BY_BIN_PREFIX = { HL: "Hybrid", AD: "Hybrid", FK: "Kitting" };
-    const DATE_TYPE_BY_PACKAGING_INFO = {
-      "03 Meal Kit": "ESD",
-      "04 Assembly": "ESD",
-      "02 Kühlpflichtig": "UBD"
-    };
 
     let removeTmIds = [];
     let removeRows = [];
+    let overviewRows = [];
     let snapshotRowsCache = [];
-    let savedAreaText = "";
-    let savedRulesText = "";
     let areaRowsCache = [];
     let rulesRowsCache = [];
     let areaMap = new Map();
     let dateTypeMap = new Map();
     let packagingMap = new Map();
-    let currentSort = { key: "Tm id", dir: 1 };
-    let currentRackEntries = [];
+    let currentSort = { key: "Use by date", dir: 1 };
+    let overviewSort = { key: "Bucket", dir: 1 };
 
-    function normalizeHeader(value) {
-      return String(value || "").replace(/^\uFEFF/, "").trim();
-    }
-
+    function normalizeHeader(value) { return String(value || "").replace(/^\uFEFF/, "").trim(); }
     function getField(row, names) {
-      for (let i = 0; i < names.length; i++) {
-        if (row[names[i]] !== undefined) return row[names[i]];
-      }
-
-      const wanted = names.map(function(n) { return String(n).toLowerCase(); });
+      for (let i = 0; i < names.length; i++) if (row[names[i]] !== undefined) return row[names[i]];
+      const wanted = names.map(n => String(n).toLowerCase());
       const keys = Object.keys(row);
-      for (let i = 0; i < keys.length; i++) {
-        if (wanted.includes(String(keys[i]).toLowerCase())) return row[keys[i]];
-      }
+      for (let i = 0; i < keys.length; i++) if (wanted.includes(String(keys[i]).toLowerCase())) return row[keys[i]];
       return "";
     }
-
-    function getPrefix(value) {
-      return String(value || "").trim().toUpperCase().slice(0, 2);
-    }
-
+    function getPrefix(value) { return String(value || "").trim().toUpperCase().slice(0, 2); }
     function isStorageLocation(location) {
       const loc = String(location || "").trim().toUpperCase();
-
       if (STORAGE_PREFIXES.includes(getPrefix(loc))) return true;
-
-      return STORAGE_LOCATION_PREFIXES.some(function(prefix) {
-        return loc.startsWith(prefix);
-      });
+      return STORAGE_LOCATION_PREFIXES.some(prefix => loc.startsWith(prefix));
     }
+    function isRackLocation(location) { return RACK_PREFIXES.includes(getPrefix(location)); }
+    function getAreaFromBinLocation(binLocation) { return AREA_BY_BIN_PREFIX[getPrefix(binLocation)] || null; }
 
-    function isRackLocation(location) {
-      return RACK_PREFIXES.includes(getPrefix(location));
-    }
-
-    function getAreaFromBinLocation(binLocation) {
-      return AREA_BY_BIN_PREFIX[getPrefix(binLocation)] || null;
-    }
-
-    function normalizeDateTypeBySku(sku, packagingInfo) {
-      const skuUpper = String(sku || "").trim().toUpperCase();
-
-      // FSQA freshness logic:
-      // PHF is checked against ESD.
-      // Everything else with a SKU is checked against UBD/MHD.
-      // Packaging info may help with area fallback, but it must NOT convert non-PHF SKUs to ESD.
-      if (skuUpper.startsWith("OTH-") || skuUpper.startsWith("PCK-") || skuUpper.startsWith("VBM-")) return "";
-      if (skuUpper.startsWith("PHF-")) return "ESD";
-      if (skuUpper) return "UBD";
+    function normalizeDateTypeBySku(sku) {
+      const s = String(sku || "").trim().toUpperCase();
+      if (s.startsWith("OTH-") || s.startsWith("PCK-") || s.startsWith("VBM-")) return "";
+      if (s.startsWith("PHF-")) return "ESD";
+      if (s) return "UBD";
       return "";
     }
 
     function inferAreaFromPackagingOrPrefix(sku, packagingInfo) {
-      const skuUpper = String(sku || "").trim().toUpperCase();
-      const packaging = String(packagingInfo || "").trim();
-
-      // Area fallback for stock not present in weekly area allocation:
-      // Excluded: OTH / PCK / VBM
-      // PHF: Kitting + ESD
-      // BAK: Shared + UBD/MHD because BAK can be consumed by both Hybrid and Kitting
-      // DRY / PTN / CON / SPI / PRO / DAI: Hybrid + UBD/MHD
-      // Packaging rules remain a backup when available.
-      if (skuUpper.startsWith("OTH-") || skuUpper.startsWith("PCK-") || skuUpper.startsWith("VBM-")) return "EXCLUDE";
-      if (skuUpper.startsWith("PHF-")) return "Kitting";
-      if (skuUpper.startsWith("BAK-")) return "Shared";
-
-      if (
-        skuUpper.startsWith("DRY-") ||
-        skuUpper.startsWith("PTN-") ||
-        skuUpper.startsWith("CON-") ||
-        skuUpper.startsWith("SPI-") ||
-        skuUpper.startsWith("PRO-") ||
-        skuUpper.startsWith("DAI-")
-      ) {
-        return "Hybrid";
-      }
-
-      if (packaging === "03 Meal Kit") return "Kitting";
-      if (packaging === "04 Assembly") return "Hybrid";
-
-      if (skuUpper) return "Hybrid";
+      const s = String(sku || "").trim().toUpperCase();
+      const p = String(packagingInfo || "").trim();
+      if (s.startsWith("OTH-") || s.startsWith("PCK-") || s.startsWith("VBM-")) return "EXCLUDE";
+      if (s.startsWith("PHF-")) return "Kitting";
+      if (s.startsWith("BAK-")) return "Shared";
+      if (s.startsWith("DRY-") || s.startsWith("PTN-") || s.startsWith("CON-") || s.startsWith("SPI-") || s.startsWith("PRO-") || s.startsWith("DAI-")) return "Hybrid";
+      if (p === "03 Meal Kit") return "Kitting";
+      if (p === "04 Assembly") return "Hybrid";
+      if (s) return "Hybrid";
       return "";
     }
 
@@ -1165,496 +499,166 @@
       if (!value) return null;
       const raw = String(value).trim();
       if (!raw || raw === "00/00/0000") return null;
-
-      let match = raw.match(/^(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{2,4})$/);
-      if (match) {
-        let year = parseInt(match[3], 10);
+      let m = raw.match(/^(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{2,4})$/);
+      if (m) {
+        let year = parseInt(m[3], 10);
         if (year < 100) year += 2000;
-        const date = new Date(year, parseInt(match[2], 10) - 1, parseInt(match[1], 10));
-        return isNaN(date.getTime()) ? null : date;
+        const d = new Date(year, parseInt(m[2], 10) - 1, parseInt(m[1], 10));
+        return isNaN(d.getTime()) ? null : d;
       }
-
-      match = raw.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
-      if (match) {
-        const date = new Date(parseInt(match[1], 10), parseInt(match[2], 10) - 1, parseInt(match[3], 10));
-        return isNaN(date.getTime()) ? null : date;
+      m = raw.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+      if (m) {
+        const d = new Date(parseInt(m[1], 10), parseInt(m[2], 10) - 1, parseInt(m[3], 10));
+        return isNaN(d.getTime()) ? null : d;
       }
-
       const fallback = new Date(raw);
       return isNaN(fallback.getTime()) ? null : fallback;
     }
-
-    function formatDateDisplay(date) {
-      if (!date || isNaN(date.getTime())) return "";
-      return String(date.getDate()).padStart(2, "0") + "." + String(date.getMonth() + 1).padStart(2, "0") + "." + date.getFullYear();
-    }
-
-    function toInputDateValue(date) {
-      return date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2, "0") + "-" + String(date.getDate()).padStart(2, "0");
-    }
-
-    function weekdayName(date) {
-      if (!date || isNaN(date.getTime())) return "";
-      return date.toLocaleDateString("en-GB", { weekday: "long" });
-    }
+    function formatDateDisplay(date) { return !date || isNaN(date.getTime()) ? "" : String(date.getDate()).padStart(2, "0") + "." + String(date.getMonth() + 1).padStart(2, "0") + "." + date.getFullYear(); }
+    function toInputDateValue(date) { return date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2, "0") + "-" + String(date.getDate()).padStart(2, "0"); }
+    function weekdayName(date) { return !date || isNaN(date.getTime()) ? "" : date.toLocaleDateString("en-GB", { weekday: "long" }); }
 
     function splitCsvLine(line) {
-      let result = [];
-      let current = "";
-      let inQuotes = false;
-
+      let result = [], current = "", inQuotes = false;
       for (let i = 0; i < line.length; i++) {
-        const char = line[i];
-        const next = line[i + 1];
-
-        if (char === '"' && inQuotes && next === '"') {
-          current += '"';
-          i++;
-        } else if (char === '"') {
-          inQuotes = !inQuotes;
-        } else if (char === "," && !inQuotes) {
-          result.push(current);
-          current = "";
-        } else {
-          current += char;
-        }
+        const char = line[i], next = line[i + 1];
+        if (char === '"' && inQuotes && next === '"') { current += '"'; i++; }
+        else if (char === '"') inQuotes = !inQuotes;
+        else if (char === "," && !inQuotes) { result.push(current); current = ""; }
+        else current += char;
       }
-
       result.push(current);
-      return result.map(function(v) { return v.trim(); });
+      return result.map(v => v.trim());
     }
-
     function parseCsv(text) {
-      const lines = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n").split("\n").filter(function(line) {
-        return line.trim() !== "";
-      });
-
+      const lines = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n").split("\n").filter(line => line.trim() !== "");
       if (!lines.length) return [];
-
       const headers = splitCsvLine(lines[0]).map(normalizeHeader);
       const rows = [];
-
       for (let i = 1; i < lines.length; i++) {
         const values = splitCsvLine(lines[i]);
         const row = {};
-        for (let h = 0; h < headers.length; h++) {
-          row[headers[h]] = values[h] !== undefined ? values[h] : "";
-        }
+        for (let h = 0; h < headers.length; h++) row[headers[h]] = values[h] !== undefined ? values[h] : "";
         rows.push(row);
       }
-
       return rows;
     }
-
     function readFileAsText(file) {
-      return new Promise(function(resolve, reject) {
+      return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onload = function(e) { resolve(e.target.result); };
+        reader.onload = e => resolve(e.target.result);
         reader.onerror = reject;
         reader.readAsText(file, "utf-8");
       });
     }
-
     function fetchText(url) {
       const cacheBustedUrl = url + (url.includes("?") ? "&" : "?") + "v=" + Date.now();
-      return fetch(cacheBustedUrl, { cache: "no-store" })
-        .then(function(res) { return res.ok ? res.text() : ""; })
-        .catch(function() { return ""; });
+      return fetch(cacheBustedUrl, { cache: "no-store" }).then(res => res.ok ? res.text() : "").catch(() => "");
     }
 
     function buildWeeklyMaps() {
-      areaMap = new Map();
-      dateTypeMap = new Map();
-      packagingMap = new Map();
-
-      areaRowsCache.forEach(function(row) {
+      areaMap = new Map(); dateTypeMap = new Map(); packagingMap = new Map();
+      areaRowsCache.forEach(row => {
         const sku = String(getField(row, ["ArticleSKU", "SKU", "Sku code"]) || "").trim();
         const bin = String(getField(row, ["BinLocationName", "Tm location", "Rack"]) || "").trim();
         const area = getAreaFromBinLocation(bin);
         if (sku && area && !areaMap.has(sku)) areaMap.set(sku, area);
       });
-
-      rulesRowsCache.forEach(function(row) {
+      rulesRowsCache.forEach(row => {
         const sku = String(getField(row, ["SKU", "Sku code", "ArticleSKU"]) || "").trim();
         const packagingInfo = String(getField(row, ["Packaging Info", "Packaging info", "packaging info"]) || "").trim();
-        const dateType = normalizeDateTypeBySku(sku, packagingInfo);
+        const dateType = normalizeDateTypeBySku(sku);
         if (sku && packagingInfo && !packagingMap.has(sku)) packagingMap.set(sku, packagingInfo);
         if (sku && dateType && !dateTypeMap.has(sku)) dateTypeMap.set(sku, dateType);
       });
     }
-
     function loadDefaults() {
-      return Promise.all([fetchText("weekly_area.csv"), fetchText("weekly_rules.csv")]).then(function(values) {
-        savedAreaText = values[0] || "";
-        savedRulesText = values[1] || "";
-        areaRowsCache = savedAreaText ? parseCsv(savedAreaText) : [];
-        rulesRowsCache = savedRulesText ? parseCsv(savedRulesText) : [];
+      return Promise.all([fetchText("weekly_area.csv"), fetchText("weekly_rules.csv")]).then(values => {
+        areaRowsCache = values[0] ? parseCsv(values[0]) : [];
+        rulesRowsCache = values[1] ? parseCsv(values[1]) : [];
         buildWeeklyMaps();
-
-        if (!savedAreaText || !savedRulesText) {
-          alert("Weekly files not loaded. Check exact names in repo root: weekly_area.csv and weekly_rules.csv");
-        }
+        if (!values[0] || !values[1]) alert("Weekly files not loaded. Check exact names in repo root: weekly_area.csv and weekly_rules.csv");
       });
     }
-
     function buildSnapshotRackAreaMap(rows) {
       const counts = {};
-
-      rows.forEach(function(row) {
+      rows.forEach(row => {
         const sku = String(getField(row, ["Sku code", "SKU", "ArticleSKU"]) || "").trim();
         const location = String(getField(row, ["Tm location", "BinLocationName"]) || "").trim();
         const area = getAreaFromBinLocation(location);
-
         if (!sku || !area) return;
         if (!counts[sku]) counts[sku] = {};
         counts[sku][area] = (counts[sku][area] || 0) + 1;
       });
-
       const map = new Map();
-      Object.keys(counts).forEach(function(sku) {
-        let bestArea = "";
-        let bestCount = -1;
-        Object.keys(counts[sku]).forEach(function(area) {
-          if (counts[sku][area] > bestCount) {
-            bestArea = area;
-            bestCount = counts[sku][area];
-          }
-        });
+      Object.keys(counts).forEach(sku => {
+        let bestArea = "", bestCount = -1;
+        Object.keys(counts[sku]).forEach(area => { if (counts[sku][area] > bestCount) { bestArea = area; bestCount = counts[sku][area]; } });
         if (bestArea) map.set(sku, bestArea);
       });
-
       return map;
+    }
+
+    async function getSnapshotRows() {
+      const file = document.getElementById("snapshotFile").files[0];
+      if (!file && !snapshotRowsCache.length) throw new Error("Please upload the snapshot CSV file first.");
+      if (file) {
+        const text = await readFileAsText(file);
+        snapshotRowsCache = parseCsv(text);
+      }
+      return snapshotRowsCache;
     }
 
     function downloadCsv(filename, rows) {
       if (!rows.length) return;
       const headers = Object.keys(rows[0]);
       const lines = [headers.join(",")];
-
-      rows.forEach(function(row) {
-        lines.push(headers.map(function(h) {
-          return '"' + String(row[h] == null ? "" : row[h]).replace(/"/g, '""') + '"';
-        }).join(","));
-      });
-
+      rows.forEach(row => lines.push(headers.map(h => '"' + String(row[h] == null ? "" : row[h]).replace(/"/g, '""') + '"').join(",")));
       const blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8;" });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = filename;
-      a.click();
-      URL.revokeObjectURL(url);
-    }
-
-    function updateCurrentDate() {
-      document.getElementById("currentDateLabel").textContent = formatDateDisplay(new Date());
-    }
-
-    function setDateDefault(id, daysAhead) {
-      const date = new Date();
-      date.setDate(date.getDate() + daysAhead);
-      document.getElementById(id).value = toInputDateValue(date);
-    }
-
-    function setUbdDefaultFromEsd() {
-      const esd = parseDateFlexible(document.getElementById("minEsdDate").value);
-      if (!esd) return;
-      const ubd = new Date(esd.getFullYear(), esd.getMonth(), esd.getDate());
-      ubd.setDate(ubd.getDate() + 4);
-      document.getElementById("minUbdDate").value = toInputDateValue(ubd);
-    }
-
-    function getHybridSvg() {
-      return `
-        <svg viewBox="0 0 180 110" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect x="0" y="92" width="180" height="8" rx="4" fill="#25a694"/>
-          <circle cx="18" cy="102" r="4" fill="#117f6e"/>
-          <circle cx="42" cy="102" r="4" fill="#117f6e"/>
-          <circle cx="66" cy="102" r="4" fill="#117f6e"/>
-          <circle cx="90" cy="102" r="4" fill="#117f6e"/>
-          <circle cx="114" cy="102" r="4" fill="#117f6e"/>
-          <circle cx="138" cy="102" r="4" fill="#117f6e"/>
-          <circle cx="162" cy="102" r="4" fill="#117f6e"/>
-
-          <path d="M22 50 H155" stroke="#158b75" stroke-width="5" stroke-linecap="round"/>
-
-          <rect x="40" y="56" width="46" height="28" fill="#dab25b" stroke="#8c6333" stroke-width="1.5"/>
-          <rect x="94" y="56" width="46" height="28" fill="#dab25b" stroke="#8c6333" stroke-width="1.5"/>
-          <ellipse cx="63" cy="70" rx="10" ry="10" fill="#9ade1f"/>
-          <ellipse cx="117" cy="70" rx="10" ry="10" fill="#9ade1f"/>
-          <ellipse cx="75" cy="62" rx="7" ry="4" fill="#f6d700" opacity="0.9"/>
-          <rect x="104" y="59" width="9" height="14" rx="2" fill="#7d2dc2"/>
-          <path d="M108 56 l7 5 l-2 3" fill="#14a44d"/>
-
-          <rect x="34" y="20" width="38" height="16" fill="#a56f32"/>
-          <rect x="82" y="20" width="38" height="16" fill="#a56f32"/>
-          <path d="M40 20 c0 -8 8 -12 12 -5 c4 -7 12 -3 12 5" fill="none" stroke="#14a44d" stroke-width="3"/>
-          <path d="M88 20 c0 -8 8 -12 12 -5 c4 -7 12 -3 12 5" fill="none" stroke="#14a44d" stroke-width="3"/>
-
-          <rect x="10" y="40" width="16" height="30" rx="5" fill="#14a44d"/>
-          <circle cx="18" cy="31" r="8" fill="#14a44d"/>
-          <path d="M134 44 l12 -12 l10 10" stroke="#ff8a3c" stroke-width="4" fill="none" stroke-linecap="round"/>
-        </svg>`;
-    }
-
-    function getKittingSvg() {
-      return `
-        <svg viewBox="0 0 180 110" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M38 38 L86 38 L94 86 L30 86 Z" fill="#d6b087" stroke="#8d6432" stroke-width="1.5"/>
-          <path d="M50 38 C50 22 74 22 74 38" fill="none" stroke="#8d6432" stroke-width="2.4" stroke-linecap="round"/>
-          <ellipse cx="61" cy="61" rx="13" ry="13" fill="#99db1a"/>
-          <path d="M62 48 c7 2 12 10 10 17 c-8 0 -17 -6 -18 -15" fill="#79c40e" opacity="0.45"/>
-
-          <rect x="18" y="54" width="16" height="30" rx="5" fill="#41c84a"/>
-          <path d="M24 52 l8 -10 l8 6" fill="#61da68"/>
-          <ellipse cx="28" cy="51" rx="8" ry="5" fill="#f56b6b"/>
-
-          <path d="M86 55 h18 l-8 23 h-18 z" fill="#f0d848" stroke="#b89f18" stroke-width="1"/>
-          <line x1="88" y1="61" x2="101" y2="72" stroke="#c2a51f" stroke-width="1.4"/>
-          <line x1="92" y1="58" x2="104" y2="69" stroke="#c2a51f" stroke-width="1.4"/>
-
-          <rect x="106" y="50" width="14" height="26" rx="3" fill="#8d2bc0"/>
-          <path d="M113 44 l8 6 l-2 5" fill="#14a44d"/>
-          <ellipse cx="124" cy="72" rx="7" ry="7" fill="#ff8d45"/>
-          <path d="M124 66 l7 -6 l4 7" fill="#14a44d"/>
-          <ellipse cx="35" cy="74" rx="8" ry="6" fill="#f6d700"/>
-
-          <path d="M122 24 h38" stroke="#1f8f7b" stroke-width="4" stroke-linecap="round"/>
-          <path d="M128 24 c0 -8 8 -12 12 -5 c4 -7 12 -3 12 5" fill="none" stroke="#14a44d" stroke-width="3"/>
-        </svg>`;
-    }
-
-    function updateAreaArt() {
-      const area = document.getElementById("selectedArea").value;
-      document.getElementById("areaArt").innerHTML = area === "Kitting" ? getKittingSvg() : getHybridSvg();
-    }
-
-    function updateProductionDay() {
-      const esdDate = parseDateFlexible(document.getElementById("minEsdDate").value);
-      document.getElementById("prodDayTitle").textContent = esdDate ? weekdayName(esdDate) + " production" : "Select ESD date";
-    }
-
-    function matchesSearch(row, text) {
-      if (!text) return true;
-      const haystack = Object.keys(row).map(function(key) {
-        return String(row[key] || "").toLowerCase();
-      }).join(" ");
-      return haystack.indexOf(text.toLowerCase()) !== -1;
-    }
-
-    function renderResults(rows) {
-      const search = document.getElementById("resultsSearch").value.trim();
-      const tbody = document.querySelector("#resultsTable tbody");
-      const empty = document.getElementById("emptyState");
-      tbody.innerHTML = "";
-
-      const filtered = rows.filter(function(row) {
-        return matchesSearch(row, search);
-      });
-
-      filtered.sort(function(a, b) {
-        const av = currentSort.key === "Qty" ? Number(a[currentSort.key] || 0) : String(a[currentSort.key] || "");
-        const bv = currentSort.key === "Qty" ? Number(b[currentSort.key] || 0) : String(b[currentSort.key] || "");
-        if (av < bv) return -1 * currentSort.dir;
-        if (av > bv) return 1 * currentSort.dir;
-        return 0;
-      });
-
-      if (!filtered.length) {
-        empty.style.display = "block";
-        return;
-      }
-
-      empty.style.display = "none";
-
-      filtered.forEach(function(row) {
-        const tr = document.createElement("tr");
-        ["Tm id", "Sku code", "Sku name", "Tm location", "Area", "Reason", "Date type", "Use by date", "Qty"].forEach(function(column) {
-          const td = document.createElement("td");
-          if (column === "Reason") {
-            td.innerHTML = '<span class="badge-reason">' + (row[column] || "") + '</span>';
-          } else if (column === "Date type") {
-            td.innerHTML = '<span class="badge-type">' + (row[column] || "") + '</span>';
-          } else {
-            td.textContent = row[column] || "";
-          }
-          if (column === "Sku name") td.className = "sku-name-cell";
-          tr.appendChild(td);
-        });
-
-        const actionTd = document.createElement("td");
-        actionTd.innerHTML = '<span class="badge-remove">Remove</span>';
-        tr.appendChild(actionTd);
-        tbody.appendChild(tr);
-      });
-    }
-
-    function updateSnapshotLabel(file) {
-      document.getElementById("snapshotFileName").textContent = file ? file.name : "No snapshot selected";
-    }
-
-    function renderRackList(entries) {
-      const filter = document.getElementById("rackFilterInput").value.trim().toLowerCase();
-      const rackBox = document.getElementById("skuCheckRacks");
-      rackBox.innerHTML = "";
-
-      const filtered = entries.filter(function(entry) {
-        if (!filter) return true;
-        return entry.location.toLowerCase().includes(filter);
-      });
-
-      document.getElementById("rackListMeta").textContent = filtered.length ? (filtered.length + " rack" + (filtered.length === 1 ? "" : "s") + " shown · sorted by TM count") : "No racks match the current filter";
-
-      if (!filtered.length) {
-        const empty = document.createElement("div");
-        empty.className = "rack-empty";
-        empty.textContent = currentRackEntries.length ? "No racks match the current filter." : "No rack stock found in the loaded snapshot.";
-        rackBox.appendChild(empty);
-        return;
-      }
-
-      filtered.forEach(function(entry) {
-        const item = document.createElement("div");
-        item.className = "rack-item";
-        item.innerHTML =
-          '<div class="rack-item-main">' +
-            '<div class="rack-item-icon">📍</div>' +
-            '<div>' +
-              '<div class="rack-item-name">' + entry.location + '</div>' +
-              '<div class="rack-item-sub">Storage rack location</div>' +
-            '</div>' +
-          '</div>' +
-          '<div class="rack-count">' + entry.count + ' TM</div>';
-        rackBox.appendChild(item);
-      });
-    }
-
-    function runSkuLookup() {
-      const sku = String(document.getElementById("skuLookupInput").value || "").trim();
-      const resultBox = document.getElementById("skuCheckResult");
-
-      if (!sku) {
-        resultBox.style.display = "none";
-        return;
-      }
-
-      const snapshotAreaMap = buildSnapshotRackAreaMap(snapshotRowsCache);
-      const inferredArea = inferAreaFromPackagingOrPrefix(sku, packagingMap.get(sku) || "");
-      const area = areaMap.get(sku) || snapshotAreaMap.get(sku) || (inferredArea === "EXCLUDE" ? "Excluded" : inferredArea || "Not found");
-
-      const rackRows = snapshotRowsCache.filter(function(row) {
-        const rowSku = String(getField(row, ["Sku code", "SKU", "ArticleSKU"]) || "").trim();
-        const location = String(getField(row, ["Tm location", "BinLocationName"]) || "").trim();
-        return rowSku === sku && isRackLocation(location);
-      });
-
-      const counts = {};
-      let oldest = null;
-
-      rackRows.forEach(function(row) {
-        const location = String(getField(row, ["Tm location", "BinLocationName"]) || "").trim();
-        counts[location] = (counts[location] || 0) + 1;
-        const date = parseDateFlexible(getField(row, ["Use by date", "UBD", "ESD"]) || "");
-        if (date && (!oldest || date.getTime() < oldest.getTime())) oldest = date;
-      });
-
-      currentRackEntries = Object.keys(counts).map(function(key) {
-        return { location: key, count: counts[key] };
-      }).sort(function(a, b) {
-        if (b.count !== a.count) return b.count - a.count;
-        return a.location.localeCompare(b.location);
-      });
-
-      document.getElementById("skuCheckTitle").textContent = "SKU: " + sku;
-      document.getElementById("skuCheckArea").textContent = area;
-      document.getElementById("skuCheckOldest").textContent = oldest ? formatDateDisplay(oldest) : "Not found";
-      document.getElementById("skuCheckCount").textContent = String(rackRows.length);
-      document.getElementById("skuCheckRackCount").textContent = String(currentRackEntries.length);
-      document.getElementById("skuCheckStatus").textContent = rackRows.length ? "Old stock visible in racks" : "No rack stock found";
-      document.getElementById("rackFilterInput").value = "";
-
-      renderRackList(currentRackEntries);
-      resultBox.style.display = "block";
-    }
-
-    function clearSkuLookup() {
-      document.getElementById("skuLookupInput").value = "";
-      document.getElementById("rackFilterInput").value = "";
-      document.getElementById("skuCheckResult").style.display = "none";
-      currentRackEntries = [];
+      const a = document.createElement("a"); a.href = url; a.download = filename; a.click(); URL.revokeObjectURL(url);
     }
 
     function runAnalysis() {
-      const file = document.getElementById("snapshotFile").files[0];
-      if (!file) {
-        alert("Please upload the snapshot file.");
-        return;
-      }
-
-      if (!savedAreaText || !savedRulesText) {
-        alert("Weekly defaults are not ready. Check weekly_area.csv and weekly_rules.csv in repo root.");
-        return;
-      }
-
       const selectedArea = document.getElementById("selectedArea").value;
       const minEsdDate = parseDateFlexible(document.getElementById("minEsdDate").value);
       const minUbdDate = parseDateFlexible(document.getElementById("minUbdDate").value);
+      if (!minEsdDate || !minUbdDate) { alert("Please enter both minimum dates."); return; }
 
-      if (!minEsdDate || !minUbdDate) {
-        alert("Please enter both minimum dates.");
-        return;
-      }
-
-      readFileAsText(file).then(function(text) {
-        snapshotRowsCache = parseCsv(text);
-        const snapshotAreaMap = buildSnapshotRackAreaMap(snapshotRowsCache);
-
-        removeRows = [];
-        removeTmIds = [];
-
-        let checked = 0;
-        let removed = 0;
-        let expired = 0;
-        let borderline = 0;
-
+      getSnapshotRows().then(snapshotRows => {
+        const snapshotAreaMap = buildSnapshotRackAreaMap(snapshotRows);
+        removeRows = []; removeTmIds = [];
+        let checked = 0, removed = 0, expired = 0, borderline = 0;
         const today = new Date();
         const todayOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
 
-        snapshotRowsCache.forEach(function(row) {
+        snapshotRows.forEach(row => {
           const location = String(getField(row, ["Tm location", "BinLocationName"]) || "").trim();
           if (!isStorageLocation(location)) return;
-
           checked++;
-
           const sku = String(getField(row, ["Sku code", "SKU", "ArticleSKU"]) || "").trim();
           const tmId = String(getField(row, ["Tm id", "TM ID", "TmId"]) || "").trim();
           const useByRaw = String(getField(row, ["Use by date", "UBD", "ESD"]) || "").trim();
           const useByDate = parseDateFlexible(useByRaw);
           const packagingInfo = packagingMap.get(sku) || "";
-          const dateType = dateTypeMap.get(sku) || normalizeDateTypeBySku(sku, packagingInfo);
-
+          const dateType = dateTypeMap.get(sku) || normalizeDateTypeBySku(sku);
           if (!dateType || !useByDate) return;
 
           let area = areaMap.get(sku) || snapshotAreaMap.get(sku) || "";
           let reason = "Planned area match";
-
           if (!area) {
             const inferred = inferAreaFromPackagingOrPrefix(sku, packagingInfo);
             if (inferred === "EXCLUDE" || !inferred) return;
             area = inferred;
             reason = "Unplanned short stock";
           }
-
           if (area !== selectedArea && area !== "Shared") return;
 
           const normalizedUseByDate = new Date(useByDate.getFullYear(), useByDate.getMonth(), useByDate.getDate());
           const minAllowedDate = dateType === "ESD" ? minEsdDate : minUbdDate;
           const normalizedMinimum = new Date(minAllowedDate.getFullYear(), minAllowedDate.getMonth(), minAllowedDate.getDate());
-
           if (normalizedUseByDate.getTime() < todayOnly.getTime()) expired++;
           if (normalizedUseByDate.getTime() === normalizedMinimum.getTime()) borderline++;
-
-          // Minimum date = still usable. Earlier than minimum => remove.
           if (normalizedUseByDate.getTime() < normalizedMinimum.getTime()) {
             removed++;
             removeTmIds.push({ "Tm id": tmId });
@@ -1663,95 +667,173 @@
               "Sku code": sku,
               "Sku name": getField(row, ["Sku description", "Sku name", "Ingredient", "ArticleDescription"]) || "",
               "Tm location": location,
+              "Use by date": useByRaw,
+              "Qty": getField(row, ["Qty", "Quantity"]) || "",
+              "Date type": dateType,
               "Area": area,
               "Reason": reason,
-              "Date type": dateType,
-              "Use by date": useByRaw,
-              "Qty": getField(row, ["Qty", "Quantity"]) || ""
+              "Action": "Remove"
             });
           }
         });
-
         document.getElementById("sumChecked").textContent = String(checked);
         document.getElementById("sumRemove").textContent = String(removed);
         document.getElementById("expiredCount").textContent = String(expired);
         document.getElementById("borderlineCount").textContent = String(borderline);
         document.getElementById("downloadTmBtn").disabled = removeTmIds.length === 0;
         renderResults(removeRows);
-      }).catch(function() {
-        alert("Error processing snapshot. Check CSV structure.");
+      }).catch(err => alert(err.message || "Error processing snapshot."));
+    }
+
+    function classifyBucket(row) {
+      const location = String(getField(row, ["Tm location", "BinLocationName"]) || "").trim().toUpperCase();
+      const stockState = String(getField(row, ["Stock state", "Stock State"]) || "").trim().toUpperCase();
+      const holdState = String(getField(row, ["Hold state", "Hold State"]) || "").trim().toUpperCase();
+      const combined = location + " " + stockState + " " + holdState;
+
+      if (combined.includes("TAFEL") || combined.includes("ENTSORG") || combined.includes("QUARANT") || combined.includes("UNUSABLE") || combined.includes("BLOCK")) return "Unusable / blocked";
+      if (["C-IN", "C-IN-PD", "AMB-IN", "AMB-IN-PD"].includes(location)) return "Inbound";
+      if (isRackLocation(location)) return "Production line stock";
+      if (location.endsWith("ST") || location.startsWith("KS-") || location.startsWith("HYBRID-CD-STAGING-") || location.startsWith("HYBRID-PHF-STAGING-") || location.startsWith("KITTING-CD-ST-") || location.startsWith("LABEL-ST-")) return "Staging / replen ready";
+      if (STORAGE_PREFIXES.includes(getPrefix(location))) return "Storage";
+      return "Unknown";
+    }
+
+    function runStockOverview() {
+      getSnapshotRows().then(snapshotRows => {
+        overviewRows = [];
+        const counts = { "Inbound": 0, "Staging / replen ready": 0, "Storage": 0, "Production line stock": 0, "Unusable / blocked": 0, "Unknown": 0 };
+        snapshotRows.forEach(row => {
+          const bucket = classifyBucket(row);
+          counts[bucket] = (counts[bucket] || 0) + 1;
+          overviewRows.push({
+            "Bucket": bucket,
+            "Tm id": getField(row, ["Tm id", "TM ID", "TmId"]) || "",
+            "Sku code": getField(row, ["Sku code", "SKU", "ArticleSKU"]) || "",
+            "Sku name": getField(row, ["Sku description", "Sku name", "Ingredient", "ArticleDescription"]) || "",
+            "Tm location": getField(row, ["Tm location", "BinLocationName"]) || "",
+            "Use by date": getField(row, ["Use by date", "UBD", "ESD"]) || "",
+            "Qty": getField(row, ["Qty", "Quantity"]) || "",
+            "Stock state": getField(row, ["Stock state", "Stock State"]) || "",
+            "Hold state": getField(row, ["Hold state", "Hold State"]) || "",
+            "Temp class": getField(row, ["Temp class", "Temp Class"]) || ""
+          });
+        });
+        document.getElementById("bucketInbound").textContent = String(counts["Inbound"] || 0);
+        document.getElementById("bucketStaging").textContent = String(counts["Staging / replen ready"] || 0);
+        document.getElementById("bucketStorage").textContent = String(counts["Storage"] || 0);
+        document.getElementById("bucketProduction").textContent = String(counts["Production line stock"] || 0);
+        document.getElementById("bucketUnusable").textContent = String(counts["Unusable / blocked"] || 0);
+        document.getElementById("bucketUnknown").textContent = String(counts["Unknown"] || 0);
+        document.getElementById("downloadOverviewBtn").disabled = overviewRows.length === 0;
+        renderOverview(overviewRows);
+      }).catch(err => alert(err.message || "Error processing snapshot."));
+    }
+
+    function matchesSearch(row, text) {
+      if (!text) return true;
+      const haystack = Object.keys(row).map(key => String(row[key] || "").toLowerCase()).join(" ");
+      return haystack.includes(text.toLowerCase());
+    }
+    function renderResults(rows) {
+      const search = document.getElementById("resultsSearch").value.trim();
+      const tbody = document.querySelector("#resultsTable tbody");
+      const empty = document.getElementById("emptyState");
+      tbody.innerHTML = "";
+      const filtered = rows.filter(row => matchesSearch(row, search));
+      filtered.sort((a, b) => compareRows(a, b, currentSort));
+      if (!filtered.length) { empty.style.display = "block"; return; }
+      empty.style.display = "none";
+      filtered.forEach(row => {
+        const tr = document.createElement("tr");
+        ["Tm id", "Sku code", "Sku name", "Tm location", "Use by date", "Qty", "Date type", "Area", "Reason"].forEach(column => {
+          const td = document.createElement("td");
+          if (column === "Reason") td.innerHTML = '<span class="badge badge-reason">' + (row[column] || "") + '</span>';
+          else if (column === "Date type") td.innerHTML = '<span class="badge badge-type">' + (row[column] || "") + '</span>';
+          else td.textContent = row[column] || "";
+          if (column === "Sku name") td.className = "sku-name-cell";
+          tr.appendChild(td);
+        });
+        const actionTd = document.createElement("td");
+        actionTd.innerHTML = '<span class="badge badge-remove">Remove</span>';
+        tr.appendChild(actionTd);
+        tbody.appendChild(tr);
       });
     }
+    function renderOverview(rows) {
+      const search = document.getElementById("overviewSearch").value.trim();
+      const tbody = document.querySelector("#overviewTable tbody");
+      const empty = document.getElementById("overviewEmptyState");
+      tbody.innerHTML = "";
+      const filtered = rows.filter(row => matchesSearch(row, search));
+      filtered.sort((a, b) => compareRows(a, b, overviewSort));
+      if (!filtered.length) { empty.style.display = "block"; return; }
+      empty.style.display = "none";
+      filtered.forEach(row => {
+        const tr = document.createElement("tr");
+        ["Bucket", "Tm id", "Sku code", "Sku name", "Tm location", "Use by date", "Qty", "Stock state", "Hold state", "Temp class"].forEach(column => {
+          const td = document.createElement("td");
+          if (column === "Bucket") td.innerHTML = '<span class="badge badge-bucket">' + (row[column] || "") + '</span>';
+          else td.textContent = row[column] || "";
+          if (column === "Sku name") td.className = "sku-name-cell";
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+    }
+    function compareRows(a, b, sort) {
+      let av = sort.key === "Qty" ? Number(a[sort.key] || 0) : String(a[sort.key] || "");
+      let bv = sort.key === "Qty" ? Number(b[sort.key] || 0) : String(b[sort.key] || "");
+      if (av < bv) return -1 * sort.dir;
+      if (av > bv) return 1 * sort.dir;
+      return 0;
+    }
+
+    function updateSnapshotLabel(file) { document.getElementById("snapshotFileName").textContent = file ? file.name : "No snapshot selected"; }
+    function updateCurrentDate() { document.getElementById("currentDateLabel").textContent = formatDateDisplay(new Date()); }
+    function setDateDefault(id, daysAhead) { const d = new Date(); d.setDate(d.getDate() + daysAhead); document.getElementById(id).value = toInputDateValue(d); }
+    function setUbdDefaultFromEsd() { const esd = parseDateFlexible(document.getElementById("minEsdDate").value); if (!esd) return; const ubd = new Date(esd.getFullYear(), esd.getMonth(), esd.getDate()); ubd.setDate(ubd.getDate() + 4); document.getElementById("minUbdDate").value = toInputDateValue(ubd); }
+    function updateProductionDay() { const esdDate = parseDateFlexible(document.getElementById("minEsdDate").value); document.getElementById("prodDayTitle").textContent = esdDate ? weekdayName(esdDate) + " production" : "Select ESD date"; }
+
+    function getHybridSvg() { return '<svg viewBox="0 0 180 110" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="92" width="180" height="8" rx="4" fill="#25a694"/><circle cx="22" cy="102" r="4" fill="#117f6e"/><circle cx="52" cy="102" r="4" fill="#117f6e"/><circle cx="82" cy="102" r="4" fill="#117f6e"/><circle cx="112" cy="102" r="4" fill="#117f6e"/><circle cx="142" cy="102" r="4" fill="#117f6e"/><path d="M22 50 H155" stroke="#158b75" stroke-width="5" stroke-linecap="round"/><rect x="40" y="56" width="46" height="28" fill="#dab25b" stroke="#8c6333" stroke-width="1.5"/><rect x="94" y="56" width="46" height="28" fill="#dab25b" stroke="#8c6333" stroke-width="1.5"/><ellipse cx="63" cy="70" rx="10" ry="10" fill="#9ade1f"/><ellipse cx="117" cy="70" rx="10" ry="10" fill="#9ade1f"/><rect x="34" y="20" width="38" height="16" fill="#a56f32"/><rect x="82" y="20" width="38" height="16" fill="#a56f32"/><path d="M40 20 c0 -8 8 -12 12 -5 c4 -7 12 -3 12 5" fill="none" stroke="#14a44d" stroke-width="3"/><path d="M88 20 c0 -8 8 -12 12 -5 c4 -7 12 -3 12 5" fill="none" stroke="#14a44d" stroke-width="3"/></svg>'; }
+    function getKittingSvg() { return '<svg viewBox="0 0 180 110" xmlns="http://www.w3.org/2000/svg"><path d="M38 38 L86 38 L94 86 L30 86 Z" fill="#d6b087" stroke="#8d6432" stroke-width="1.5"/><path d="M50 38 C50 22 74 22 74 38" fill="none" stroke="#8d6432" stroke-width="2.4" stroke-linecap="round"/><ellipse cx="61" cy="61" rx="13" ry="13" fill="#99db1a"/><rect x="18" y="54" width="16" height="30" rx="5" fill="#41c84a"/><ellipse cx="28" cy="51" rx="8" ry="5" fill="#f56b6b"/><path d="M86 55 h18 l-8 23 h-18 z" fill="#f0d848" stroke="#b89f18" stroke-width="1"/><rect x="106" y="50" width="14" height="26" rx="3" fill="#8d2bc0"/><path d="M113 44 l8 6 l-2 5" fill="#14a44d"/><ellipse cx="124" cy="72" rx="7" ry="7" fill="#ff8d45"/><path d="M122 24 h38" stroke="#1f8f7b" stroke-width="4" stroke-linecap="round"/></svg>'; }
+    function updateAreaArt() { document.getElementById("areaArt").innerHTML = document.getElementById("selectedArea").value === "Kitting" ? getKittingSvg() : getHybridSvg(); }
 
     function setupDragAndUpload() {
       const dropZone = document.getElementById("dropZone");
       const input = document.getElementById("snapshotFile");
-
-      ["dragenter", "dragover"].forEach(function(name) {
-        dropZone.addEventListener(name, function(e) {
-          e.preventDefault();
-          dropZone.classList.add("dragover");
-        });
-      });
-
-      ["dragleave", "drop"].forEach(function(name) {
-        dropZone.addEventListener(name, function(e) {
-          e.preventDefault();
-          dropZone.classList.remove("dragover");
-        });
-      });
-
-      dropZone.addEventListener("drop", function(e) {
-        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-          input.files = e.dataTransfer.files;
-          updateSnapshotLabel(input.files[0]);
-        }
-      });
-
-      input.addEventListener("change", function() {
-        updateSnapshotLabel(input.files[0] || null);
-      });
+      ["dragenter", "dragover"].forEach(name => dropZone.addEventListener(name, e => { e.preventDefault(); dropZone.classList.add("dragover"); }));
+      ["dragleave", "drop"].forEach(name => dropZone.addEventListener(name, e => { e.preventDefault(); dropZone.classList.remove("dragover"); }));
+      dropZone.addEventListener("drop", e => { if (e.dataTransfer.files && e.dataTransfer.files[0]) { input.files = e.dataTransfer.files; snapshotRowsCache = []; updateSnapshotLabel(input.files[0]); } });
+      input.addEventListener("change", () => { snapshotRowsCache = []; updateSnapshotLabel(input.files[0] || null); });
     }
-
     function initSort() {
-      document.querySelectorAll("#resultsTable th[data-sort]").forEach(function(th) {
-        th.addEventListener("click", function() {
-          const key = this.getAttribute("data-sort");
-          currentSort = currentSort.key === key ? { key: key, dir: currentSort.dir * -1 } : { key: key, dir: 1 };
-          renderResults(removeRows);
-        });
-      });
+      document.querySelectorAll("#resultsTable th[data-sort]").forEach(th => th.addEventListener("click", function() {
+        const key = this.getAttribute("data-sort"); currentSort = currentSort.key === key ? { key, dir: currentSort.dir * -1 } : { key, dir: 1 }; renderResults(removeRows);
+      }));
+      document.querySelectorAll("#overviewTable th[data-overview-sort]").forEach(th => th.addEventListener("click", function() {
+        const key = this.getAttribute("data-overview-sort"); overviewSort = overviewSort.key === key ? { key, dir: overviewSort.dir * -1 } : { key, dir: 1 }; renderOverview(overviewRows);
+      }));
+    }
+    function setupNavigation() {
+      document.querySelectorAll(".nav button").forEach(btn => btn.addEventListener("click", function() {
+        document.querySelectorAll(".nav button").forEach(b => b.classList.remove("active"));
+        document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+        this.classList.add("active");
+        document.getElementById(this.getAttribute("data-view")).classList.add("active");
+      }));
     }
 
     document.getElementById("runBtn").addEventListener("click", runAnalysis);
-    document.getElementById("downloadTmBtn").addEventListener("click", function() {
-      downloadCsv("remove_tm_ids.csv", removeTmIds);
-    });
-    document.getElementById("skuLookupBtn").addEventListener("click", runSkuLookup);
-    document.getElementById("clearSkuBtn").addEventListener("click", clearSkuLookup);
-    document.getElementById("skuLookupInput").addEventListener("keydown", function(e) {
-      if (e.key === "Enter") runSkuLookup();
-    });
-    document.getElementById("rackFilterInput").addEventListener("input", function() {
-      renderRackList(currentRackEntries);
-    });
-    document.getElementById("resultsSearch").addEventListener("input", function() {
-      renderResults(removeRows);
-    });
-    document.getElementById("clearResultsSearchBtn").addEventListener("click", function() {
-      document.getElementById("resultsSearch").value = "";
-      renderResults(removeRows);
-    });
-    document.getElementById("selectedArea").addEventListener("change", function() {
-      updateAreaArt();
-    });
-    document.getElementById("minEsdDate").addEventListener("change", function() {
-      setUbdDefaultFromEsd();
-      updateProductionDay();
-    });
-    document.getElementById("minUbdDate").addEventListener("change", function() {
-      updateProductionDay();
-    });
+    document.getElementById("downloadTmBtn").addEventListener("click", () => downloadCsv("remove_tm_ids.csv", removeTmIds));
+    document.getElementById("runOverviewBtn").addEventListener("click", runStockOverview);
+    document.getElementById("downloadOverviewBtn").addEventListener("click", () => downloadCsv("stock_overview.csv", overviewRows));
+    document.getElementById("resultsSearch").addEventListener("input", () => renderResults(removeRows));
+    document.getElementById("clearResultsSearchBtn").addEventListener("click", () => { document.getElementById("resultsSearch").value = ""; renderResults(removeRows); });
+    document.getElementById("overviewSearch").addEventListener("input", () => renderOverview(overviewRows));
+    document.getElementById("clearOverviewSearchBtn").addEventListener("click", () => { document.getElementById("overviewSearch").value = ""; renderOverview(overviewRows); });
+    document.getElementById("selectedArea").addEventListener("change", updateAreaArt);
+    document.getElementById("minEsdDate").addEventListener("change", () => { setUbdDefaultFromEsd(); updateProductionDay(); });
 
     updateCurrentDate();
     setDateDefault("minEsdDate", 2);
@@ -1759,8 +841,10 @@
     updateProductionDay();
     updateAreaArt();
     setupDragAndUpload();
+    setupNavigation();
     initSort();
     renderResults([]);
+    renderOverview([]);
     loadDefaults();
   </script>
 </body>
