@@ -398,25 +398,78 @@
     .layout-grid-wrap {
       padding: 22px 26px 26px;
       overflow: auto;
-      max-height: 680px;
+      max-height: 760px;
     }
 
     .layout-grid {
-      display: grid;
-      gap: 8px;
-      align-items: stretch;
-      min-width: 720px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      min-width: 980px;
     }
 
-    .layout-grid.kitting { grid-template-columns: repeat(8, minmax(92px, 1fr)); }
-    .layout-grid.hybrid { grid-template-columns: repeat(8, minmax(110px, 1fr)); }
-    .layout-grid.addon { grid-template-columns: repeat(8, minmax(110px, 1fr)); }
+    .layout-section {
+      border: 1px solid #dfe8e5;
+      border-radius: 18px;
+      background: linear-gradient(180deg,#fbfefc,#f7fbf8);
+      overflow: hidden;
+    }
+
+    .layout-section-head {
+      padding: 12px 16px;
+      border-bottom: 1px solid #e3ece8;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: linear-gradient(90deg,rgba(31,176,74,.06),rgba(255,255,255,.72));
+    }
+
+    .layout-section-title {
+      font-size: 13px;
+      font-weight: 950;
+      color: var(--ink);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .layout-section-note {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .layout-lines {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding: 16px;
+    }
+
+    .layout-row {
+      display: grid;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .layout-row.hybrid { grid-template-columns: repeat(10, minmax(112px, 1fr)); }
+    .layout-row.kitting { grid-template-columns: repeat(8, minmax(104px, 1fr)); }
+    .layout-row.addon { grid-template-columns: repeat(8, minmax(118px, 1fr)); }
+
+    .layout-row-header {
+      font-size: 12px;
+      font-weight: 950;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin: 0 0 6px 2px;
+    }
 
     .layout-cell {
       border: 1px solid #dfe8e5;
       border-radius: 14px;
-      min-height: 82px;
-      padding: 10px;
+      min-height: 86px;
+      padding: 10px 10px 12px;
       background: #f7f9f8;
       position: relative;
       overflow: hidden;
@@ -449,11 +502,6 @@
       border-color: #70c58b;
     }
 
-    .layout-cell.mixed {
-      background: linear-gradient(180deg,#fff8e7,#ffe7a8);
-      border-color: #f0c96b;
-    }
-
     .cell-key {
       font-size: 12px;
       font-weight: 950;
@@ -477,6 +525,23 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+
+    .cell-positions {
+      margin-top: 7px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .cell-pos-pill {
+      border-radius: 999px;
+      padding: 3px 6px;
+      background: rgba(255,255,255,.72);
+      border: 1px solid rgba(17,24,39,.08);
+      font-size: 10px;
+      font-weight: 900;
+      color: var(--ink);
     }
 
     .cell-badge {
@@ -695,13 +760,13 @@
               <div class="layout-stat"><span>Unique SKUs</span><strong id="layoutSkus">0</strong></div>
             </div>
             <div class="layout-controls">
-              <input class="layout-search" id="layoutSearch" placeholder="Search location, SKU or description" />
+              <input class="layout-search" id="layoutSearch" placeholder="Search location, rack, SKU or description" />
               <div class="layout-legend">
                 <span><i class="legend-dot" style="background:#f4f6f5"></i>empty</span>
                 <span><i class="legend-dot" style="background:#e7f7ee"></i>low</span>
                 <span><i class="legend-dot" style="background:#d3f0de"></i>medium</span>
                 <span><i class="legend-dot" style="background:#9bdea9"></i>high</span>
-                <span><i class="legend-dot" style="background:#ffe7a8"></i>mixed SKU</span>
+                
               </div>
             </div>
             <div class="layout-grid-wrap">
@@ -1014,118 +1079,42 @@
       return "";
     }
 
-    function getKittingKey(location) {
+    function parseKittingLocation(location) {
       const loc = normalizeLocationKey(location);
       const m = loc.match(/^FK\s*0?(\d{1,2})/);
-      if (!m) return "";
-      return "FK" + String(Number(m[1])).padStart(2, "0");
+      if (!m) return null;
+      const idx = Number(m[1]);
+      const line = Math.ceil(idx / 8);
+      return { rackKey: "FK" + String(idx).padStart(2, "0"), line, rackOrder: idx };
     }
 
     function parseHybridLocation(location) {
       const loc = normalizeLocationKey(location);
-      const m = loc.match(/^HL-(\d{2})-(\d{2})-(.+)$/);
+      const m = loc.match(/^HL-(\d{2})-(\d{2})-(?:(F|B)-)?([0-9]{1,2}[A-Z])$/);
       if (!m) return null;
-      return { line: Number(m[1]), station: Number(m[2]), detail: m[3], exact: loc };
+      return {
+        line: Number(m[1]),
+        station: Number(m[2]),
+        face: m[3] || "B",
+        slot: m[4],
+        rackKey: "HL-" + m[1] + "-" + m[2] + "-" + (m[3] || "B")
+      };
     }
 
-    function getHybridKey(location, exactMode) {
-      const parsed = parseHybridLocation(location);
-      if (!parsed) return normalizeLocationKey(location).startsWith("HL") ? normalizeLocationKey(location) : "";
-      if (exactMode) return parsed.exact;
-      return "HL-" + String(parsed.line).padStart(2, "0") + "-" + String(parsed.station).padStart(2, "0");
-    }
-
-    function getAddonKey(location) {
+    function parseAddonLocation(location) {
       const loc = normalizeLocationKey(location);
-      const m = loc.match(/^AD-(\d{2})-([A-Z])-([0-9]{1,2}[A-Z])/);
-      if (m) return "AD-" + m[1] + "-" + m[2] + "-" + m[3];
-      return loc.startsWith("AD") ? loc : "";
-    }
-
-    function getProductionLayoutKey(area, location, exactMode) {
-      if (area === "Kitting") return getKittingKey(location);
-      if (area === "Addon") return getAddonKey(location);
-      return getHybridKey(location, exactMode);
-    }
-
-    function buildKittingLayoutKeys() {
-      const keys = [];
-      for (let line = 4; line >= 1; line--) {
-        const end = line * 8;
-        const start = end - 7;
-        for (let i = end; i >= start; i--) keys.push("FK" + String(i).padStart(2, "0"));
-      }
-      return keys;
-    }
-
-    function buildHybridLayoutKeys() {
-      const keys = [];
-      for (let station = 14; station >= 1; station--) {
-        for (let line = 10; line >= 1; line--) {
-          keys.push("HL-" + String(line).padStart(2, "0") + "-" + String(station).padStart(2, "0"));
-        }
-      }
-      return keys;
-    }
-
-    function buildAddonLayoutKeys() {
-      const keys = [];
-      const lettersB = ["D", "C", "B", "A"];
-      const lettersF = ["B", "A"];
-      for (let ad = 8; ad >= 1; ad--) {
-        const maxB = ad === 1 ? 8 : 16;
-        for (let pos = maxB; pos >= 1; pos--) {
-          lettersB.forEach(letter => keys.push("AD-" + String(ad).padStart(2, "0") + "-B-" + pos + letter));
-        }
-        for (let pos = 8; pos >= 1; pos--) {
-          lettersF.forEach(letter => keys.push("AD-" + String(ad).padStart(2, "0") + "-F-" + pos + letter));
-        }
-      }
-      return keys;
-    }
-
-    function getLayoutKeys(area) {
-      if (area === "Kitting") return buildKittingLayoutKeys();
-      if (area === "Addon") return buildAddonLayoutKeys();
-      return buildHybridLayoutKeys();
-    }
-
-    function compareProductionKeys(area, a, b) {
-      if (area === "Kitting") {
-        const na = Number((String(a).match(/\d+/) || [0])[0]);
-        const nb = Number((String(b).match(/\d+/) || [0])[0]);
-        return nb - na;
-      }
-
-      if (area === "Addon") {
-        const pa = String(a).match(/^AD-(\d{2})-([A-Z])-([0-9]+)([A-Z])/);
-        const pb = String(b).match(/^AD-(\d{2})-([A-Z])-([0-9]+)([A-Z])/);
-        if (pa && pb) {
-          const adDiff = Number(pb[1]) - Number(pa[1]);
-          if (adDiff) return adDiff;
-          const sectionDiff = pb[2].localeCompare(pa[2]);
-          if (sectionDiff) return sectionDiff;
-          const posDiff = Number(pb[3]) - Number(pa[3]);
-          if (posDiff) return posDiff;
-          return pb[4].localeCompare(pa[4]);
-        }
-      }
-
-      const ha = String(a).match(/^HL-(\d{2})-(\d{2})/);
-      const hb = String(b).match(/^HL-(\d{2})-(\d{2})/);
-      if (ha && hb) {
-        const stationDiff = Number(hb[2]) - Number(ha[2]);
-        if (stationDiff) return stationDiff;
-        const lineDiff = Number(hb[1]) - Number(ha[1]);
-        if (lineDiff) return lineDiff;
-      }
-
-      return String(a).localeCompare(String(b));
+      const m = loc.match(/^AD-(\d{2})-(?:(F|B)-)?([0-9]{1,2}[A-Z])$/);
+      if (!m) return null;
+      return {
+        zone: Number(m[1]),
+        face: m[2] || "B",
+        slot: m[3],
+        rackKey: "AD-" + m[1] + "-" + (m[2] || "B")
+      };
     }
 
     function getCellLevel(entry) {
       if (!entry || entry.tmCount === 0) return "empty";
-      if (entry.skus.size > 1) return "mixed";
       if (entry.tmCount <= 2) return "low";
       if (entry.tmCount <= 6) return "medium";
       return "high";
@@ -1142,7 +1131,6 @@
 
     function buildProductionLayoutData(rows, area, query) {
       const data = {};
-      const exactMode = Boolean(query);
 
       rows.forEach(row => {
         if (!rowMatchesLayoutQuery(row, query)) return;
@@ -1151,27 +1139,139 @@
         const rowArea = getProductionAreaFromLocation(location);
         if (rowArea !== area) return;
 
-        const key = getProductionLayoutKey(area, location, exactMode);
-        if (!key) return;
+        let parsed = null;
+        if (area === "Kitting") parsed = parseKittingLocation(location);
+        else if (area === "Addon") parsed = parseAddonLocation(location);
+        else parsed = parseHybridLocation(location);
+        if (!parsed) return;
 
+        const rackKey = parsed.rackKey;
         const sku = String(getField(row, ["Sku code", "SKU", "ArticleSKU"]) || "").trim();
         const skuName = String(getField(row, ["Sku description", "Sku name", "Ingredient", "ArticleDescription"]) || "").trim();
         const tmId = String(getField(row, ["Tm id", "TM ID", "TmId"]) || "").trim();
         const qty = Number(String(getField(row, ["Qty", "Quantity"]) || "0").replace(",", ".")) || 0;
 
-        if (!data[key]) {
-          data[key] = { key, tmCount: 0, qty: 0, skus: new Set(), skuNames: new Set(), tmIds: [], locations: new Set() };
+        if (!data[rackKey]) {
+          data[rackKey] = {
+            rackKey,
+            tmCount: 0,
+            qty: 0,
+            skus: new Set(),
+            skuNames: new Set(),
+            tmIds: [],
+            slots: new Set(),
+            meta: parsed
+          };
         }
 
-        data[key].tmCount += tmId ? 1 : 0;
-        data[key].qty += qty;
-        data[key].locations.add(location);
-        if (sku) data[key].skus.add(sku);
-        if (skuName) data[key].skuNames.add(skuName);
-        if (tmId) data[key].tmIds.push(tmId);
+        data[rackKey].tmCount += tmId ? 1 : 0;
+        data[rackKey].qty += qty;
+        if (sku) data[rackKey].skus.add(sku);
+        if (skuName) data[rackKey].skuNames.add(skuName);
+        if (tmId) data[rackKey].tmIds.push(tmId);
+        if (parsed.slot) data[rackKey].slots.add(parsed.slot);
       });
 
       return data;
+    }
+
+    function createLayoutCell(label, entry, query) {
+      const cell = document.createElement("div");
+      cell.className = "layout-cell " + getCellLevel(entry);
+
+      if (!entry) {
+        cell.classList.add("empty");
+        cell.innerHTML = '<div class="cell-key">' + label + '</div><div class="cell-sub">No stock</div>';
+        return cell;
+      }
+
+      const skuText = Array.from(entry.skus).slice(0, 2).join(", ");
+      const slotText = Array.from(entry.slots).sort().slice(0, 8);
+      cell.title = entry.rackKey + "\nTM IDs: " + entry.tmCount + "\nQty: " + Math.round(entry.qty) + "\nSKUs: " + Array.from(entry.skus).join(", ") + "\nSlots: " + Array.from(entry.slots).sort().join(", ");
+      cell.innerHTML =
+        '<div class="cell-key">' + label + '</div>' +
+        '<div class="cell-sub">TM: ' + entry.tmCount + ' · Qty: ' + Math.round(entry.qty) + '<br>SKU: ' + entry.skus.size + '</div>' +
+        (skuText ? '<div class="cell-sku">' + skuText + '</div>' : '') +
+        (slotText.length ? '<div class="cell-positions">' + slotText.map(slot => '<span class="cell-pos-pill">' + slot + '</span>').join('') + '</div>' : '') +
+        (entry.tmCount ? '<div class="cell-badge">' + entry.tmCount + '</div>' : '');
+      return cell;
+    }
+
+    function createSection(title, note) {
+      const section = document.createElement("section");
+      section.className = "layout-section";
+      const head = document.createElement("div");
+      head.className = "layout-section-head";
+      head.innerHTML = '<div class="layout-section-title">' + title + '</div>' + (note ? '<div class="layout-section-note">' + note + '</div>' : '');
+      section.appendChild(head);
+      const body = document.createElement("div");
+      body.className = "layout-lines";
+      section.appendChild(body);
+      return { section, body };
+    }
+
+    function renderKittingLayout(grid, areaData, query) {
+      const sectionBits = createSection("Kitting racks", "FK32 → FK01 grouped by line");
+      for (let line = 4; line >= 1; line--) {
+        const title = document.createElement("div");
+        title.className = "layout-row-header";
+        title.textContent = "Line " + line;
+        sectionBits.body.appendChild(title);
+
+        const row = document.createElement("div");
+        row.className = "layout-row kitting";
+        let hasAny = false;
+        for (let idx = line * 8; idx >= (line - 1) * 8 + 1; idx--) {
+          const key = "FK" + String(idx).padStart(2, "0");
+          const entry = areaData[key];
+          if (query && !entry) continue;
+          row.appendChild(createLayoutCell(key, entry, query));
+          if (entry) hasAny = true;
+        }
+        if (row.children.length) sectionBits.body.appendChild(row);
+      }
+      grid.appendChild(sectionBits.section);
+    }
+
+    function renderHybridLayout(grid, areaData, query, areaName) {
+      [["F", areaName + " front racks"], ["B", areaName + " back racks"]].forEach(([face, title]) => {
+        const sectionBits = createSection(title, areaName === "Hybrid" ? "Columns = HL10 → HL01 · Rows = station 14 → 01" : "Columns = AD08 → AD01");
+
+        if (areaName === "Hybrid") {
+          for (let station = 14; station >= 1; station--) {
+            const titleEl = document.createElement("div");
+            titleEl.className = "layout-row-header";
+            titleEl.textContent = "Station " + String(station).padStart(2, "0");
+            sectionBits.body.appendChild(titleEl);
+
+            const row = document.createElement("div");
+            row.className = "layout-row hybrid";
+            for (let line = 10; line >= 1; line--) {
+              const key = "HL-" + String(line).padStart(2, "0") + "-" + String(station).padStart(2, "0") + "-" + face;
+              const entry = areaData[key];
+              if (query && !entry) continue;
+              row.appendChild(createLayoutCell(key, entry, query));
+            }
+            if (row.children.length) sectionBits.body.appendChild(row);
+          }
+        } else {
+          const titleEl = document.createElement("div");
+          titleEl.className = "layout-row-header";
+          titleEl.textContent = face === "F" ? "Front side" : "Back side";
+          sectionBits.body.appendChild(titleEl);
+          const row = document.createElement("div");
+          row.className = "layout-row addon";
+          for (let zone = 8; zone >= 1; zone--) {
+            const key = "AD-" + String(zone).padStart(2, "0") + "-" + face;
+            const entry = areaData[key];
+            if (query && !entry) continue;
+            row.appendChild(createLayoutCell(key, entry, query));
+          }
+          if (row.children.length) sectionBits.body.appendChild(row);
+        }
+
+        if (sectionBits.body.children.length) grid.appendChild(sectionBits.section);
+      });
     }
 
     function renderProductionLayout() {
@@ -1180,23 +1280,17 @@
 
       const query = String(document.getElementById("layoutSearch").value || "").trim().toLowerCase();
       const areaData = buildProductionLayoutData(productionRowsCache, activeLayoutArea, query);
-      const fixedKeys = query ? [] : getLayoutKeys(activeLayoutArea);
-      const allKeys = Array.from(new Set(fixedKeys.concat(Object.keys(areaData)))).sort((a, b) => compareProductionKeys(activeLayoutArea, a, b));
-
       grid.className = "layout-grid " + activeLayoutArea.toLowerCase();
       grid.innerHTML = "";
 
       let occupied = 0, tmIds = 0, qty = 0;
       const uniqueSkus = new Set();
-
-      allKeys.forEach(key => {
-        const entry = areaData[key] || { key, tmCount: 0, qty: 0, skus: new Set(), skuNames: new Set(), tmIds: [], locations: new Set() };
-        if (entry.tmCount) {
-          occupied++;
-          tmIds += entry.tmCount;
-          qty += entry.qty;
-          entry.skus.forEach(s => uniqueSkus.add(s));
-        }
+      Object.values(areaData).forEach(entry => {
+        if (!entry || !entry.tmCount) return;
+        occupied++;
+        tmIds += entry.tmCount;
+        qty += entry.qty;
+        entry.skus.forEach(s => uniqueSkus.add(s));
       });
 
       document.getElementById("layoutOccupied").textContent = String(occupied);
@@ -1204,37 +1298,21 @@
       document.getElementById("layoutQty").textContent = String(Math.round(qty));
       document.getElementById("layoutSkus").textContent = String(uniqueSkus.size);
 
-      allKeys.forEach(key => {
-        const entry = areaData[key] || { key, tmCount: 0, qty: 0, skus: new Set(), skuNames: new Set(), tmIds: [], locations: new Set() };
-        if (query && !entry.tmCount) return;
-
-        const skuText = Array.from(entry.skus).slice(0, 2).join(", ");
-        const nameText = Array.from(entry.skuNames).slice(0, 1).join("");
-        const locationsText = Array.from(entry.locations).slice(0, 2).join(", ");
-
-        const cell = document.createElement("div");
-        cell.className = "layout-cell " + getCellLevel(entry);
-        cell.title = key + "\\nTM IDs: " + entry.tmCount + "\\nQty: " + Math.round(entry.qty) + "\\nSKUs: " + Array.from(entry.skus).join(", ") + "\\nLocations: " + Array.from(entry.locations).join(", ");
-
-        cell.innerHTML =
-          '<div class="cell-key">' + key + '</div>' +
-          '<div class="cell-sub">TM: ' + entry.tmCount + ' · Qty: ' + Math.round(entry.qty) + '<br>SKU: ' + entry.skus.size + '</div>' +
-          (skuText ? '<div class="cell-sku">' + skuText + '</div>' : '') +
-          (locationsText && query ? '<div class="cell-sub">' + locationsText + '</div>' : '') +
-          (entry.tmCount ? '<div class="cell-badge">' + entry.tmCount + '</div>' : '');
-
-        grid.appendChild(cell);
-      });
+      if (activeLayoutArea === "Kitting") {
+        renderKittingLayout(grid, areaData, query);
+      } else if (activeLayoutArea === "Addon") {
+        renderHybridLayout(grid, areaData, query, "Addon");
+      } else {
+        renderHybridLayout(grid, areaData, query, "Hybrid");
+      }
 
       if (!grid.children.length) {
         const empty = document.createElement("div");
-        empty.className = "layout-cell empty";
-        empty.style.gridColumn = "1 / -1";
-        empty.innerHTML = '<div class="cell-key">No matching production positions</div><div class="cell-sub">Run Stock Overview or clear the layout search.</div>';
+        empty.className = "layout-section";
+        empty.innerHTML = '<div class="layout-section-head"><div class="layout-section-title">No matching production positions</div><div class="layout-section-note">Run Stock Overview or clear the layout search.</div></div>';
         grid.appendChild(empty);
       }
     }
-
 
     function classifyBucket(row) {
       const location = String(getField(row, ["Tm location", "BinLocationName"]) || "").trim().toUpperCase();
