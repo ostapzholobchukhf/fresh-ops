@@ -231,6 +231,272 @@
     .empty { padding: 46px; text-align: center; color: var(--muted); background: #fff; }
     .footer { margin-top: 18px; text-align: center; color: var(--muted); font-size: 13px; }
 
+
+    .overview-upload {
+      padding: 20px 26px 22px;
+      border-top: 1px solid var(--line);
+      background: linear-gradient(180deg, #ffffff, #fbfefc);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .overview-drop {
+      border: 2px dashed #aedcbd;
+      border-radius: 18px;
+      padding: 18px 20px;
+      background: radial-gradient(circle at top right, rgba(20,164,77,.08), transparent 28%), linear-gradient(180deg,#fbfffc,#f2fbf6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .overview-drop strong {
+      display: block;
+      font-size: 16px;
+      color: var(--ink);
+    }
+
+    .overview-drop small {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .overview-drop.dragover {
+      border-color: var(--green);
+      background: #ecf9f1;
+    }
+
+    .production-layout-card {
+      margin: 22px 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg,#ffffff,#fbfefc);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .layout-head {
+      padding: 22px 26px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--line);
+      background: radial-gradient(circle at top right, rgba(20,164,77,.10), transparent 30%), linear-gradient(180deg,#ffffff,#fafffb);
+    }
+
+    .layout-title {
+      font-size: 28px;
+      letter-spacing: -0.04em;
+      font-weight: 950;
+    }
+
+    .layout-note {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .layout-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .layout-tab {
+      border: 1px solid #c6e4d1;
+      background: linear-gradient(180deg,#fff,#f7fcf9);
+      color: var(--green-2);
+      border-radius: 999px;
+      padding: 11px 16px;
+      font-weight: 950;
+      cursor: pointer;
+    }
+
+    .layout-tab.active {
+      background: linear-gradient(180deg,#18a85f,#0b8f4d);
+      color: #fff;
+      box-shadow: 0 10px 24px rgba(20,164,77,.18);
+    }
+
+    .layout-summary {
+      padding: 16px 26px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(140px, 1fr));
+      gap: 12px;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .layout-stat {
+      border: 1px solid #dbece3;
+      border-radius: 18px;
+      padding: 13px 14px;
+      background: linear-gradient(180deg,#ffffff,#f7fcf9);
+    }
+
+    .layout-stat span {
+      display: block;
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      font-weight: 950;
+    }
+
+    .layout-stat strong {
+      display: block;
+      margin-top: 6px;
+      font-size: 24px;
+      letter-spacing: -0.04em;
+      font-weight: 950;
+    }
+
+    .layout-controls {
+      padding: 14px 26px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      background: #fbfefc;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .layout-search {
+      min-width: 280px;
+      border: 1px solid #d3dde3;
+      border-radius: 14px;
+      padding: 12px 14px;
+      outline: none;
+    }
+
+    .layout-legend {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-right: 4px;
+    }
+
+    .layout-grid-wrap {
+      padding: 22px 26px 26px;
+      overflow: auto;
+      max-height: 680px;
+    }
+
+    .layout-grid {
+      display: grid;
+      gap: 8px;
+      align-items: stretch;
+      min-width: 720px;
+    }
+
+    .layout-grid.kitting { grid-template-columns: repeat(8, minmax(92px, 1fr)); }
+    .layout-grid.hybrid { grid-template-columns: repeat(8, minmax(110px, 1fr)); }
+    .layout-grid.addon { grid-template-columns: repeat(8, minmax(110px, 1fr)); }
+
+    .layout-cell {
+      border: 1px solid #dfe8e5;
+      border-radius: 14px;
+      min-height: 82px;
+      padding: 10px;
+      background: #f7f9f8;
+      position: relative;
+      overflow: hidden;
+      transition: .15s;
+    }
+
+    .layout-cell:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(16,24,40,.10);
+      z-index: 2;
+    }
+
+    .layout-cell.empty {
+      background: #f4f6f5;
+      color: #8792a2;
+    }
+
+    .layout-cell.low {
+      background: linear-gradient(180deg,#f2fbf6,#e7f7ee);
+      border-color: #bfe5cd;
+    }
+
+    .layout-cell.medium {
+      background: linear-gradient(180deg,#e8f7ee,#d3f0de);
+      border-color: #95d8b0;
+    }
+
+    .layout-cell.high {
+      background: linear-gradient(180deg,#c9eccf,#9bdea9);
+      border-color: #70c58b;
+    }
+
+    .layout-cell.mixed {
+      background: linear-gradient(180deg,#fff8e7,#ffe7a8);
+      border-color: #f0c96b;
+    }
+
+    .cell-key {
+      font-size: 12px;
+      font-weight: 950;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+
+    .cell-sub {
+      margin-top: 7px;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.25;
+      font-weight: 800;
+    }
+
+    .cell-sku {
+      margin-top: 7px;
+      font-size: 11px;
+      font-weight: 900;
+      color: var(--green-2);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .cell-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      border-radius: 999px;
+      padding: 4px 7px;
+      background: rgba(255,255,255,.75);
+      border: 1px solid rgba(255,255,255,.85);
+      font-size: 10px;
+      font-weight: 950;
+      color: var(--green-2);
+    }
+
+    @media (max-width: 900px) {
+      .overview-upload { grid-template-columns: 1fr; }
+      .layout-summary { grid-template-columns: repeat(2, 1fr); }
+    }
+
     @media (max-width: 1250px) {
       .app { grid-template-columns: 1fr; }
       .sidebar { display: none; }
@@ -383,11 +649,21 @@
           <section class="card">
             <div class="card-head">
               <div class="card-title">Stock Overview</div>
-              <div class="card-note">Use the uploaded snapshot to visualize inventory by operational location bucket.</div>
+              <div class="card-note">Upload the current snapshot CSV directly here or reuse the snapshot from Freshness Filter to visualize inventory and production layout balance.</div>
             </div>
-            <div class="toolbar">
-              <button class="btn btn-primary" id="runOverviewBtn">Run Stock Overview</button>
-              <button class="btn btn-primary" id="downloadOverviewBtn" disabled>Download Overview CSV</button>
+            <div class="overview-upload">
+              <div class="overview-drop" id="overviewDropZone">
+                <div>
+                  <strong>Drop snapshot CSV here</strong>
+                  <small>or choose the file below. The file is processed locally in your browser.</small>
+                </div>
+                <input type="file" id="overviewSnapshotFile" accept=".csv,text/csv" />
+                <div class="file-pill" id="overviewSnapshotFileName">No overview snapshot selected</div>
+              </div>
+              <div class="toolbar" style="padding:0;border-top:0;background:transparent">
+                <button class="btn btn-primary" id="runOverviewBtn">Run Stock Overview</button>
+                <button class="btn btn-primary" id="downloadOverviewBtn" disabled>Download Overview CSV</button>
+              </div>
             </div>
           </section>
 
@@ -399,6 +675,39 @@
             <div class="kpi red stock-kpi"><div class="kpi-label">Unusable</div><div class="kpi-value" id="bucketUnusable">0</div><div class="kpi-sub">Tafel / disposal / quarantine</div></div>
             <div class="kpi stock-kpi"><div class="kpi-label">Unknown</div><div class="kpi-value" id="bucketUnknown">0</div><div class="kpi-sub">Needs review</div></div>
           </div>
+
+          <section class="production-layout-card">
+            <div class="layout-head">
+              <div>
+                <div class="layout-title">Production Layout Balance</div>
+                <div class="layout-note">Visual stock distribution by planned production area. Hybrid = HL racks, Kitting = FK racks, Addon = AD racks.</div>
+              </div>
+              <div class="layout-tabs">
+                <button class="layout-tab active" data-layout-area="Hybrid">Hybrid</button>
+                <button class="layout-tab" data-layout-area="Kitting">Kitting</button>
+                <button class="layout-tab" data-layout-area="Addon">Addon</button>
+              </div>
+            </div>
+            <div class="layout-summary">
+              <div class="layout-stat"><span>Occupied positions</span><strong id="layoutOccupied">0</strong></div>
+              <div class="layout-stat"><span>Total TM IDs</span><strong id="layoutTmIds">0</strong></div>
+              <div class="layout-stat"><span>Total qty</span><strong id="layoutQty">0</strong></div>
+              <div class="layout-stat"><span>Unique SKUs</span><strong id="layoutSkus">0</strong></div>
+            </div>
+            <div class="layout-controls">
+              <input class="layout-search" id="layoutSearch" placeholder="Search location, SKU or description" />
+              <div class="layout-legend">
+                <span><i class="legend-dot" style="background:#f4f6f5"></i>empty</span>
+                <span><i class="legend-dot" style="background:#e7f7ee"></i>low</span>
+                <span><i class="legend-dot" style="background:#d3f0de"></i>medium</span>
+                <span><i class="legend-dot" style="background:#9bdea9"></i>high</span>
+                <span><i class="legend-dot" style="background:#ffe7a8"></i>mixed SKU</span>
+              </div>
+            </div>
+            <div class="layout-grid-wrap">
+              <div class="layout-grid hybrid" id="productionLayoutGrid"></div>
+            </div>
+          </section>
 
           <section class="table-card">
             <div class="table-head">
@@ -448,6 +757,8 @@
     let removeTmIds = [];
     let removeRows = [];
     let overviewRows = [];
+    let productionRowsCache = [];
+    let activeLayoutArea = "Hybrid";
     let snapshotRowsCache = [];
     let areaRowsCache = [];
     let rulesRowsCache = [];
@@ -599,8 +910,13 @@
       return map;
     }
 
-    async function getSnapshotRows() {
-      const file = document.getElementById("snapshotFile").files[0];
+    async function getSnapshotRows(preferOverview) {
+      const overviewInput = document.getElementById("overviewSnapshotFile");
+      const mainInput = document.getElementById("snapshotFile");
+      const overviewFile = overviewInput && overviewInput.files ? overviewInput.files[0] : null;
+      const mainFile = mainInput && mainInput.files ? mainInput.files[0] : null;
+      const file = preferOverview ? (overviewFile || mainFile) : (mainFile || overviewFile);
+
       if (!file && !snapshotRowsCache.length) throw new Error("Please upload the snapshot CSV file first.");
       if (file) {
         const text = await readFileAsText(file);
@@ -685,6 +1001,185 @@
       }).catch(err => alert(err.message || "Error processing snapshot."));
     }
 
+
+    function normalizeLocationKey(location) {
+      return String(location || "").trim().toUpperCase();
+    }
+
+    function getProductionAreaFromLocation(location) {
+      const loc = normalizeLocationKey(location);
+      if (loc.startsWith("FK")) return "Kitting";
+      if (loc.startsWith("AD")) return "Addon";
+      if (loc.startsWith("HL")) return "Hybrid";
+      return "";
+    }
+
+    function getKittingKey(location) {
+      const loc = normalizeLocationKey(location);
+      const m = loc.match(/^FK\s*0?(\d{1,2})/);
+      if (!m) return "";
+      return "FK" + String(Number(m[1])).padStart(2, "0");
+    }
+
+    function getHybridKey(location) {
+      const loc = normalizeLocationKey(location);
+      const m = loc.match(/^HL-(\d{2})-(\d{2})-[A-Z]-([0-9]+[A-Z])/);
+      if (m) return "HL-" + m[1] + "-" + m[2] + "-" + m[3];
+      return loc.startsWith("HL") ? loc.split("-").slice(0, 5).join("-") : "";
+    }
+
+    function getAddonKey(location) {
+      const loc = normalizeLocationKey(location);
+      const m = loc.match(/^AD-(\d{2})-([BF])-([0-9]{1,2}[A-D])/);
+      if (m) return "AD-" + m[1] + "-" + m[2] + "-" + m[3];
+      return loc.startsWith("AD") ? loc : "";
+    }
+
+    function getProductionLayoutKey(area, location) {
+      if (area === "Kitting") return getKittingKey(location);
+      if (area === "Addon") return getAddonKey(location);
+      return getHybridKey(location);
+    }
+
+    function buildKittingLayoutKeys() {
+      const keys = [];
+      for (let i = 1; i <= 32; i++) keys.push("FK" + String(i).padStart(2, "0"));
+      return keys;
+    }
+
+    function buildHybridLayoutKeys() {
+      const keys = [];
+      for (let line = 1; line <= 2; line++) {
+        for (let station = 1; station <= 14; station++) {
+          for (let portion = 1; portion <= 3; portion++) {
+            keys.push("HL-" + String(line).padStart(2, "0") + "-" + String(station).padStart(2, "0") + "-" + portion + "P");
+          }
+        }
+      }
+      return keys;
+    }
+
+    function buildAddonLayoutKeys() {
+      const keys = [];
+      const lettersB = ["A","B","C","D"];
+      const lettersF = ["A","B"];
+      for (let ad = 1; ad <= 8; ad++) {
+        const maxB = ad === 1 ? 8 : 16;
+        for (let pos = 1; pos <= maxB; pos++) {
+          lettersB.forEach(letter => keys.push("AD-" + String(ad).padStart(2, "0") + "-B-" + pos + letter));
+        }
+        for (let pos = 1; pos <= 8; pos++) {
+          lettersF.forEach(letter => keys.push("AD-" + String(ad).padStart(2, "0") + "-F-" + pos + letter));
+        }
+      }
+      return keys;
+    }
+
+    function getLayoutKeys(area) {
+      if (area === "Kitting") return buildKittingLayoutKeys();
+      if (area === "Addon") return buildAddonLayoutKeys();
+      return buildHybridLayoutKeys();
+    }
+
+    function getCellLevel(entry) {
+      if (!entry || entry.tmCount === 0) return "empty";
+      if (entry.skus.size > 1) return "mixed";
+      if (entry.tmCount <= 2) return "low";
+      if (entry.tmCount <= 6) return "medium";
+      return "high";
+    }
+
+    function buildProductionLayoutData(rows) {
+      const data = { Hybrid: {}, Kitting: {}, Addon: {} };
+
+      rows.forEach(row => {
+        const location = String(getField(row, ["Tm location", "BinLocationName"]) || "").trim();
+        const area = getProductionAreaFromLocation(location);
+        if (!area) return;
+
+        const key = getProductionLayoutKey(area, location);
+        if (!key) return;
+
+        const sku = String(getField(row, ["Sku code", "SKU", "ArticleSKU"]) || "").trim();
+        const skuName = String(getField(row, ["Sku description", "Sku name", "Ingredient", "ArticleDescription"]) || "").trim();
+        const tmId = String(getField(row, ["Tm id", "TM ID", "TmId"]) || "").trim();
+        const qty = Number(String(getField(row, ["Qty", "Quantity"]) || "0").replace(",", ".")) || 0;
+
+        if (!data[area][key]) {
+          data[area][key] = { key, tmCount: 0, qty: 0, skus: new Set(), skuNames: new Set(), tmIds: [] };
+        }
+
+        data[area][key].tmCount += tmId ? 1 : 0;
+        data[area][key].qty += qty;
+        if (sku) data[area][key].skus.add(sku);
+        if (skuName) data[area][key].skuNames.add(skuName);
+        if (tmId) data[area][key].tmIds.push(tmId);
+      });
+
+      return data;
+    }
+
+    function renderProductionLayout() {
+      const grid = document.getElementById("productionLayoutGrid");
+      if (!grid) return;
+
+      const query = String(document.getElementById("layoutSearch").value || "").trim().toLowerCase();
+      const layoutData = buildProductionLayoutData(productionRowsCache);
+      const areaData = layoutData[activeLayoutArea] || {};
+      const keys = getLayoutKeys(activeLayoutArea);
+      const allKeys = Array.from(new Set(keys.concat(Object.keys(areaData))));
+
+      grid.className = "layout-grid " + activeLayoutArea.toLowerCase();
+      grid.innerHTML = "";
+
+      let occupied = 0, tmIds = 0, qty = 0;
+      const uniqueSkus = new Set();
+
+      allKeys.forEach(key => {
+        const entry = areaData[key] || { key, tmCount: 0, qty: 0, skus: new Set(), skuNames: new Set(), tmIds: [] };
+        if (entry.tmCount) {
+          occupied++;
+          tmIds += entry.tmCount;
+          qty += entry.qty;
+          entry.skus.forEach(s => uniqueSkus.add(s));
+        }
+      });
+
+      document.getElementById("layoutOccupied").textContent = String(occupied);
+      document.getElementById("layoutTmIds").textContent = String(tmIds);
+      document.getElementById("layoutQty").textContent = String(Math.round(qty));
+      document.getElementById("layoutSkus").textContent = String(uniqueSkus.size);
+
+      allKeys.forEach(key => {
+        const entry = areaData[key] || { key, tmCount: 0, qty: 0, skus: new Set(), skuNames: new Set(), tmIds: [] };
+        const skuText = Array.from(entry.skus).slice(0, 2).join(", ");
+        const nameText = Array.from(entry.skuNames).slice(0, 1).join("");
+        const haystack = (key + " " + skuText + " " + nameText).toLowerCase();
+        if (query && !haystack.includes(query)) return;
+
+        const cell = document.createElement("div");
+        cell.className = "layout-cell " + getCellLevel(entry);
+        cell.title = key + "\\nTM IDs: " + entry.tmCount + "\\nQty: " + Math.round(entry.qty) + "\\nSKUs: " + Array.from(entry.skus).join(", ");
+
+        cell.innerHTML =
+          '<div class="cell-key">' + key + '</div>' +
+          '<div class="cell-sub">TM: ' + entry.tmCount + ' · Qty: ' + Math.round(entry.qty) + '<br>SKU: ' + entry.skus.size + '</div>' +
+          (skuText ? '<div class="cell-sku">' + skuText + '</div>' : '') +
+          (entry.tmCount ? '<div class="cell-badge">' + entry.tmCount + '</div>' : '');
+
+        grid.appendChild(cell);
+      });
+
+      if (!grid.children.length) {
+        const empty = document.createElement("div");
+        empty.className = "layout-cell empty";
+        empty.style.gridColumn = "1 / -1";
+        empty.innerHTML = '<div class="cell-key">No matching production positions</div><div class="cell-sub">Run Stock Overview or clear the layout search.</div>';
+        grid.appendChild(empty);
+      }
+    }
+
+
     function classifyBucket(row) {
       const location = String(getField(row, ["Tm location", "BinLocationName"]) || "").trim().toUpperCase();
       const stockState = String(getField(row, ["Stock state", "Stock State"]) || "").trim().toUpperCase();
@@ -700,9 +1195,10 @@
     }
 
     function runStockOverview() {
-      getSnapshotRows().then(snapshotRows => {
+      getSnapshotRows(true).then(snapshotRows => {
         overviewRows = [];
         const counts = { "Inbound": 0, "Staging / replen ready": 0, "Storage": 0, "Production line stock": 0, "Unusable / blocked": 0, "Unknown": 0 };
+        productionRowsCache = snapshotRows;
         snapshotRows.forEach(row => {
           const bucket = classifyBucket(row);
           counts[bucket] = (counts[bucket] || 0) + 1;
@@ -815,6 +1311,52 @@
         const key = this.getAttribute("data-overview-sort"); overviewSort = overviewSort.key === key ? { key, dir: overviewSort.dir * -1 } : { key, dir: 1 }; renderOverview(overviewRows);
       }));
     }
+
+    function setupOverviewUpload() {
+      const dropZone = document.getElementById("overviewDropZone");
+      const input = document.getElementById("overviewSnapshotFile");
+      const label = document.getElementById("overviewSnapshotFileName");
+      if (!dropZone || !input || !label) return;
+
+      function setFile(file) {
+        if (!file) return;
+        label.textContent = file.name;
+        snapshotRowsCache = [];
+      }
+
+      input.addEventListener("change", () => setFile(input.files[0]));
+
+      ["dragenter", "dragover"].forEach(name => dropZone.addEventListener(name, e => {
+        e.preventDefault();
+        dropZone.classList.add("dragover");
+      }));
+
+      ["dragleave", "drop"].forEach(name => dropZone.addEventListener(name, e => {
+        e.preventDefault();
+        dropZone.classList.remove("dragover");
+      }));
+
+      dropZone.addEventListener("drop", e => {
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+          input.files = e.dataTransfer.files;
+          setFile(input.files[0]);
+        }
+      });
+    }
+
+    function setupLayoutTabs() {
+      document.querySelectorAll(".layout-tab").forEach(btn => btn.addEventListener("click", function() {
+        document.querySelectorAll(".layout-tab").forEach(b => b.classList.remove("active"));
+        this.classList.add("active");
+        activeLayoutArea = this.getAttribute("data-layout-area");
+        renderProductionLayout();
+      }));
+
+      const layoutSearch = document.getElementById("layoutSearch");
+      if (layoutSearch) layoutSearch.addEventListener("input", renderProductionLayout);
+    }
+
+
     function setupNavigation() {
       document.querySelectorAll(".nav button").forEach(btn => btn.addEventListener("click", function() {
         document.querySelectorAll(".nav button").forEach(b => b.classList.remove("active"));
@@ -841,10 +1383,13 @@
     updateProductionDay();
     updateAreaArt();
     setupDragAndUpload();
+    setupOverviewUpload();
+    setupLayoutTabs();
     setupNavigation();
     initSort();
     renderResults([]);
     renderOverview([]);
+    renderProductionLayout();
     loadDefaults();
   </script>
 </body>
